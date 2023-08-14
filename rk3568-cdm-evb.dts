@@ -296,6 +296,14 @@
 		regulator-name = "wwan_reset_n";
 		regulator-always-on;
 	};
+    
+    csi_i2c_lvtr: csi-i2c-leveltranslator-regulator {
+		compatible = "regulator-fixed";
+		enable-active-high;
+		gpio = <&tca6408 0 GPIO_ACTIVE_HIGH>;
+		regulator-name = "csi_i2c_lvtr";
+		regulator-always-on;
+	};
 
 	wwan_en: wwan-enable-regulator {
 		pinctrl-0 = <&wwan_disable>;
@@ -950,7 +958,6 @@
         pinctrl-names = "default";
 		pinctrl-0 = <&csi0_pins>;
 		enable-gpios = <&gpio0 RK_PC1 GPIO_ACTIVE_HIGH>;
-		reset-gpios = <&gpio3 RK_PB6 GPIO_ACTIVE_HIGH>;
 		port {
 			ov5647_out: endpoint {
 				remote-endpoint = <&csi_mipi_in>;
