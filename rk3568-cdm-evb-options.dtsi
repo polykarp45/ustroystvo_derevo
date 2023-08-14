@@ -1,0 +1,197 @@
+//test features
+
+/ {
+	sdei: sdei {
+		compatible = "arm,sdei-1.0";
+		method = "smc";
+	};
+		
+	mpp_srv: mpp-srv {
+		compatible = "rockchip,mpp-service";
+		rockchip,taskqueue-count = <6>;
+		rockchip,resetgroup-count = <6>;
+		status = "disabled";
+	};
+	
+	reserved_memory: reserved-memory {
+		#address-cells = <2>;
+		#size-cells = <2>;
+		ranges;
+
+		drm_logo: drm-logo@0 {
+			compatible = "rockchip,drm-logo";
+			reg = <0x0 0x0 0x0 0x0>;
+		};
+
+		drm_cubic_lut: drm-cubic-lut@0 {
+			compatible = "rockchip,drm-cubic-lut";
+			reg = <0x0 0x0 0x0 0x0>;
+		};
+		
+		ramoops: ramoops@110000 {
+			compatible = "ramoops";
+			reg = <0x0 0x110000 0x0 0xf0000>;
+			record-size = <0x20000>;
+			console-size = <0x80000>;
+			ftrace-size = <0x00000>;
+			pmsg-size = <0x50000>;
+		};
+	};
+	
+	mpll: mpll {
+		compatible = "fixed-clock";
+		#clock-cells = <0>;
+		clock-frequency = <800000000>;
+		clock-output-names = "mpll";
+	};
+	
+	rknpu: npu@fde40000 {
+		compatible = "rockchip,rk3568-rknpu", "rockchip,rknpu";
+		reg = <0x0 0xfde40000 0x0 0x10000>;
+		interrupts = <GIC_SPI 151 IRQ_TYPE_LEVEL_HIGH>;
+		clocks = <&scmi_clk 2>, <&cru CLK_NPU>, <&cru ACLK_NPU>, <&cru HCLK_NPU>;
+		clock-names = "scmi_clk", "clk", "aclk", "hclk";
+		assigned-clocks = <&cru CLK_NPU>;
+		assigned-clock-rates = <600000000>;
+		resets = <&cru SRST_A_NPU>, <&cru SRST_H_NPU>;
+		reset-names = "srst_a", "srst_h";
+		power-domains = <&power RK3568_PD_NPU>;
+		operating-points-v2 = <&npu_opp_table>;
+		iommus = <&rknpu_mmu>;
+		status = "disabled";
+	};
+
+	npu_opp_table: npu-opp-table { //otp commented
+		compatible = "operating-points-v2";
+
+		opp-200000000 {
+			opp-hz = /bits/ 64 <200000000>;
+			opp-microvolt = <850000>;
+		};
+		opp-300000000 {
+			opp-hz = /bits/ 64 <297000000>;
+			opp-microvolt = <850000>;
+		};
+		opp-400000000 {
+			opp-hz = /bits/ 64 <400000000>;
+			opp-microvolt = <850000>;
+		};
+		opp-600000000 {
+			opp-hz = /bits/ 64 <600000000>;
+			opp-microvolt = <900000>;
+		};
+		opp-700000000 {
+			opp-hz = /bits/ 64 <700000000>;
+			opp-microvolt = <900000>;
+		};
+		opp-800000000 {
+			opp-hz = /bits/ 64 <800000000>;
+			opp-microvolt = <925000>;
+		};
+
+	};
+
+	bus_npu: bus-npu {
+		compatible = "rockchip,rk3568-bus";
+		rockchip,busfreq-policy = "clkfreq";
+		clocks = <&scmi_clk 2>;
+		clock-names = "bus";
+		operating-points-v2 = <&bus_npu_opp_table>;
+		status = "disabled";
+	};
+
+	bus_npu_opp_table: bus-npu-opp-table {//otp commented
+		compatible = "operating-points-v2";
+		opp-shared;
+
+		opp-700000000 {
+			opp-hz = /bits/ 64 <700000000>;
+			opp-microvolt = <900000>;
+		};
+		opp-900000000 {
+			opp-hz = /bits/ 64 <900000000>;
+			opp-microvolt = <900000>;
+		};
+		opp-1000000000 {
+			opp-hz = /bits/ 64 <1000000000>;
+			opp-microvolt = <950000>;
+		};
+	};
+
+	rknpu_mmu: iommu@fde4b000 {
+		compatible = "rockchip,rk3568-iommu";
+		reg = <0x0 0xfde4b000 0x0 0x40>;
+		interrupts = <GIC_SPI 151 IRQ_TYPE_LEVEL_HIGH>;
+		interrupt-names = "rknpu_mmu";
+		clocks = <&cru ACLK_NPU>, <&cru HCLK_NPU>;
+		clock-names = "aclk", "iface";
+		power-domains = <&power RK3568_PD_NPU>;
+		#iommu-cells = <0>;
+		status = "disabled";
+	};
+	
+	vdpu: vdpu@fdea0400 {
+		compatible = "rockchip,vpu-decoder-v2";
+		reg = <0x0 0xfdea0400 0x0 0x400>;
+		interrupts = <GIC_SPI 139 IRQ_TYPE_LEVEL_HIGH>;
+		interrupt-names = "irq_dec";
+		clocks = <&cru ACLK_VPU>, <&cru HCLK_VPU>;
+		clock-names = "aclk_vcodec", "hclk_vcodec";
+		resets = <&cru SRST_A_VPU>, <&cru SRST_H_VPU>;
+		reset-names = "video_a", "video_h";
+		iommus = <&vdpu_mmu>;
+		power-domains = <&power RK3568_PD_VPU>;
+		rockchip,srv = <&mpp_srv>;
+		rockchip,taskqueue-node = <0>;
+		rockchip,resetgroup-node = <0>;
+		status = "disabled";
+	};
+	
+	mailbox: mailbox@fe780000 {
+		compatible = "rockchip,rk3568-mailbox",
+				 "rockchip,rk3368-mailbox";
+		reg = <0x0 0xfe780000 0x0 0x1000>;
+		interrupts = <GIC_SPI 183 IRQ_TYPE_LEVEL_HIGH>,
+				 <GIC_SPI 184 IRQ_TYPE_LEVEL_HIGH>,
+				 <GIC_SPI 185 IRQ_TYPE_LEVEL_HIGH>,
+				 <GIC_SPI 186 IRQ_TYPE_LEVEL_HIGH>;
+		clocks = <&cru PCLK_MAILBOX>;
+		clock-names = "pclk_mailbox";
+		#mbox-cells = <1>;
+		status = "disabled";
+	};
+	
+	dmc: memory-controller { //added from mg RK356x.dtsi
+		compatible = "rockchip,rk3568-dmc";
+		rockchip,pmu = <&pmugrf>;
+		status = "disabled";
+	};
+};	  
+	
+&vepu {
+	rockchip,srv = <&mpp_srv>;
+};
+	
+&cpu0 {
+	cpu-idle-states = <&CPU_SLEEP>;
+	dynamic-power-coefficient = <187>;
+};
+
+&pmucru {
+		rockchip,grf = <&grf>;
+		rockchip,pmugrf = <&pmugrf>;
+		assigned-clocks = <&pmucru SCLK_32K_IOE>;
+		assigned-clock-parents = <&pmucru CLK_RTC_32K>;
+	};
+	
+&power {
+	/* These power domains are grouped by VD_NPU */
+	power-domain@RK3568_PD_NPU {
+		reg = <RK3568_PD_NPU>;
+		clocks = <&cru ACLK_NPU_PRE>,
+		<&cru HCLK_NPU_PRE>,
+		<&cru PCLK_NPU_PRE>;
+		pm_qos = <&qos_npu>;
+	};
+};
+	
