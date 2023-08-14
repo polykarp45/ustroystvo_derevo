@@ -400,7 +400,50 @@
 	   #clock-cells = <0>;
 	};
 	
-	
+	lvds_panel: lvds-panel {
+		compatible = "simple-panel";
+		status = "okay";
+		pinctrl-names = "default";
+		pinctrl-0 = <&lvds_pins>;
+		enable-gpios = <&gpio0 RK_PC5 GPIO_ACTIVE_HIGH>;
+		backlight = <&backlight>;
+		enable-delay-ms = <35>;
+		prepare-delay-ms = <6>;
+		unprepare-delay-ms = <0>;
+		disable-delay-ms = <20>;
+		bus-format = <MEDIA_BUS_FMT_RGB888_1X7X4_SPWG>;
+		display-timings {
+			native-mode = <&timing0>;
+			timing0: timing0 {
+				clock-frequency = <72000000>;
+				hactive = <1024>;
+				vactive = <600>;
+				hfront-porch = <50>;
+				hsync-len = <10>;
+				hback-porch = <50>;
+				vfront-porch = <10>;
+				vsync-len = <18>;
+				vback-porch = <10>;
+				hsync-active = <0>;
+				vsync-active = <0>;
+				de-active = <0>;
+				pixelclk-active = <0>;
+			};
+		};
+
+		ports {
+			#address-cells = <1>;
+			#size-cells = <0>;
+
+			port@0 {
+				reg = <0>;
+				//dual-lvds-even-pixels;
+				panel_in_lvds: endpoint {
+					remote-endpoint = <&lvds_out_panel>;
+				};
+			};
+		};
+	};	
 };
 
 &can1 {
@@ -597,6 +640,16 @@
 		reg = <3>;
 		remote-endpoint = <&hdmi_in_vp0>;
 	};*/
+};
+
+&vp1 {
+	/*rockchip,plane-mask = <(1 << 1 | 1 << 3 | 1 << 5)>;
+	rockchip,primary-plane = <5>;*/
+
+	vp1_out_lvds: endpoint@ROCKCHIP_VOP2_EP_LVDS0 {
+		reg = <ROCKCHIP_VOP2_EP_LVDS0>;
+		remote-endpoint = <&lvds_in_vp1>;
+	};
 };
 
 &i2c0 { //PMIC
