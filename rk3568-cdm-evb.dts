@@ -296,8 +296,8 @@
 		regulator-name = "wwan_reset_n";
 		regulator-always-on;
 	};
-    
-    csi_i2c_lvtr: csi-i2c-leveltranslator-regulator {
+	
+	csi_i2c_lvtr: csi-i2c-leveltranslator-regulator {
 		compatible = "regulator-fixed";
 		enable-active-high;
 		gpio = <&tca6408 0 GPIO_ACTIVE_HIGH>;
@@ -455,11 +455,11 @@
 };
 
 &can1 {
-	status = "okay";    
+	status = "okay";	
 };
 
 &can2 {
-	status = "okay";    
+	status = "okay";	
 };
 
 
@@ -506,7 +506,7 @@
 				data-lanes = <1 2>;
 			};
 		};
-	};    
+	};	  
 };
 
 &gmac0 { //Changed to rgmii_align
@@ -543,8 +543,8 @@
 	
 	rockchip,pipegrf = <&pipegrf>;
 	rockchip,xpcs = <&xpcs>;
-    
-    clock_in_out = "output"; //nahooy ne nado
+	
+	clock_in_out = "output"; //nahooy ne nado
 	
 	phy-supply = <&vcc3v3_sys>;
 	status = "okay";
@@ -575,6 +575,10 @@
 };
 
 &hdmi_sound {
+	status = "okay";
+};
+
+&dsi_dphy0 {
 	status = "okay";
 };
 
@@ -955,7 +959,7 @@
 		reg = <0x36>;
 		clocks = <&ext_cam_clk>;
 		status = "okay";
-        pinctrl-names = "default";
+		pinctrl-names = "default";
 		pinctrl-0 = <&csi0_pins>;
 		enable-gpios = <&gpio0 RK_PC1 GPIO_ACTIVE_HIGH>;
 		port {
