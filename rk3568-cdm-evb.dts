@@ -14,7 +14,7 @@
 #include <dt-bindings/display/media-bus-format.h> //new
 
 / {
-	model = "Rockchip RK3568 CDM tiny EVB v1.4";
+	model = "Rockchip RK3568 CDM tiny EVB v1.5";
 	compatible = "rockchip,rk3568";
 
 	aliases {
@@ -1003,7 +1003,7 @@
 	sgmii_phy: ethernet-phy@1 {
 		pinctrl-names = "default";
 		pinctrl-0 = <&gmac1_rst_pins>;
-		compatible = "ethernet-phy-ieee802.3-c22";
+		compatible = "ethernet-phy-ieee802.3-c45";
 		reg = <0x0>;
 		reset-assert-us = <20000>;
 		reset-deassert-us = <100000>;
