@@ -512,7 +512,7 @@
 			#address-cells = <1>;
 			#size-cells = <0>;
 
-			/*lvds_in: port@0 {
+			lvds_in: port@0 {
 				reg = <0>;
 				#address-cells = <1>;
 				#size-cells = <0>;
@@ -522,12 +522,12 @@
 					remote-endpoint = <&vp1_out_lvds>;
 					status = "okay";
 				};
-			};*/
+			};
 
 			lvds_out: port@1 {
 				reg = <1>;
 
-				lvds_out_panel: endpoint@0 {
+				lvds_out_panel: endpoint@1 {
 					remote-endpoint = <&panel_in_lvds>;
 					status = "okay";
 				};
@@ -719,15 +719,15 @@
 	};*/
 };
 
-/*&vp1 {
-	rockchip,plane-mask = <(1 << 1 | 1 << 3 | 1 << 5)>;
-	rockchip,primary-plane = <5>;
+&vp1 {
+	/*rockchip,plane-mask = <(1 << 1 | 1 << 3 | 1 << 5)>;
+	rockchip,primary-plane = <5>;*/
 
 	vp1_out_lvds: endpoint@ROCKCHIP_VOP2_EP_LVDS0 {
 		reg = <ROCKCHIP_VOP2_EP_LVDS0>;
 		remote-endpoint = <&lvds_in_vp1>;
 	};
-};*/
+};
 
 &i2c0 { //PMIC
 	clock-frequency = <1000000>;
