@@ -14,7 +14,7 @@
 #include <dt-bindings/display/media-bus-format.h> //new
 
 / {
-	model = "Rockchip RK3568 CDM tiny EVB v1.19";
+	model = "Rockchip RK3568 CDM tiny EVB v1.20";
 	compatible = "rockchip,rk3568";
 
 	aliases {
@@ -557,7 +557,7 @@
 
 &combphy2 {
 	/* SGMII */
-	rockchip,sgmii-mac-sel = <1>;
+	//rockchip,sgmii-mac-sel = <1>;
 	status = "okay";
 };
 
@@ -628,12 +628,17 @@
 	assigned-clock-rates = <0>, <125000000>;
     
 	pinctrl-names = "default";
-	pinctrl-0 = <&gmac0_miim &gmac0_tx_bus2 &gmac0_rx_bus2 &gmac0_rgmii_clk &gmac0_rgmii_bus>;
+	pinctrl-0 = <&gmac0_miim &gmac0_tx_bus2 &gmac0_rx_bus2 &gmac0_rgmii_clk &gmac0_rgmii_bus>, <&gmac0_rst_pins>;
 	clock_in_out = "input";
+    
+    snps,reset-gpio = <&gpio3 RK_PC2 GPIO_ACTIVE_HIGH>;
+    snps,reset-active-low;
+    snps,reset-delays-us = <0 20000 500000>;    
+    
 	phy-handle = <&rgmii_phy0>;
-	phy-mode = "rgmii-id"; //was "rgmii-id"
-	
+	phy-mode = "rgmii"; //was "rgmii-id"
 	phy-supply = <&vcc3v3_sys>;
+    
 	status = "okay";
 };
 
@@ -642,8 +647,12 @@
 	assigned-clocks = <&cru SCLK_GMAC1_RX_TX>;
 	assigned-clock-parents = <&gmac1_xpcsclk>;
 	pinctrl-names = "default";
-	pinctrl-0 = <&gmac1m1_miim>;
+	pinctrl-0 = <&gmac1m1_miim>, <&gmac1_rst_pins>;
 	power-domains = <&power RK3568_PD_PIPE>;
+    
+    snps,reset-gpio = <&gpio2 RK_PD1 GPIO_ACTIVE_HIGH>;
+    snps,reset-active-low;
+    snps,reset-delays-us = <0 20000 750000>;	
 
 	phys = <&combphy2 PHY_TYPE_SGMII>;
 	phy-handle = <&sgmii_phy>;
@@ -654,7 +663,7 @@
 	
 	//clock_in_out = "input";
 	
-	phy-supply = <&vcc3v3_sys>;
+	//phy-supply = <&vcc3v3_sys>;
 	status = "okay";
 };
 
@@ -662,26 +671,18 @@
 	rgmii_phy0: ethernet-phy@0 {
 		compatible = "ethernet-phy-id2000.a253", "ethernet-phy-ieee802.3-c22";
         pinctrl-names = "default";
-        pinctrl-0 = <&gmac0_rst_pins>;
+        pinctrl-0 = ;
 		reg = <0x0>;  
-		reset-assert-us = <200000>;
-		reset-deassert-us = <700000>;
-		reset-gpios = <&gpio3 RK_PC2 GPIO_ACTIVE_HIGH>;
+
 	};
 };
 
 &mdio1 {
 	sgmii_phy: ethernet-phy@1 {
 		compatible = "ethernet-phy-id67C9.DF20", "ethernet-phy-ieee802.3-c45";
-        pinctrl-names = "default";
-        pinctrl-0 = <&gmac1_rst_pins>;        
+        pinctrl-names = "default";    
 		reg = <0x0>;
-
-		reset-assert-us = <200000>;
-		reset-deassert-us = <900000>;
-		reset-gpios = <&gpio2 RK_PD1 GPIO_ACTIVE_HIGH>;        
-        
-        maxlinear,use-broken-interrupts;
+        //maxlinear,use-broken-interrupts;
 	};
 };
 
