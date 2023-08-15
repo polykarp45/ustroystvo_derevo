@@ -14,7 +14,7 @@
 #include <dt-bindings/display/media-bus-format.h> //new
 
 / {
-	model = "Rockchip RK3568 CDM tiny EVB v1.17";
+	model = "Rockchip RK3568 CDM tiny EVB v1.18";
 	compatible = "rockchip,rk3568";
 
 	aliases {
@@ -663,14 +663,10 @@
 		compatible = "ethernet-phy-ieee802.3-c22";
         pinctrl-names = "default";
         pinctrl-0 = <&gmac0_rst_pins>;
-		reg = <0x0>;
-        
-        snps,reset-gpio = <&gpio3 RK_PC2 GPIO_ACTIVE_LOW>;
-        snps,reset-active-low = <1>;
-        snps,reset-delays-us = <0 20000 500000>;
-    
-        #phy-cells = <0>;
-
+		reg = <0x0>;  
+		reset-assert-us = <20000>;
+		reset-deassert-us = <700000>;
+		reset-gpios = <&gpio3 RK_PC2 GPIO_ACTIVE_HIGH>;
 	};
 };
 
@@ -680,14 +676,12 @@
         pinctrl-names = "default";
         pinctrl-0 = <&gmac1_rst_pins>;        
 		reg = <0x0>;
-        
-        snps,reset-gpio = <&gpio2 RK_PD1 GPIO_ACTIVE_LOW>;
-        snps,reset-active-low = <1>;
-        snps,reset-delays-us = <0 20000 750000>;	
+
+		reset-assert-us = <20000>;
+		reset-deassert-us = <750000>;
+		reset-gpios = <&gpio2 RK_PD1 GPIO_ACTIVE_HIGH>;        
         
         maxlinear,use-broken-interrupts;
-        #phy-cells = <0>;
-
 	};
 };
 
