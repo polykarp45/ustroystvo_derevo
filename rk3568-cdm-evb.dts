@@ -14,7 +14,7 @@
 #include <dt-bindings/display/media-bus-format.h> //new
 
 / {
-	model = "Rockchip RK3568 CDM tiny EVB v1.11";
+	model = "Rockchip RK3568 CDM tiny EVB v1.13";
 	compatible = "rockchip,rk3568";
 
 	aliases {
@@ -637,7 +637,7 @@
 	assigned-clock-parents = <&cru SCLK_GMAC0_RGMII_SPEED>;
 	assigned-clock-rates = <0>, <125000000>;
 	
-	snps,reset-gpio = <&gpio3 RK_PC2 GPIO_ACTIVE_LOW>;
+	snps,reset-gpio = <&gpio3 RK_PC2 GPIO_ACTIVE_HIGH>;
 	snps,reset-active-low;
 	snps,reset-delays-us = <0 20000 100000>;
 	
@@ -648,7 +648,7 @@
 	phy-mode = "rgmii"; //was "rgmii-id"
 	
 	phy-supply = <&vcc3v3_sys>;
-	status = "disabled";
+	status = "okay";
 };
 
 &gmac1 {
@@ -663,7 +663,11 @@
 	phys = <&combphy2 PHY_TYPE_SGMII>;
 	phy-handle = <&sgmii_phy>;
 	phy-mode = "sgmii";
-	
+    
+	snps,reset-gpio = <&gpio2 RK_PD1 GPIO_ACTIVE_HIGH>;
+	snps,reset-active-low;
+	snps,reset-delays-us = <0 20000 100000>;	
+    
 	rockchip,pipegrf = <&pipegrf>;
 	rockchip,xpcs = <&xpcs>;
 	
@@ -1080,20 +1084,14 @@
 		reset-assert-us = <20000>;
 		reset-deassert-us = <100000>;
 		reset-gpios = <&gpio3 RK_PC2 GPIO_ACTIVE_HIGH>;
-		status = "disabled";
 	};
 };
 
 &mdio1 {
 	sgmii_phy: ethernet-phy@1 {
-		pinctrl-names = "default";
-		pinctrl-0 = <&gmac1_rst_pins>;
 		compatible = "ethernet-phy-ieee802.3-c22";
 		reg = <0x0>;
-		reset-assert-us = <20000>;
-		reset-deassert-us = <100000>;
 		maxlinear,use-broken-interrupts;
-		reset-gpios = <&gpio2 RK_PD1 GPIO_ACTIVE_LOW>;
 	};
 };
 
