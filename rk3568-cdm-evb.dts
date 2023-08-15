@@ -14,7 +14,7 @@
 #include <dt-bindings/display/media-bus-format.h> //new
 
 / {
-	model = "Rockchip RK3568 CDM tiny EVB v1.16";
+	model = "Rockchip RK3568 CDM tiny EVB v1.17";
 	compatible = "rockchip,rk3568";
 
 	aliases {
@@ -665,8 +665,8 @@
         pinctrl-0 = <&gmac0_rst_pins>;
 		reg = <0x0>;
         
-        snps,reset-gpio = <&gpio3 RK_PC2 GPIO_ACTIVE_HIGH>;
-        snps,reset-active-low;
+        snps,reset-gpio = <&gpio3 RK_PC2 GPIO_ACTIVE_LOW>;
+        snps,reset-active-low = <1>;
         snps,reset-delays-us = <0 20000 500000>;
     
         #phy-cells = <0>;
@@ -678,11 +678,11 @@
 	sgmii_phy: ethernet-phy@1 {
 		compatible = "ethernet-phy-id67C9.DF20", "ethernet-phy-ieee802.3-c22";
         pinctrl-names = "default";
-        pinctrl-0 = <&gmac_rst_pins>;        
+        pinctrl-0 = <&gmac1_rst_pins>;        
 		reg = <0x0>;
         
-        snps,reset-gpio = <&gpio2 RK_PD1 GPIO_ACTIVE_HIGH>;
-        snps,reset-active-low;
+        snps,reset-gpio = <&gpio2 RK_PD1 GPIO_ACTIVE_LOW>;
+        snps,reset-active-low = <1>;
         snps,reset-delays-us = <0 20000 750000>;	
         
         maxlinear,use-broken-interrupts;
@@ -1279,27 +1279,25 @@
 	//pinctrl-0 = <&csi0_pins &lvds_pins>;
 	//pinctrl-names = "default";
     
-    gmac0 {
-		/omit-if-no-ref/
-		gmac0_miim: gmac0-miim {
-			rockchip,pins =
-				/* gmac0_mdc */
-				<2 RK_PC3 2 &pcfg_pull_up_drv_level_10>,
-				/* gmac0_mdio */
-				<2 RK_PC4 2 &pcfg_pull_up_drv_level_10>;
-		};
-    };
+//    gmac0 {
+//		gmac0_miim: gmac0-miim {
+//			rockchip,pins =
+//				/* gmac0_mdc */
+//				<2 RK_PC3 2 &pcfg_pull_up_drv_level_10>,
+//				/* gmac0_mdio */
+//				<2 RK_PC4 2 &pcfg_pull_up_drv_level_10>;
+//		};
+ //   };
     
-    gmac1 {    
-		/omit-if-no-ref/
-		gmac1m1_miim: gmac1m1-miim {
-			rockchip,pins =
-				/* gmac1_mdcm1 */
-				<4 RK_PB6 3 &pcfg_pull_up_drv_level_10>,
-				/* gmac1_mdiom1 */
-				<4 RK_PB7 3 &pcfg_pull_up_drv_level_10>;
-		};
-    };
+//    gmac1 {    
+//		gmac1m1_miim: gmac1m1-miim {
+//			rockchip,pins =
+//				/* gmac1_mdcm1 */
+//				<4 RK_PB6 3 &pcfg_pull_up_drv_level_10>,
+//				/* gmac1_mdiom1 */
+//				<4 RK_PB7 3 &pcfg_pull_up_drv_level_10>;
+//		};
+//   };
     
 
 	csi {
