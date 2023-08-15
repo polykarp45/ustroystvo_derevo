@@ -14,7 +14,7 @@
 #include <dt-bindings/display/media-bus-format.h> //new
 
 / {
-	model = "Rockchip RK3568 CDM tiny EVB v1.21";
+	model = "Rockchip RK3568 CDM tiny EVB v1.22";
 	compatible = "rockchip,rk3568";
 
 	aliases {
@@ -628,7 +628,7 @@
 	assigned-clock-rates = <0>, <125000000>;
     
 	pinctrl-names = "default";
-	pinctrl-0 = <&gmac0_miim &gmac0_tx_bus2 &gmac0_rx_bus2 &gmac0_rgmii_clk &gmac0_rgmii_bus>, <&gmac0_rst_pins>;
+	pinctrl-0 = <&gmac0_miim &gmac0_tx_bus2 &gmac0_rx_bus2 &gmac0_rgmii_clk &gmac0_rgmii_bus &gmac0_rst_pins>;
 	clock_in_out = "input";
     
     reset-assert-us = <20000>;
@@ -647,7 +647,7 @@
 	assigned-clocks = <&cru SCLK_GMAC1_RX_TX>;
 	assigned-clock-parents = <&gmac1_xpcsclk>;
 	pinctrl-names = "default";
-	pinctrl-0 = <&gmac1m1_miim>, <&gmac1_rst_pins>;
+	pinctrl-0 = <&gmac1m1_miim &gmac1_rst_pins>;
 	power-domains = <&power RK3568_PD_PIPE>;
 
 	reset-assert-us = <20000>;
