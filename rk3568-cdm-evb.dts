@@ -14,7 +14,7 @@
 #include <dt-bindings/display/media-bus-format.h> //new
 
 / {
-	model = "Rockchip RK3568 CDM tiny EVB v1.14";
+	model = "Rockchip RK3568 CDM tiny EVB v1.16";
 	compatible = "rockchip,rk3568";
 
 	aliases {
@@ -236,16 +236,6 @@
 			default-state = "off";
 		};
 
-	};
-	
-	govno_leds {
-		compatible = "gpio-leds";
-
-		pizdaled {
-			label = "pizdaled";
-			gpios = <&gpio0 RK_PC1 GPIO_OPEN_DRAIN>; 
-			default-state = "off";
-		};		  
 	};
 
 	kbd_keys {
@@ -567,7 +557,7 @@
 
 &combphy2 {
 	/* SGMII */
-	//rockchip,sgmii-mac-sel = <1>;
+	rockchip,sgmii-mac-sel = <1>;
 	status = "okay";
 };
 
@@ -637,10 +627,6 @@
 	assigned-clock-parents = <&cru SCLK_GMAC0_RGMII_SPEED>;
 	assigned-clock-rates = <0>, <125000000>;
     
-	snps,reset-gpio = <&gpio3 RK_PC2 GPIO_ACTIVE_HIGH>;
-	snps,reset-active-low;
-	snps,reset-delays-us = <0 20000 100000>;
-	
 	pinctrl-names = "default";
 	pinctrl-0 = <&gmac0_miim &gmac0_tx_bus2 &gmac0_rx_bus2 &gmac0_rgmii_clk &gmac0_rgmii_bus>;
 	clock_in_out = "input";
@@ -663,14 +649,10 @@
 	phy-handle = <&sgmii_phy>;
 	phy-mode = "sgmii";
     
-	snps,reset-gpio = <&gpio2 RK_PD1 GPIO_ACTIVE_HIGH>;
-	snps,reset-active-low;
-	snps,reset-delays-us = <0 20000 100000>;	
-    
 	rockchip,pipegrf = <&pipegrf>;
 	rockchip,xpcs = <&xpcs>;
 	
-	clock_in_out = "output"; //nahooy ne nado
+	//clock_in_out = "input";
 	
 	phy-supply = <&vcc3v3_sys>;
 	status = "okay";
@@ -679,7 +661,15 @@
 &mdio0 {
 	rgmii_phy0: ethernet-phy@0 {
 		compatible = "ethernet-phy-ieee802.3-c22";
+        pinctrl-names = "default";
+        pinctrl-0 = <&gmac0_rst_pins>;
 		reg = <0x0>;
+        
+        snps,reset-gpio = <&gpio3 RK_PC2 GPIO_ACTIVE_HIGH>;
+        snps,reset-active-low;
+        snps,reset-delays-us = <0 20000 500000>;
+    
+        #phy-cells = <0>;
 
 	};
 };
@@ -687,8 +677,17 @@
 &mdio1 {
 	sgmii_phy: ethernet-phy@1 {
 		compatible = "ethernet-phy-id67C9.DF20", "ethernet-phy-ieee802.3-c22";
+        pinctrl-names = "default";
+        pinctrl-0 = <&gmac_rst_pins>;        
 		reg = <0x0>;
-		maxlinear,use-broken-interrupts;
+        
+        snps,reset-gpio = <&gpio2 RK_PD1 GPIO_ACTIVE_HIGH>;
+        snps,reset-active-low;
+        snps,reset-delays-us = <0 20000 750000>;	
+        
+        maxlinear,use-broken-interrupts;
+        #phy-cells = <0>;
+
 	};
 };
 
@@ -1055,9 +1054,9 @@
 
 		power-domains = <&power RK3568_PD_VI>;
 		status = "okay";
-		//pinctrl-names = "default";
-		//pinctrl-0 = <&csi0_pins>;
-		//enable-gpios = <&gpio0 RK_PC1 GPIO_OPEN_DRAIN>;
+		pinctrl-names = "default";
+		pinctrl-0 = <&csi0_pins>;
+		enable-gpios = <&gpio0 RK_PC1 GPIO_OPEN_DRAIN>;
 		rockchip,camera-module-index = <0>;
 		rockchip,camera-module-facing = "back";
 		rockchip,camera-module-name = "RPi-Cam";
@@ -1279,11 +1278,33 @@
 	//TEMP!!!
 	//pinctrl-0 = <&csi0_pins &lvds_pins>;
 	//pinctrl-names = "default";
+    
+    gmac0 {
+		/omit-if-no-ref/
+		gmac0_miim: gmac0-miim {
+			rockchip,pins =
+				/* gmac0_mdc */
+				<2 RK_PC3 2 &pcfg_pull_up_drv_level_10>,
+				/* gmac0_mdio */
+				<2 RK_PC4 2 &pcfg_pull_up_drv_level_10>;
+		};
+    
+    gmac1 {    
+		/omit-if-no-ref/
+		gmac1m1_miim: gmac1m1-miim {
+			rockchip,pins =
+				/* gmac1_mdcm1 */
+				<4 RK_PB6 3 &pcfg_pull_up_drv_level_10>,
+				/* gmac1_mdiom1 */
+				<4 RK_PB7 3 &pcfg_pull_up_drv_level_10>;
+		};
+    };
+    
 
 	csi {
 		csi0_pins: csi0_pins {
 			rockchip,pins =
-				<0 RK_PC1 RK_FUNC_GPIO &pcfg_pull_none>,		/* CSI_PWREN0 */
+				<0 RK_PC1 RK_FUNC_GPIO &pcfg_pull_up>,		/* CSI_PWREN0 */
 				<3 RK_PB6 RK_FUNC_GPIO &pcfg_pull_up>,		/* CSI_RESET0# */
 				<4 RK_PC0 1 &pcfg_pull_none>;				/* CIF_CLKOUT */
 		};
