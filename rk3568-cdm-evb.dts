@@ -1083,7 +1083,7 @@
 		reset-assert-us = <20000>;
 		reset-deassert-us = <100000>;
         maxlinear,use-broken-interrupts;
-		reset-gpios = <&gpio2 RK_PD1 GPIO_ACTIVE_HIGH>;
+		reset-gpios = <&gpio2 RK_PD1 GPIO_LINE_OPEN_DRAIN>;
 	};
 };
 
