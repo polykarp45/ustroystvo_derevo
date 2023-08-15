@@ -14,7 +14,7 @@
 #include <dt-bindings/display/media-bus-format.h> //new
 
 / {
-	model = "Rockchip RK3568 CDM tiny EVB v1.13";
+	model = "Rockchip RK3568 CDM tiny EVB v1.14";
 	compatible = "rockchip,rk3568";
 
 	aliases {
@@ -636,16 +636,16 @@
 	assigned-clocks = <&cru SCLK_GMAC0_RX_TX>, <&cru SCLK_GMAC0>;
 	assigned-clock-parents = <&cru SCLK_GMAC0_RGMII_SPEED>;
 	assigned-clock-rates = <0>, <125000000>;
-	
+    
 	snps,reset-gpio = <&gpio3 RK_PC2 GPIO_ACTIVE_HIGH>;
 	snps,reset-active-low;
 	snps,reset-delays-us = <0 20000 100000>;
 	
 	pinctrl-names = "default";
 	pinctrl-0 = <&gmac0_miim &gmac0_tx_bus2 &gmac0_rx_bus2 &gmac0_rgmii_clk &gmac0_rgmii_bus>;
-	clock_in_out = "output";
+	clock_in_out = "input";
 	phy-handle = <&rgmii_phy0>;
-	phy-mode = "rgmii"; //was "rgmii-id"
+	phy-mode = "rgmii-id"; //was "rgmii-id"
 	
 	phy-supply = <&vcc3v3_sys>;
 	status = "okay";
@@ -656,7 +656,6 @@
 	assigned-clocks = <&cru SCLK_GMAC1_RX_TX>;
 	assigned-clock-parents = <&gmac1_xpcsclk>;
 	pinctrl-names = "default";
-
 	pinctrl-0 = <&gmac1m1_miim>;
 	power-domains = <&power RK3568_PD_PIPE>;
 
@@ -671,10 +670,26 @@
 	rockchip,pipegrf = <&pipegrf>;
 	rockchip,xpcs = <&xpcs>;
 	
-	//clock_in_out = "output"; //nahooy ne nado
+	clock_in_out = "output"; //nahooy ne nado
 	
 	phy-supply = <&vcc3v3_sys>;
 	status = "okay";
+};
+
+&mdio0 {
+	rgmii_phy0: ethernet-phy@0 {
+		compatible = "ethernet-phy-ieee802.3-c22";
+		reg = <0x0>;
+
+	};
+};
+
+&mdio1 {
+	sgmii_phy: ethernet-phy@1 {
+		compatible = "ethernet-phy-id67C9.DF20", "ethernet-phy-ieee802.3-c22";
+		reg = <0x0>;
+		maxlinear,use-broken-interrupts;
+	};
 };
 
 &gpu {
@@ -960,7 +975,7 @@
 		interrupt-parent = <&gpio0>;
 		interrupts = <RK_PA0 IRQ_TYPE_EDGE_FALLING>;
 		
-		reset-gpios = <&tca6408 4 GPIO_ACTIVE_LOW>;
+		reset-gpios = <&tca6408 4 GPIO_ACTIVE_HIGH>;
 		
 		touchscreen-size-x = <1024>;
 		touchscreen-size-y = <600>;
@@ -1073,26 +1088,6 @@
 	>;
 	rockchip,trcm-sync-tx-only;
 	status = "okay";
-};
-
-&mdio0 {
-	rgmii_phy0: ethernet-phy@0 {
-		pinctrl-names = "default";
-		pinctrl-0 = <&gmac0_rst_pins>;
-		compatible = "ethernet-phy-ieee802.3-c22";
-		reg = <0x0>;
-		reset-assert-us = <20000>;
-		reset-deassert-us = <100000>;
-		reset-gpios = <&gpio3 RK_PC2 GPIO_ACTIVE_HIGH>;
-	};
-};
-
-&mdio1 {
-	sgmii_phy: ethernet-phy@1 {
-		compatible = "ethernet-phy-ieee802.3-c22";
-		reg = <0x0>;
-		maxlinear,use-broken-interrupts;
-	};
 };
 
 &pdm {
