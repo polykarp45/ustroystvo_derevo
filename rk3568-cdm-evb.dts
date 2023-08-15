@@ -237,6 +237,16 @@
 		};
 
 	};
+	
+	govno_leds {
+		compatible = "gpio-leds";
+
+		pizdaled {
+			label = "pizdaled";
+			gpios = <&gpio0 RK_PC1 GPIO_OPEN_DRAIN>; 
+			default-state = "off";
+		};		  
+	};
 
 	kbd_keys {
 		compatible = "gpio-keys";
@@ -504,8 +514,8 @@
 		phy-names = "dphy";
 		power-domains = <&power RK3568_PD_VO>;
 		rockchip,grf = <&grf>;
-        rockchip,data-mapping = "jeida";
-        rockchip,data-width = <24>;
+		rockchip,data-mapping = "jeida";
+		rockchip,data-width = <24>;
 		rockchip,output = "lvds";
 		status = "disabled";
 			ports {
@@ -612,13 +622,13 @@
 &rkisp_vir0 {
    status = "okay";
    port {
-      #address-cells = <1>;
-      #size-cells = <0>;
+	  #address-cells = <1>;
+	  #size-cells = <0>;
 
-      isp0_in: endpoint@0 {
-         reg = <0>;
-         remote-endpoint = <&csidphy_out>;
-      };
+	  isp0_in: endpoint@0 {
+		 reg = <0>;
+		 remote-endpoint = <&csidphy_out>;
+	  };
    };
 };
 
@@ -1026,10 +1036,10 @@
 
 		power-domains = <&power RK3568_PD_VI>;
 		status = "okay";
-		pinctrl-names = "default";
-		pinctrl-0 = <&csi0_pins>;
-		enable-gpios = <&gpio0 RK_PC1 GPIO_OPEN_DRAIN>;
-        rockchip,camera-module-index = <0>;
+		//pinctrl-names = "default";
+		//pinctrl-0 = <&csi0_pins>;
+		//enable-gpios = <&gpio0 RK_PC1 GPIO_OPEN_DRAIN>;
+		rockchip,camera-module-index = <0>;
 		rockchip,camera-module-facing = "back";
 		rockchip,camera-module-name = "RPi-Cam";
 		rockchip,camera-module-lens-name = "default";
@@ -1082,7 +1092,7 @@
 		reg = <0x0>;
 		reset-assert-us = <20000>;
 		reset-deassert-us = <100000>;
-        maxlinear,use-broken-interrupts;
+		maxlinear,use-broken-interrupts;
 		reset-gpios = <&gpio2 RK_PD1 GPIO_ACTIVE_LOW>;
 	};
 };
