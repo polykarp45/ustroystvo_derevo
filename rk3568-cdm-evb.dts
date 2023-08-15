@@ -670,17 +670,13 @@
 &mdio0 {
 	rgmii_phy0: ethernet-phy@0 {
 		compatible = "ethernet-phy-id2000.a253", "ethernet-phy-ieee802.3-c22";
-        pinctrl-names = "default";
-        pinctrl-0 = ;
-		reg = <0x0>;  
-
+		reg = <0x0>; 
 	};
 };
 
 &mdio1 {
 	sgmii_phy: ethernet-phy@1 {
-		compatible = "ethernet-phy-id67C9.DF20", "ethernet-phy-ieee802.3-c45";
-        pinctrl-names = "default";    
+		compatible = "ethernet-phy-id67C9.DF20", "ethernet-phy-ieee802.3-c45";    
 		reg = <0x0>;
         //maxlinear,use-broken-interrupts;
 	};
