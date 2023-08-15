@@ -14,7 +14,7 @@
 #include <dt-bindings/display/media-bus-format.h> //new
 
 / {
-	model = "Rockchip RK3568 CDM tiny EVB v1.22";
+	model = "Rockchip RK3568 CDM tiny EVB v1.23";
 	compatible = "rockchip,rk3568";
 
 	aliases {
@@ -626,38 +626,31 @@
 	assigned-clocks = <&cru SCLK_GMAC0_RX_TX>, <&cru SCLK_GMAC0>;
 	assigned-clock-parents = <&cru SCLK_GMAC0_RGMII_SPEED>;
 	assigned-clock-rates = <0>, <125000000>;
-    
+	
 	pinctrl-names = "default";
-	pinctrl-0 = <&gmac0_miim &gmac0_tx_bus2 &gmac0_rx_bus2 &gmac0_rgmii_clk &gmac0_rgmii_bus &gmac0_rst_pins>;
+	pinctrl-0 = <&gmac0_miim &gmac0_tx_bus2 &gmac0_rx_bus2 &gmac0_rgmii_clk &gmac0_rgmii_bus>;
 	clock_in_out = "input";
-    
-    reset-assert-us = <20000>;
-	reset-deassert-us = <700000>;
-	reset-gpios = <&gpio3 RK_PC2 GPIO_ACTIVE_HIGH>;
-    
+	
 	phy-handle = <&rgmii_phy0>;
 	phy-mode = "rgmii"; //was "rgmii-id"
+	tx_delay = <0x4f>;
+	rx_delay = <0x26>;
 	phy-supply = <&vcc3v3_sys>;
-    
+	
 	status = "okay";
 };
 
 &gmac1 {
-	
 	assigned-clocks = <&cru SCLK_GMAC1_RX_TX>;
 	assigned-clock-parents = <&gmac1_xpcsclk>;
 	pinctrl-names = "default";
-	pinctrl-0 = <&gmac1m1_miim &gmac1_rst_pins>;
+	pinctrl-0 = <&gmac1m1_miim>;
 	power-domains = <&power RK3568_PD_PIPE>;
-
-	reset-assert-us = <20000>;
-	reset-deassert-us = <750000>;
-	reset-gpios = <&gpio2 RK_PD1 GPIO_ACTIVE_HIGH>;  
 
 	phys = <&combphy2 PHY_TYPE_SGMII>;
 	phy-handle = <&sgmii_phy>;
 	phy-mode = "sgmii";
-    
+	
 	rockchip,pipegrf = <&pipegrf>;
 	rockchip,xpcs = <&xpcs>;
 	
@@ -671,14 +664,28 @@
 	rgmii_phy0: ethernet-phy@0 {
 		compatible = "ethernet-phy-id2000.a253", "ethernet-phy-ieee802.3-c22";
 		reg = <0x0>; 
+		
+		pinctrl-names = "default";
+		pinctrl-0 = <&gmac0_rst_pins>;
+		reset-assert-us = <20000>;
+		reset-deassert-us = <750000>;
+		reset-gpios = <&gpio3 RK_PC2 GPIO_ACTIVE_HIGH>;
+		
 	};
 };
 
 &mdio1 {
 	sgmii_phy: ethernet-phy@1 {
-		compatible = "ethernet-phy-id67C9.DF20", "ethernet-phy-ieee802.3-c45";    
+		compatible = "ethernet-phy-id67C9.DF20", "ethernet-phy-ieee802.3-c45";	  
 		reg = <0x0>;
-        //maxlinear,use-broken-interrupts;
+		
+		pinctrl-names = "default";
+		pinctrl-0 = <&gmac1_rst_pins>;
+		reset-assert-us = <20000>;
+		reset-deassert-us = <850000>;
+		reset-gpios = <&gpio2 RK_PD1 GPIO_ACTIVE_HIGH>;
+		
+		//maxlinear,use-broken-interrupts;
 	};
 };
 
@@ -1269,8 +1276,8 @@
 	//TEMP!!!
 	//pinctrl-0 = <&csi0_pins &lvds_pins>;
 	//pinctrl-names = "default";
-    
-//    gmac0 {
+	
+//	  gmac0 {
 //		gmac0_miim: gmac0-miim {
 //			rockchip,pins =
 //				/* gmac0_mdc */
@@ -1278,9 +1285,9 @@
 //				/* gmac0_mdio */
 //				<2 RK_PC4 2 &pcfg_pull_up_drv_level_10>;
 //		};
- //   };
-    
-//    gmac1 {    
+ //	  };
+	
+//	  gmac1 {	 
 //		gmac1m1_miim: gmac1m1-miim {
 //			rockchip,pins =
 //				/* gmac1_mdcm1 */
@@ -1288,8 +1295,8 @@
 //				/* gmac1_mdiom1 */
 //				<4 RK_PB7 3 &pcfg_pull_up_drv_level_10>;
 //		};
-//   };
-    
+//	 };
+	
 
 	csi {
 		csi0_pins: csi0_pins {
