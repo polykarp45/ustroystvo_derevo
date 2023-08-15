@@ -1028,7 +1028,7 @@
 		status = "okay";
 		pinctrl-names = "default";
 		pinctrl-0 = <&csi0_pins>;
-		enable-gpios = <&gpio0 RK_PC1 GPIO_ACTIVE_HIGH>;
+		enable-gpios = <&gpio0 RK_PC1 GPIO_OPEN_DRAIN>;
         rockchip,camera-module-index = <0>;
 		rockchip,camera-module-facing = "back";
 		rockchip,camera-module-name = "RPi-Cam";
@@ -1083,7 +1083,7 @@
 		reset-assert-us = <20000>;
 		reset-deassert-us = <100000>;
         maxlinear,use-broken-interrupts;
-		reset-gpios = <&gpio2 RK_PD1 GPIO_OPEN_DRAIN>;
+		reset-gpios = <&gpio2 RK_PD1 GPIO_ACTIVE_LOW>;
 	};
 };
 
@@ -1177,7 +1177,7 @@
 	bus-width = <4>;
 	cap-mmc-highspeed;
 	cap-sd-highspeed;
-	cd-gpios = <&gpio0 RK_PA4 GPIO_ACTIVE_LOW>;
+	cd-gpios = <&gpio0 RK_PA4 GPIO_ACTIVE_HIGH>;
 	disable-wp;
 	sd-uhs-sdr104;
 	vmmc-supply = <&vcc_3v3_sw1>;
@@ -1280,7 +1280,7 @@
 	csi {
 		csi0_pins: csi0_pins {
 			rockchip,pins =
-				<0 RK_PC1 RK_FUNC_GPIO &pcfg_pull_up>,		/* CSI_PWREN0 */
+				<0 RK_PC1 RK_FUNC_GPIO &pcfg_pull_none>,		/* CSI_PWREN0 */
 				<3 RK_PB6 RK_FUNC_GPIO &pcfg_pull_up>,		/* CSI_RESET0# */
 				<4 RK_PC0 1 &pcfg_pull_none>;				/* CIF_CLKOUT */
 		};
