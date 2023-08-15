@@ -14,7 +14,7 @@
 #include <dt-bindings/display/media-bus-format.h> //new
 
 / {
-	model = "Rockchip RK3568 CDM tiny EVB v1.20";
+	model = "Rockchip RK3568 CDM tiny EVB v1.21";
 	compatible = "rockchip,rk3568";
 
 	aliases {
@@ -631,9 +631,9 @@
 	pinctrl-0 = <&gmac0_miim &gmac0_tx_bus2 &gmac0_rx_bus2 &gmac0_rgmii_clk &gmac0_rgmii_bus>, <&gmac0_rst_pins>;
 	clock_in_out = "input";
     
-    snps,reset-gpio = <&gpio3 RK_PC2 GPIO_ACTIVE_HIGH>;
-    snps,reset-active-low;
-    snps,reset-delays-us = <0 20000 500000>;    
+    reset-assert-us = <20000>;
+	reset-deassert-us = <700000>;
+	reset-gpios = <&gpio3 RK_PC2 GPIO_ACTIVE_HIGH>;
     
 	phy-handle = <&rgmii_phy0>;
 	phy-mode = "rgmii"; //was "rgmii-id"
@@ -649,10 +649,10 @@
 	pinctrl-names = "default";
 	pinctrl-0 = <&gmac1m1_miim>, <&gmac1_rst_pins>;
 	power-domains = <&power RK3568_PD_PIPE>;
-    
-    snps,reset-gpio = <&gpio2 RK_PD1 GPIO_ACTIVE_HIGH>;
-    snps,reset-active-low;
-    snps,reset-delays-us = <0 20000 750000>;	
+
+	reset-assert-us = <20000>;
+	reset-deassert-us = <750000>;
+	reset-gpios = <&gpio2 RK_PD1 GPIO_ACTIVE_HIGH>;  
 
 	phys = <&combphy2 PHY_TYPE_SGMII>;
 	phy-handle = <&sgmii_phy>;
