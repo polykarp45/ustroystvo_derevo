@@ -22,6 +22,8 @@
 		ethernet1 = &gmac1;
 		mmc0 = &sdmmc0;
 		mmc1 = &sdhci;
+		mdio-gpio0 = &mdio2;
+//		mdio-gpio = &mdio2;
 	};
 
 	fiq-debugger {
@@ -596,6 +598,7 @@
 		clock-frequency = <800000000>;
 		clock-output-names = "mpll";
 	};	  
+
 	
 };
 
@@ -750,6 +753,24 @@
 	
 	//phy-supply = <&vcc3v3_sys>;
 	status = "okay";
+	   mdio2: mdio_gpio {
+      compatible = "microchip,mdio-smi0";
+      #address-cells = <1>;
+      #size-cells = <0>;
+      gpios = <&gpio4 RK_PB6 0>,
+              <&gpio4 RK_PB7 0>;
+      sgmii_phy: ethernet-phy@2 {
+              reg = <0>;
+              compatible = "ethernet-phy-id67C9.DF10", "ethernet-phy-ieee802.3-c22";
+              pinctrl-names = "default";
+              pinctrl-0 = <&gmac1_rst_pins>;
+              reset-assert-us = <10000>;
+              reset-deassert-us = <50000>;
+              reset-gpios = <&gpio2 RK_PD1 GPIO_ACTIVE_LOW>;
+
+      };
+        };
+
 };
 
 &mdio0 {
@@ -767,19 +788,21 @@
 };
 
 &mdio1 {
-	sgmii_phy: ethernet-phy@1 {
-		compatible = "ethernet-phy-id67C9.DF10", "ethernet-phy-ieee802.3-c22";	  
-		reg = <0x0>;
-		
-		pinctrl-names = "default";
-		pinctrl-0 = <&gmac1_rst_pins>;
-		reset-assert-us = <10000>;
-		reset-deassert-us = <50000>;
-		reset-gpios = <&gpio2 RK_PD1 GPIO_ACTIVE_LOW>;
-		
-		maxlinear,use-broken-interrupts;
-	};
+//	sgmii_phy: ethernet-phy@1 {
+//		compatible = "ethernet-phy-id67C9.DF10", "ethernet-phy-ieee802.3-c22";	  
+//		reg = <0x0>;
+//		
+//		pinctrl-names = "default";
+//		pinctrl-0 = <&gmac1_rst_pins>;
+//		reset-assert-us = <10000>;
+//		reset-deassert-us = <50000>;
+//		reset-gpios = <&gpio2 RK_PD1 GPIO_ACTIVE_LOW>;
+//		
+//		maxlinear,use-broken-interrupts;
+//	};
+	status= "disabled";
 };
+
 
 &gpu {
 	mali-supply = <&vdd_gpu>;
