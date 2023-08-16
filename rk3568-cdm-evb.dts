@@ -14,7 +14,7 @@
 #include <dt-bindings/display/media-bus-format.h> //new
 
 / {
-	model = "Rockchip RK3568 CDM tiny EVB v1.29";
+	model = "Rockchip RK3568 CDM tiny EVB v1.30";
 	compatible = "rockchip,rk3568";
 
 	aliases {
@@ -22,7 +22,7 @@
 		ethernet1 = &gmac1;
 		mmc0 = &sdmmc0;
 		mmc1 = &sdhci;
-		mdio-gpio0 = &mdio2;
+//		mdio-gpio0 = &mdio2;
 //		mdio-gpio = &mdio2;
 	};
 
@@ -38,7 +38,7 @@
 		pinctrl-0 = <&uart2m0_xfer>;
 		status = "okay";
 	};
-	
+
 	debug: debug@fd904000 {
 		compatible = "rockchip,debug";
 		reg = <0x0 0xfd904000 0x0 0x1000>,
@@ -66,10 +66,10 @@
 		brightness-levels = <0 255>;
 		num-interpolated-steps = <256>;
 		default-brightness-level = <255>;
-		
+
 		status = "okay";
 	};
-	
+
 	tas5720_sound: tas5720-sound {
 		status = "okay";
 		compatible = "simple-audio-card";
@@ -84,7 +84,7 @@
 			sound-dai = <&tas5720>;
 		};
 	};
-	
+
 	pdmics: dummy-codec {
 		status = "okay";
 		compatible = "rockchip,dummy-codec";
@@ -101,8 +101,8 @@
 		simple-audio-card,codec {
 			sound-dai = <&pdmics>;
 		};
-	};	  
-	
+	};
+
 	hdmi-con {
 		compatible = "hdmi-connector";
 		type = "a";
@@ -296,7 +296,7 @@
 		regulator-name = "wwan_reset_n";
 		regulator-always-on;
 	};
-	
+
 	csi_i2c_lvtr: csi-i2c-leveltranslator-regulator {
 		compatible = "regulator-fixed";
 		enable-active-high;
@@ -334,8 +334,8 @@
 		regulator-name = "pcie30_clock";
 		startup-delay-us = <10000>;
 		vin-supply = <&vcc3v3_sys>;
-	};	
-	
+	};
+
 	/* Should be added in 6.5 */
 	rga: rga@fdeb0000 {
 		compatible = "rockchip,rk3568-rga", "rockchip,rk3288-rga";
@@ -346,9 +346,9 @@
 		resets = <&cru SRST_RGA_CORE>, <&cru SRST_A_RGA>, <&cru SRST_H_RGA>;
 		reset-names = "core", "axi", "ahb";
 		power-domains = <&power RK3568_PD_RGA>;
-		
+
 		status = "okay";
-	};	 
+	};
 
 	vcc5v0_sys: vcc5v0-sys-regulator {
 		compatible = "regulator-fixed";
@@ -380,7 +380,7 @@
 		regulator-max-microvolt = <900000>;
 		vin-supply = <&vcc3v3_pmu>;
 	};
-//////////GMAC1 SGMII Clocks///////////	   
+//////////GMAC1 SGMII Clocks///////////
 	gmac1_clkin: external-gmac1-clock {
 		compatible = "fixed-clock";
 		clock-frequency = <125000000>;
@@ -394,20 +394,20 @@
 		clock-output-names = "clk_gmac1_xpcs_mii";
 		#clock-cells = <0>;
 	};
-	
+
 	xpcs: syscon@fda00000 {
 		compatible = "rockchip,rk3568-xpcs", "syscon", "rockchip,xpcs";
 		reg = <0x0 0xfda00000 0x0 0x200000>;
 		status = "okay";
 	};
-	
+
 	ext_cam_clk: external-camera-clock {
 		compatible = "fixed-clock";
 		clock-frequency = <25000000>;
 		clock-output-names = "CLK_CAMERA_25MHZ";
 	   #clock-cells = <0>;
 	};
-	
+
 	lvds_panel: lvds-panel {
 		compatible = "simple-panel";
 		status = "disabled";
@@ -548,25 +548,25 @@
 		#mbox-cells = <1>;
 		status = "okay";
 	};
-	
+
 	dmc: memory-controller { //added from mg RK356x.dtsi
 		compatible = "rockchip,rk3568-dmc";
 		rockchip,pmu = <&pmugrf>;
 		status = "okay";
 	};
-	
+
 	sdei: sdei {
 		compatible = "arm,sdei-1.0";
 		method = "smc";
 	};
-		
+
 	mpp_srv: mpp-srv {
 		compatible = "rockchip,mpp-service";
 		rockchip,taskqueue-count = <6>;
 		rockchip,resetgroup-count = <6>;
 		status = "okay";
 	};
-	
+
 	reserved_memory: reserved-memory {
 		#address-cells = <2>;
 		#size-cells = <2>;
@@ -581,7 +581,7 @@
 			compatible = "rockchip,drm-cubic-lut";
 			reg = <0x0 0x0 0x0 0x0>;
 		};
-		
+
 		ramoops: ramoops@110000 {
 			compatible = "ramoops";
 			reg = <0x0 0x110000 0x0 0xf0000>;
@@ -591,23 +591,23 @@
 			pmsg-size = <0x50000>;
 		};
 	};
-	
+
 	mpll: mpll {
 		compatible = "fixed-clock";
 		#clock-cells = <0>;
 		clock-frequency = <800000000>;
 		clock-output-names = "mpll";
-	};	  
+	};
 
-	
+
 };
 
 &can1 {
-	status = "okay";	
+	status = "okay";
 };
 
 &can2 {
-	status = "okay";	
+	status = "okay";
 };
 
 
@@ -693,7 +693,7 @@
 				remote-endpoint = <&isp0_in>;
 			};
 		};
-	};	  
+	};
 };
 
 &rkisp {
@@ -721,17 +721,17 @@
 	assigned-clocks = <&cru SCLK_GMAC0_RX_TX>, <&cru SCLK_GMAC0>;
 	assigned-clock-parents = <&cru SCLK_GMAC0_RGMII_SPEED>;
 	assigned-clock-rates = <0>, <125000000>;
-	
+
 	pinctrl-names = "default";
 	pinctrl-0 = <&gmac0_miim &gmac0_tx_bus2 &gmac0_rx_bus2 &gmac0_rgmii_clk &gmac0_rgmii_bus>;
 	clock_in_out = "output";
-	
+
 	phy-handle = <&rgmii_phy0>;
 	phy-mode = "rgmii"; //was "rgmii-id"
 	tx_delay = <0x28>;
 	rx_delay = <0x20>;
 	phy-supply = <&vcc3v3_sys>;
-	
+
 	status = "okay";
 };
 
@@ -745,62 +745,62 @@
 	phys = <&combphy2 PHY_TYPE_SGMII>;
 	phy-handle = <&sgmii_phy>;
 	phy-mode = "sgmii";
-	
+
 	rockchip,pipegrf = <&pipegrf>;
 	rockchip,xpcs = <&xpcs>;
-	
+
 	//clock_in_out = "input";
-	
+
 	//phy-supply = <&vcc3v3_sys>;
 	status = "okay";
-	   mdio2: mdio_gpio {
-      compatible = "microchip,mdio-smi0";
-      #address-cells = <1>;
-      #size-cells = <0>;
-      gpios = <&gpio4 RK_PB6 0>,
-              <&gpio4 RK_PB7 0>;
-      sgmii_phy: ethernet-phy@2 {
-              reg = <0>;
-              compatible = "ethernet-phy-id67C9.DF10", "ethernet-phy-ieee802.3-c22";
-              pinctrl-names = "default";
-              pinctrl-0 = <&gmac1_rst_pins>;
-              reset-assert-us = <10000>;
-              reset-deassert-us = <50000>;
-              reset-gpios = <&gpio2 RK_PD1 GPIO_ACTIVE_LOW>;
 
-      };
-        };
+//	mdio2: mdio_gpio {
+//	compatible = "microchip,mdio-smi0";
+//	#address-cells = <1>;
+//	#size-cells = <0>;
+//	gpios = <&gpio4 RK_PB6 0>,
+//			<&gpio4 RK_PB7 0>;
+//		sgmii_phy: ethernet-phy@2 {
+//				reg = <0>;
+//				compatible = "ethernet-phy-id67C9.DF10", "ethernet-phy-ieee802.3-c22";
+//				pinctrl-names = "default";
+//				pinctrl-0 = <&gmac1_rst_pins>;
+//				reset-assert-us = <10000>;
+//				reset-deassert-us = <50000>;
+//				reset-gpios = <&gpio2 RK_PD1 GPIO_ACTIVE_LOW>;
+//		};
+//	};
 
 };
 
 &mdio0 {
 	rgmii_phy0: ethernet-phy@0 {
 		compatible = "ethernet-phy-id2000.a270", "ethernet-phy-id2000.a253", "ethernet-phy-ieee802.3-c22"; // add dp83tc812 0x2000a270
-		reg = <0x0>; 
-		
+		reg = <0x0>;
+
 		pinctrl-names = "default";
 		pinctrl-0 = <&gmac0_rst_pins>;
 		reset-assert-us = <10000>;
 		reset-deassert-us = <50000>;
 		reset-gpios = <&gpio2 RK_PD0 GPIO_ACTIVE_LOW>;
-		
+
 	};
 };
 
 &mdio1 {
-//	sgmii_phy: ethernet-phy@1 {
-//		compatible = "ethernet-phy-id67C9.DF10", "ethernet-phy-ieee802.3-c22";	  
-//		reg = <0x0>;
-//		
-//		pinctrl-names = "default";
-//		pinctrl-0 = <&gmac1_rst_pins>;
-//		reset-assert-us = <10000>;
-//		reset-deassert-us = <50000>;
-//		reset-gpios = <&gpio2 RK_PD1 GPIO_ACTIVE_LOW>;
-//		
-//		maxlinear,use-broken-interrupts;
-//	};
-	status= "disabled";
+	sgmii_phy: ethernet-phy@1 {
+		compatible = "ethernet-phy-id67C9.DF10", "ethernet-phy-ieee802.3-c22";
+		reg = <0x0>;
+
+		pinctrl-names = "default";
+		pinctrl-0 = <&gmac1_rst_pins>;
+		reset-assert-us = <10000>;
+		reset-deassert-us = <50000>;
+		reset-gpios = <&gpio2 RK_PD1 GPIO_ACTIVE_LOW>;
+
+		maxlinear,use-broken-interrupts;
+	};
+//	status= "disabled";
 };
 
 
@@ -837,7 +837,7 @@
 	assigned-clocks = <&cru DCLK_VOP0>, <&cru DCLK_VOP1>;
 	assigned-clock-parents = <&pmucru PLL_HPLL>, <&cru PLL_VPLL>;
 	//disable-win-move;
-	
+
 	status = "okay";
 };
 
@@ -853,7 +853,7 @@
 		reg = <ROCKCHIP_VOP2_EP_HDMI0>;
 		remote-endpoint = <&hdmi_in_vp0>;
 	};
-	
+
 	/*vp0_out_hdmi: endpoint@3 {	//VOP
 		reg = <3>;
 		remote-endpoint = <&hdmi_in_vp0>;
@@ -1086,9 +1086,9 @@
 
 		interrupt-parent = <&gpio0>;
 		interrupts = <RK_PA0 IRQ_TYPE_EDGE_FALLING>;
-		
+
 		reset-gpios = <&tca6408 4 GPIO_ACTIVE_HIGH>;
-		
+
 		touchscreen-size-x = <1024>;
 		touchscreen-size-y = <600>;
 		touchscreen-inverted-x = <1>;
@@ -1130,7 +1130,7 @@
 		gpio-controller;
 		#gpio-cells = <2>;
 		interrupt-controller;
-		#interrupt-cells = <2>;		
+		#interrupt-cells = <2>;
 		gpio-line-names =
 				"SoM_GPEXP_P0",
 				"SoM_GPEXP_P1",
@@ -1180,7 +1180,7 @@
 				data-lanes = <1 2>;
 			};
 		};
-	};	
+	};
 
 
 };
@@ -1206,7 +1206,7 @@
 	pinctrl-0 = <&pdmm0_clk
 		 &pdmm0_sdi1>;
 	pinctrl-names = "default";
-	status = "okay";  
+	status = "okay";
 };
 
 
@@ -1224,10 +1224,10 @@
 };
 
 &pcie3x2 {
-	// Deprecated 
+	// Deprecated
 	/delete-property/ num-ib-windows;
 	/delete-property/ num-ob-windows;
-	// reg & ranges should be fixed in 6.5 
+	// reg & ranges should be fixed in 6.5
 	num-lanes = <1>;
 	reg = <0x3 0xc0800000 0x0 0x00400000>,
 		  <0x0 0xfe280000 0x0 0x00010000>,
@@ -1391,7 +1391,7 @@
 	//TEMP!!!
 	//pinctrl-0 = <&csi0_pins &lvds_pins>;
 	//pinctrl-names = "default";
-	
+
 	  gmac0 {
 		gmac0_miim: gmac0-miim {
 			rockchip,pins =
@@ -1401,22 +1401,22 @@
 				<2 RK_PC4 2 &pcfg_pull_up_drv_level_10>;
 		};
 	  };
-	
-	  gmac1 {	 
+
+	  gmac1 {
 		gmac1m1_miim: gmac1m1-miim {
 			rockchip,pins =
-//                              /* gmac1_mdcm1 */
-//                              <4 RK_PB6 3 &pcfg_pull_up_drv_level_10>,
-//                              /* gmac1_mdiom1 */
-//                              <4 RK_PB7 3 &pcfg_pull_up_drv_level_10>;
-                                /* gmac1_mdcm1 */
-                                <4 RK_PB6 0 &pcfg_pull_up>,
-                                /* gmac1_mdiom1 */
-                                <4 RK_PB7 0 &pcfg_pull_up>;
+//								/* gmac1_mdcm1 */
+//								<4 RK_PB6 3 &pcfg_pull_up_drv_level_10>,
+//								/* gmac1_mdiom1 */
+//								<4 RK_PB7 3 &pcfg_pull_up_drv_level_10>;
+								/* gmac1_mdcm1 */
+								<4 RK_PB6 0 &pcfg_pull_up>,
+								/* gmac1_mdiom1 */
+								<4 RK_PB7 0 &pcfg_pull_up>;
 
 		};
 	 };
-	
+
 
 	csi {
 		csi0_pins: csi0_pins {
@@ -1511,21 +1511,21 @@
 	touch {
 		touch_gpio: touch-gpio {
 			rockchip,pins =
-				<0 RK_PA0 RK_FUNC_GPIO &pcfg_pull_up>;		
+				<0 RK_PA0 RK_FUNC_GPIO &pcfg_pull_up>;
 		};
 	};
 
 	wlan {
 		wlan_disable: wlan-disable {
 			rockchip,pins =
-				<4 RK_PB0 RK_FUNC_GPIO &pcfg_pull_up>;		
+				<4 RK_PB0 RK_FUNC_GPIO &pcfg_pull_up>;
 		};
 	};
 
 	wwan {
 		wwan_disable: wwan-disable {
 			rockchip,pins =
-				<4 RK_PA7 RK_FUNC_GPIO &pcfg_pull_up>;		
+				<4 RK_PA7 RK_FUNC_GPIO &pcfg_pull_up>;
 		};
 	};
 };
