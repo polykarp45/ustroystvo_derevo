@@ -14,7 +14,7 @@
 #include <dt-bindings/display/media-bus-format.h> //new
 
 / {
-	model = "Rockchip RK3568 CDM tiny EVB v1.25";
+	model = "Rockchip RK3568 CDM tiny EVB v1.26";
 	compatible = "rockchip,rk3568";
 
 	aliases {
@@ -58,7 +58,6 @@
 		reg = <0x0 0x00a00000 0x0 0x7f600000>;
 	};
 
-
 	backlight: backlight {
 		compatible = "pwm-backlight";
 		pwms = <&pwm5 0 25000 0>;
@@ -83,7 +82,6 @@
 			sound-dai = <&tas5720>;
 		};
 	};
-	
 	
 	pdmics: dummy-codec {
 		status = "okay";
@@ -533,7 +531,72 @@
 				};
 			};
 		};
-	};	
+	};
+
+	mailbox: mailbox@fe780000 {
+		compatible = "rockchip,rk3568-mailbox",
+				 "rockchip,rk3368-mailbox";
+		reg = <0x0 0xfe780000 0x0 0x1000>;
+		interrupts = <GIC_SPI 183 IRQ_TYPE_LEVEL_HIGH>,
+				 <GIC_SPI 184 IRQ_TYPE_LEVEL_HIGH>,
+				 <GIC_SPI 185 IRQ_TYPE_LEVEL_HIGH>,
+				 <GIC_SPI 186 IRQ_TYPE_LEVEL_HIGH>;
+		clocks = <&cru PCLK_MAILBOX>;
+		clock-names = "pclk_mailbox";
+		#mbox-cells = <1>;
+		status = "okay";
+	};
+	
+	dmc: memory-controller { //added from mg RK356x.dtsi
+		compatible = "rockchip,rk3568-dmc";
+		rockchip,pmu = <&pmugrf>;
+		status = "okay";
+	};
+    
+	sdei: sdei {
+		compatible = "arm,sdei-1.0";
+		method = "smc";
+	};
+		
+	mpp_srv: mpp-srv {
+		compatible = "rockchip,mpp-service";
+		rockchip,taskqueue-count = <6>;
+		rockchip,resetgroup-count = <6>;
+		status = "okay";
+	};
+	
+	reserved_memory: reserved-memory {
+		#address-cells = <2>;
+		#size-cells = <2>;
+		ranges;
+
+		drm_logo: drm-logo@0 {
+			compatible = "rockchip,drm-logo";
+			reg = <0x0 0x0 0x0 0x0>;
+		};
+
+		drm_cubic_lut: drm-cubic-lut@0 {
+			compatible = "rockchip,drm-cubic-lut";
+			reg = <0x0 0x0 0x0 0x0>;
+		};
+		
+		ramoops: ramoops@110000 {
+			compatible = "ramoops";
+			reg = <0x0 0x110000 0x0 0xf0000>;
+			record-size = <0x20000>;
+			console-size = <0x80000>;
+			ftrace-size = <0x00000>;
+			pmsg-size = <0x50000>;
+		};
+	};
+	
+	mpll: mpll {
+		compatible = "fixed-clock";
+		#clock-cells = <0>;
+		clock-frequency = <800000000>;
+		clock-output-names = "mpll";
+	};    
+	
 };
 
 &can1 {
@@ -560,6 +623,35 @@
 	//rockchip,sgmii-mac-sel = <1>;
 	status = "okay";
 };
+
+//Add opp tables from rk3568j
+&cpu0_opp_table {
+	/delete-node/ opp-408000000;
+	/delete-node/ opp-600000000;
+	/delete-node/ opp-816000000;
+	/delete-node/ opp-1104000000;
+	/delete-node/ opp-1416000000;
+
+	opp-1416000000 {
+		opp-hz = /bits/ 64 <1416000000>;
+		opp-microvolt = <900000 900000 900000>;
+		clock-latency-ns = <40000>;
+	};
+};
+
+&gpu_opp_table {
+	/delete-node/ opp-200000000;
+	/delete-node/ opp-300000000;
+	/delete-node/ opp-400000000;
+	/delete-node/ opp-600000000;
+	/delete-node/ opp-700000000;
+	/delete-node/ opp-800000000;
+	opp-600000000 {
+		opp-hz = /bits/ 64 <600000000>;
+		opp-microvolt = <900000>;
+	};
+};
+
 
 &cpu1 {
 	cpu-supply = <&vdd0v9_cpu>;
