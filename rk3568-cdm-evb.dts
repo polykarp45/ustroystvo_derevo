@@ -1382,10 +1382,15 @@
 	  gmac1 {	 
 		gmac1m1_miim: gmac1m1-miim {
 			rockchip,pins =
-				/* gmac1_mdcm1 */
-				<4 RK_PB6 3 &pcfg_pull_up_drv_level_10>,
-				/* gmac1_mdiom1 */
-				<4 RK_PB7 3 &pcfg_pull_up_drv_level_10>;
+//                              /* gmac1_mdcm1 */
+//                              <4 RK_PB6 3 &pcfg_pull_up_drv_level_10>,
+//                              /* gmac1_mdiom1 */
+//                              <4 RK_PB7 3 &pcfg_pull_up_drv_level_10>;
+                                /* gmac1_mdcm1 */
+                                <4 RK_PB6 0 &pcfg_pull_up>,
+                                /* gmac1_mdiom1 */
+                                <4 RK_PB7 0 &pcfg_pull_up>;
+
 		};
 	 };
 	
