@@ -729,7 +729,7 @@
 	rx_delay = <0x20>;
 	phy-supply = <&vcc3v3_sys>;
 	
-	status = "disabled";
+	status = "okay";
 };
 
 &gmac1 {
