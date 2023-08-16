@@ -14,7 +14,7 @@
 #include <dt-bindings/display/media-bus-format.h> //new
 
 / {
-	model = "Rockchip RK3568 CDM tiny EVB v1.26";
+	model = "Rockchip RK3568 CDM tiny EVB v1.27";
 	compatible = "rockchip,rk3568";
 
 	aliases {
@@ -552,7 +552,7 @@
 		rockchip,pmu = <&pmugrf>;
 		status = "okay";
 	};
-    
+	
 	sdei: sdei {
 		compatible = "arm,sdei-1.0";
 		method = "smc";
@@ -595,7 +595,7 @@
 		#clock-cells = <0>;
 		clock-frequency = <800000000>;
 		clock-output-names = "mpll";
-	};    
+	};	  
 	
 };
 
@@ -754,13 +754,13 @@
 
 &mdio0 {
 	rgmii_phy0: ethernet-phy@0 {
-		compatible = "ethernet-phy-id2000.a253", "ethernet-phy-ieee802.3-c22";
+		compatible = "ethernet-phy-id2000.a270", "ethernet-phy-id2000.a253", "ethernet-phy-ieee802.3-c22"; // add dp83tc812 0x2000a270
 		reg = <0x0>; 
 		
 		pinctrl-names = "default";
 		pinctrl-0 = <&gmac0_rst_pins>;
-		reset-assert-us = <20000>;
-		reset-deassert-us = <750000>;
+		reset-assert-us = <10000>;
+		reset-deassert-us = <50000>;
 		reset-gpios = <&gpio2 RK_PD0 GPIO_ACTIVE_HIGH>;
 		
 	};
@@ -773,8 +773,8 @@
 		
 		pinctrl-names = "default";
 		pinctrl-0 = <&gmac1_rst_pins>;
-		reset-assert-us = <20000>;
-		reset-deassert-us = <850000>;
+		reset-assert-us = <10000>;
+		reset-deassert-us = <50000>;
 		reset-gpios = <&gpio2 RK_PD1 GPIO_ACTIVE_HIGH>;
 		
 		maxlinear,use-broken-interrupts;
@@ -1369,15 +1369,15 @@
 	//pinctrl-0 = <&csi0_pins &lvds_pins>;
 	//pinctrl-names = "default";
 	
-//	  gmac0 {
-//		gmac0_miim: gmac0-miim {
-//			rockchip,pins =
-//				/* gmac0_mdc */
-//				<2 RK_PC3 2 &pcfg_pull_up_drv_level_10>,
-//				/* gmac0_mdio */
-//				<2 RK_PC4 2 &pcfg_pull_up_drv_level_10>;
-//		};
- //	  };
+	  gmac0 {
+		gmac0_miim: gmac0-miim {
+			rockchip,pins =
+				/* gmac0_mdc */
+				<2 RK_PC3 2 &pcfg_pull_up_drv_level_10>,
+				/* gmac0_mdio */
+				<2 RK_PC4 2 &pcfg_pull_up_drv_level_10>;
+		};
+	  };
 	
 	  gmac1 {	 
 		gmac1m1_miim: gmac1m1-miim {
