@@ -22,8 +22,7 @@
 		ethernet1 = &gmac1;
 		mmc0 = &sdmmc0;
 		mmc1 = &sdhci;
-//		mdio-gpio0 = &mdio2;
-//		mdio-gpio = &mdio2;
+		mdio-gpio0 = &mdio2;
 	};
 
 	fiq-debugger {
@@ -739,7 +738,8 @@
 	assigned-clocks = <&cru SCLK_GMAC1_RX_TX>;
 	assigned-clock-parents = <&gmac1_xpcsclk>;
 	pinctrl-names = "default";
-	pinctrl-0 = <&gmac1m1_miim>;
+//	pinctrl-0 = <&gmac1m1_miim>;
+	pinctrl-0 = <&gmac1_mdio_gpio_pinctrl>;
 	power-domains = <&power RK3568_PD_PIPE>;
 
 	phys = <&combphy2 PHY_TYPE_SGMII>;
@@ -754,22 +754,23 @@
 	//phy-supply = <&vcc3v3_sys>;
 	status = "okay";
 
-//	mdio2: mdio_gpio {
-//	compatible = "microchip,mdio-smi0";
-//	#address-cells = <1>;
-//	#size-cells = <0>;
-//	gpios = <&gpio4 RK_PB6 0>,
-//			<&gpio4 RK_PB7 0>;
-//		sgmii_phy: ethernet-phy@2 {
-//				reg = <0>;
-//				compatible = "ethernet-phy-id67C9.DF10", "ethernet-phy-ieee802.3-c22";
-//				pinctrl-names = "default";
-//				pinctrl-0 = <&gmac1_rst_pins>;
-//				reset-assert-us = <10000>;
-//				reset-deassert-us = <50000>;
-//				reset-gpios = <&gpio2 RK_PD1 GPIO_ACTIVE_LOW>;
-//		};
-//	};
+	mdio2: mdio_gpio {
+		compatible = "microchip,mdio-smi0";
+		#address-cells = <1>;
+		#size-cells = <0>;
+		gpios = <&gpio4 RK_PB6 0>,
+			<&gpio4 RK_PB7 0>;
+		sgmii_phy: ethernet-phy@2 {
+				reg = <0>;
+				compatible = "ethernet-phy-id67C9.DF10", "ethernet-phy-ieee802.3-c22";
+				pinctrl-names = "default";
+				pinctrl-0 = <&gmac1_rst_pins>;
+				reset-assert-us = <10000>;
+				reset-deassert-us = <50000>;
+				reset-gpios = <&gpio2 RK_PD1 GPIO_ACTIVE_LOW>;
+		}
+		status="disabled";
+	};
 
 };
 
@@ -785,6 +786,7 @@
 		reset-gpios = <&gpio2 RK_PD0 GPIO_ACTIVE_LOW>;
 
 	};
+	status="disabled";
 };
 
 &mdio1 {
@@ -800,7 +802,7 @@
 
 		maxlinear,use-broken-interrupts;
 	};
-//	status= "disabled";
+	status= "disabled";
 };
 
 
@@ -1405,16 +1407,22 @@
 	  gmac1 {
 		gmac1m1_miim: gmac1m1-miim {
 			rockchip,pins =
-//								/* gmac1_mdcm1 */
-//								<4 RK_PB6 3 &pcfg_pull_up_drv_level_10>,
-//								/* gmac1_mdiom1 */
-//								<4 RK_PB7 3 &pcfg_pull_up_drv_level_10>;
-								/* gmac1_mdcm1 */
-								<4 RK_PB6 0 &pcfg_pull_up>,
-								/* gmac1_mdiom1 */
-								<4 RK_PB7 0 &pcfg_pull_up>;
+				/* gmac1_mdcm1 */
+				<4 RK_PB6 3 &pcfg_pull_up_drv_level_10>,
+				/* gmac1_mdiom1 */
+				<4 RK_PB7 3 &pcfg_pull_up_drv_level_10>;
 
 		};
+
+		gmac1_mdio_gpio_pinctrl : mdio-gpio-pinctrl
+		{
+			rockchip,pins =
+			/* gmac1_mdcm1 */
+			<4 RK_PB6 0 &pcfg_pull_up>,
+			/* gmac1_mdiom1 */
+			<4 RK_PB7 0 &pcfg_pull_up>;
+
+		}
 	 };
 
 
