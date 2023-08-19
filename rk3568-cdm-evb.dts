@@ -14,7 +14,7 @@
 #include <dt-bindings/display/media-bus-format.h> //new
 
 / {
-	model = "Rockchip RK3568 CDM tiny EVB v1.37";
+	model = "Rockchip RK3568 CDM tiny EVB v1.38";
 	compatible = "rockchip,rk3568";
 
 	aliases {
@@ -785,7 +785,7 @@
 
 };
 
-&mdio0 {
+/*&mdio0 {
 	rgmii_phy0: ethernet-phy@0 {
 		compatible = "ethernet-phy-id2000.a253", "ethernet-phy-id2000.a270", "ethernet-phy-ieee802.3-c22"; // add dp83tc812 0x2000a270
 		reg = <0x0>;
@@ -798,9 +798,9 @@
 
 	};
 	//status="disabled";
-};
+};*/
 
-&mdio1 {
+&mdio0 {
 	sgmii_phy: ethernet-phy@1 {
 		compatible = "ethernet-phy-id67C9.DF10", "ethernet-phy-ieee802.3-c22";
 		reg = <0x0>;
