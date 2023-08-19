@@ -1414,15 +1414,14 @@
 
 		};
 
-		gmac1_mdio_gpio_pinctrl : mdio-gpio-pinctrl
-		{
-			rockchip,pins =
-			/* gmac1_mdcm1 */
-			<4 RK_PB6 0 &pcfg_pull_up>,
-			/* gmac1_mdiom1 */
-			<4 RK_PB7 0 &pcfg_pull_up>;
-
-		}
+//		gmac1_mdio_gpio_pinctrl : mdio-gpio-pinctrl
+//		{
+//			rockchip,pins =
+//			/* gmac1_mdcm1 */
+//			<4 RK_PB6 0 &pcfg_pull_up>,
+//			/* gmac1_mdiom1 */
+//			<4 RK_PB7 0 &pcfg_pull_up>;
+//		};
 	 };
 
 
