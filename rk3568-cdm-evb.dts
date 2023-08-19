@@ -786,7 +786,7 @@
 		reset-gpios = <&gpio2 RK_PD0 GPIO_ACTIVE_LOW>;
 
 	};
-	/status="disabled";
+	//status="disabled";
 };
 
 &mdio1 {
