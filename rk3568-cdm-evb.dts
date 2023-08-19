@@ -395,10 +395,9 @@
 	};
 
 	xpcs: syscon@fda00000 {
-		compatible = "rockchip,rk3568-naneng-combphy", "syscon", "rockchip,xpcs";
+		compatible = "rockchip,rk3568-xpcs", "syscon";
 		reg = <0x0 0xfda00000 0x0 0x200000>;
-        phys = <&combphy2 PHY_TYPE_SGMII>;
-        #phy-cells = <0>;
+//		  #phy-cells = <0>;
 		status = "okay";
 	};
 
@@ -625,7 +624,7 @@
 &combphy2 {
 	/* SGMII */
 	//rockchip,sgmii-mac-sel = <1>;
-    resets = <&cru SRST_P_PIPEPHY2>, <&cru SRST_PIPEPHY2>;
+	resets = <&cru SRST_P_PIPEPHY2>, <&cru SRST_PIPEPHY2>;
 	reset-names = "combphy-apb", "combphy";
 	status = "okay";
 };
@@ -748,7 +747,7 @@
 	snps,reset-gpio = <&gpio2 RK_PD1 GPIO_ACTIVE_LOW>;
 	snps,reset-active-low;
 	snps,reset-delays-us = <0 10000 50000>;
-	phys = <&xpcs 1>;
+	phys = <&combphy2 PHY_TYPE_SGMII>;
 	phy-handle = <&sgmii_phy>;
 	phy-mode = "sgmii";
 
