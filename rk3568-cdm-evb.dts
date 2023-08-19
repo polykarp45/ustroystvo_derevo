@@ -745,7 +745,7 @@
 	snps,reset-gpio = <&gpio2 RK_PD1 GPIO_ACTIVE_LOW>;
 	snps,reset-active-low;
 	snps,reset-delays-us = <0 10000 50000>;
-	phys = <&xpcs>;
+	phys = <&xpcs 1>;
 	phy-handle = <&sgmii_phy>;
 	phy-mode = "sgmii";
 
