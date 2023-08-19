@@ -14,7 +14,7 @@
 #include <dt-bindings/display/media-bus-format.h> //new
 
 / {
-	model = "Rockchip RK3568 CDM tiny EVB v1.36";
+	model = "Rockchip RK3568 CDM tiny EVB v1.37";
 	compatible = "rockchip,rk3568";
 
 	aliases {
@@ -397,7 +397,7 @@
 	xpcs: syscon@fda00000 {
 		compatible = "rockchip,rk3568-xpcs", "syscon";
 		reg = <0x0 0xfda00000 0x0 0x200000>;
-        phys = <&combphy2 PHY_TYPE_SGMII>;        
+//        phys = <&combphy2 PHY_TYPE_SGMII>;        
 //		  #phy-cells = <0>;
 		status = "okay";
 	};
@@ -720,6 +720,7 @@
    };
 };
 
+/*
 &gmac0 { //Changed to rgmii_align
 	assigned-clocks = <&cru SCLK_GMAC0_RX_TX>, <&cru SCLK_GMAC0>;
 	assigned-clock-parents = <&cru SCLK_GMAC0_RGMII_SPEED>;
@@ -737,9 +738,10 @@
 
 	status = "okay";
 };
+*/
 
-&gmac1 {
-	assigned-clocks = <&cru SCLK_GMAC1_RX_TX>;
+&gmac0 {
+	assigned-clocks = <&cru SCLK_GMAC0_RX_TX>;
 	assigned-clock-parents = <&gmac1_xpcsclk>;
     
 	pinctrl-names = "default";
@@ -751,13 +753,12 @@
 //	snps,reset-active-low;
 //	snps,reset-delays-us = <0 10000 50000>;
     
-//	phys = <&combphy2 PHY_TYPE_SGMII>;
-	phys = <&xpcs 1>;
+	phys = <&combphy2 PHY_TYPE_SGMII>;
 	phy-handle = <&sgmii_phy>;
 	phy-mode = "sgmii";
 
 	rockchip,pipegrf = <&pipegrf>;
-//	rockchip,xpcs = <&xpcs>;
+	rockchip,xpcs = <&xpcs>;
 
 	//clock_in_out = "input";
 
