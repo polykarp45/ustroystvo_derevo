@@ -14,7 +14,7 @@
 #include <dt-bindings/display/media-bus-format.h> //new
 
 / {
-	model = "Rockchip RK3568 CDM tiny EVB v1.33";
+	model = "Rockchip RK3568 CDM tiny EVB v1.34";
 	compatible = "rockchip,rk3568";
 
 	aliases {
@@ -397,6 +397,7 @@
 	xpcs: syscon@fda00000 {
 		compatible = "syscon", "rockchip,xpcs";
 		reg = <0x0 0xfda00000 0x0 0x200000>;
+        phys = <&combphy2 PHY_TYPE_SGMII>;
 		status = "okay";
 	};
 
@@ -735,8 +736,8 @@
 };
 
 &gmac1 {
-	//assigned-clocks = <&cru SCLK_GMAC1_RX_TX>;
-	//assigned-clock-parents = <&gmac1_xpcsclk>;
+	assigned-clocks = <&cru SCLK_GMAC1_RX_TX>;
+	assigned-clock-parents = <&gmac1_xpcsclk>;
 	pinctrl-names = "default";
 	pinctrl-0 = <&gmac1m1_miim>;
 //	pinctrl-0 = <&gmac1_mdio_gpio_pinctrl>;
@@ -744,7 +745,7 @@
 	snps,reset-gpio = <&gpio2 RK_PD1 GPIO_ACTIVE_LOW>;
 	snps,reset-active-low;
 	snps,reset-delays-us = <0 10000 50000>;
-	phys = <&combphy2 PHY_TYPE_SGMII>;
+	phys = <&xpcs>;
 	phy-handle = <&sgmii_phy>;
 	phy-mode = "sgmii";
 
