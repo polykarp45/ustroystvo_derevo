@@ -14,7 +14,7 @@
 #include <dt-bindings/display/media-bus-format.h> //new
 
 / {
-	model = "Rockchip RK3568 CDM tiny EVB v1.34";
+	model = "Rockchip RK3568 CDM tiny EVB v1.35";
 	compatible = "rockchip,rk3568";
 
 	aliases {
@@ -395,9 +395,10 @@
 	};
 
 	xpcs: syscon@fda00000 {
-		compatible = "syscon", "rockchip,xpcs";
+		compatible = "rockchip,rk3568-naneng-combphy", "syscon", "rockchip,xpcs";
 		reg = <0x0 0xfda00000 0x0 0x200000>;
         phys = <&combphy2 PHY_TYPE_SGMII>;
+        #phy-cells = <0>;
 		status = "okay";
 	};
 
@@ -624,6 +625,8 @@
 &combphy2 {
 	/* SGMII */
 	//rockchip,sgmii-mac-sel = <1>;
+    resets = <&cru SRST_P_PIPEPHY2>, <&cru SRST_PIPEPHY2>;
+	reset-names = "combphy-apb", "combphy";
 	status = "okay";
 };
 
