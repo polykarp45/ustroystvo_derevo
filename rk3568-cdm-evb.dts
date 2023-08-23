@@ -723,11 +723,11 @@
 &gmac0 { //Changed to rgmii_align
 	assigned-clocks = <&cru SCLK_GMAC0_RX_TX>, <&cru SCLK_GMAC0>;
 	assigned-clock-parents = <&cru SCLK_GMAC0_RGMII_SPEED>;
-	assigned-clock-rates = <0>, <125000000>;
+	assigned-clock-rates = <0>, <25000000>;
 
 	pinctrl-names = "default";
 	pinctrl-0 = <&gmac0_miim &gmac0_tx_bus2 &gmac0_rx_bus2 &gmac0_rgmii_clk &gmac0_rgmii_bus>;
-	clock_in_out = "output";
+	clock_in_out = "input";
 
 	phy-handle = <&rgmii_phy0>;
 	phy-mode = "rgmii"; //was "rgmii-id"
@@ -1407,9 +1407,9 @@
 		gmac0_miim: gmac0-miim {
 			rockchip,pins =
 				/* gmac0_mdc */
-				<2 RK_PC3 2 &pcfg_pull_up_drv_level_10>,
+				<2 RK_PC3 2 &pcfg_pull_up>,
 				/* gmac0_mdio */
-				<2 RK_PC4 2 &pcfg_pull_up_drv_level_10>;
+				<2 RK_PC4 2 &pcfg_pull_up>;
 		};
 	  };
 
