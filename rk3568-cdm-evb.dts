@@ -758,7 +758,7 @@
 	rockchip,pipegrf = <&pipegrf>;
 	rockchip,xpcs = <&xpcs>;
 
-	//clock_in_out = "input";
+	clock_in_out = "PIZDA";
 
 	phy-supply = <&vcc3v3_sys>;
 	status = "okay";
