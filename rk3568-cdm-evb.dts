@@ -602,7 +602,7 @@
     
     gmac0_clkin: external-gmac0-clock {
 		compatible = "fixed-clock";
-		clock-frequency = <125000000>;
+		clock-frequency = <25000000>;
 		clock-output-names = "gmac0_clkin";
 		#clock-cells = <0>;
 	};
@@ -730,7 +730,7 @@
 &gmac0 { //Changed to rgmii_align
 	assigned-clocks = <&cru SCLK_GMAC0_RX_TX>, <&cru SCLK_GMAC0>;
 	assigned-clock-parents = <&cru SCLK_GMAC0_RGMII_SPEED>, <&gmac0_clkin>;
-	assigned-clock-rates = <0>, <125000000>;
+	assigned-clock-rates = <0>, <25000000>;
 
 	pinctrl-names = "default";
 	pinctrl-0 = <&gmac0_miim &gmac0_tx_bus2 &gmac0_rx_bus2 &gmac0_rgmii_clk &gmac0_rgmii_bus>;
