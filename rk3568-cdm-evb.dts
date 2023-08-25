@@ -751,7 +751,6 @@
     
 	pinctrl-names = "default";
 	pinctrl-0 = <&gmac1m1_miim>;
-	pinctrl-0 = <&gmac1_rst_pins>;
 
 	power-domains = <&power RK3568_PD_PIPE>;
 	snps,reset-gpio = <&gpio2 RK_PD1 GPIO_ACTIVE_LOW>;
@@ -810,8 +809,8 @@
 		compatible = "ethernet-phy-id67C9.DF10", "ethernet-phy-ieee802.3-c22";
 		reg = <0x0>;
 
-		//pinctrl-names = "default";
-		//pinctrl-0 = <&gmac1_rst_pins>;
+		pinctrl-names = "default";
+		pinctrl-0 = <&gmac1_rst_pins>;
 		//reset-assert-us = <10000>;
 		//reset-deassert-us = <50000>;
 		//reset-gpios = <&gpio2 RK_PD1 GPIO_ACTIVE_LOW>;
