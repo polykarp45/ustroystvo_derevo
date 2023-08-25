@@ -602,7 +602,7 @@
     
     gmac0_clkin: external-gmac0-clock {
 		compatible = "fixed-clock";
-		clock-frequency = <25000000>;
+		clock-frequency = <125000000>;
 		clock-output-names = "gmac0_clkin";
 		#clock-cells = <0>;
 	};
@@ -729,17 +729,17 @@
 
 &gmac0 { //Changed to rgmii_align
 	assigned-clocks = <&cru SCLK_GMAC0_RX_TX>, <&cru SCLK_GMAC0>;
-	assigned-clock-parents = <&cru SCLK_GMAC0_RGMII_SPEED>, <&gmac0_clkin>;
-	assigned-clock-rates = <0>, <25000000>;
+	assigned-clock-parents = <&cru SCLK_GMAC0_RGMII_SPEED>;
+	assigned-clock-rates = <0>, <125000000>;
 
 	pinctrl-names = "default";
 	pinctrl-0 = <&gmac0_miim &gmac0_tx_bus2 &gmac0_rx_bus2 &gmac0_rgmii_clk &gmac0_rgmii_bus>;
-	clock_in_out = "input";
+	clock_in_out = "output";
 
 	phy-handle = <&rgmii_phy0>;
-	phy-mode = "rgmii"; //was "rgmii-id"
-	tx_delay = <0x28>;
-	rx_delay = <0x20>;
+	phy-mode = "rgmii-id"; //was "rgmii-id"
+	//tx_delay = <0x28>;
+	//rx_delay = <0x20>;
 	phy-supply = <&vcc3v3_sys>;
 
 	status = "okay";
@@ -793,6 +793,7 @@
 	rgmii_phy0: ethernet-phy@0 {
 		compatible = "ethernet-phy-id2000.a253", "ethernet-phy-id2000.a270", "ethernet-phy-ieee802.3-c22"; // add dp83tc812 0x2000a270
 		reg = <0x0>;
+        max-speed = <100>;
 
 		pinctrl-names = "default";
 		pinctrl-0 = <&gmac0_rst_pins>;
