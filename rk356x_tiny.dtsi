@@ -432,7 +432,7 @@
 		#reset-cells = <1>;
 	};
 
-	/*cru: clock-controller@fdd20000 {
+	*cru: clock-controller@fdd20000 {
 		compatible = "rockchip,rk3568-cru";
 		reg = <0x0 0xfdd20000 0x0 0x1000>;
 		clocks = <&xin24m>;
@@ -443,9 +443,9 @@
 		assigned-clock-rates = <32768>, <1200000000>, <200000000>;
 		assigned-clock-parents = <&pmucru CLK_RTC32K_FRAC>;
 		rockchip,grf = <&grf>;
-	};*/
+	};
     
-	cru: clock-controller@fdd20000 {
+	/*cru: clock-controller@fdd20000 {
 		compatible = "rockchip,rk3568-cru";
 		reg = <0x0 0xfdd20000 0x0 0x1000>;
 		rockchip,grf = <&grf>;
@@ -494,7 +494,7 @@
 		assigned-clock-parents =
 			<&pmucru CLK_RTC32K_FRAC>, <&cru PLL_GPLL>,
 			<&cru PLL_GPLL>;
-	};    
+	};*/    
 
 	i2c0: i2c@fdd40000 {
 		compatible = "rockchip,rk3568-i2c", "rockchip,rk3399-i2c";
