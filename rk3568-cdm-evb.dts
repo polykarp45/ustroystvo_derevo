@@ -750,8 +750,8 @@
 	assigned-clock-parents = <&gmac1_xpcsclk>;
     
 	pinctrl-names = "default";
-	pinctrl-0 = <&gmac1m1_miim &gmac1_mdio_gpio_pinctrl>;
-//	pinctrl-0 = <&gmac1_mdio_gpio_pinctrl>;
+	pinctrl-0 = <&gmac1m1_miim>;
+	pinctrl-0 = <&gmac1_rst_pins>;
 
 	power-domains = <&power RK3568_PD_PIPE>;
 	snps,reset-gpio = <&gpio2 RK_PD1 GPIO_ACTIVE_LOW>;
