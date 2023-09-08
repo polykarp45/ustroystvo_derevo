@@ -399,7 +399,7 @@
 		reg = <0x0 0xfda00000 0x0 0x200000>;
 //        phys = <&combphy2 PHY_TYPE_SGMII>;        
 //		  #phy-cells = <0>;
-		status = "disabled";
+		status = "okay";
 	};
 
 	ext_cam_clk: external-camera-clock {
@@ -728,8 +728,9 @@
 };
 
 &gmac0 { //Changed to rgmii_align
+	status = "okay";
 	assigned-clocks = <&cru SCLK_GMAC0_RX_TX>, <&cru SCLK_GMAC0>;
-	assigned-clock-parents = <&cru SCLK_GMAC0_RGMII_SPEED>;
+	assigned-clock-parents = <&cru SCLK_GMAC0_RGMII_SPEED>, <&cru CLK_MAC0_2TOP>;
 	assigned-clock-rates = <0>, <125000000>;
 
 	pinctrl-names = "default";
@@ -742,14 +743,14 @@
 	//rx_delay = <0x20>;
 	phy-supply = <&vcc3v3_sys>;
 
+//	max-speed = <100>;
 
-        status = "okay";
-	max-speed = <100>;
         fixed-link 
 	{
               speed = <100>;
               full-duplex;
         };
+
 
 };
 
@@ -765,23 +766,24 @@
 	snps,reset-active-low;
 	snps,reset-delays-us = <0 10000 50000>;
     
-	phys = <&combphy2 PHY_TYPE_SGMII>;
+	phys = <&combphy1 PHY_TYPE_SGMII>;
 	phy-handle = <&sgmii_phy>;
 	phy-mode = "sgmii";
 
 	rockchip,pipegrf = <&pipegrf>;
 	rockchip,xpcs = <&xpcs>;
 
-	clock_in_out = "PIZDA";
+//	clock_in_out = "PIZDA";
 
 	phy-supply = <&vcc3v3_sys>;
-	status = "disabled";
+	status = "okay";
 
 };
 
 &mdio0 {
 	rgmii_phy0: ethernet-phy@0 {
-		compatible = "ethernet-phy-id2000.a271";//, "ethernet-phy-ieee802.3-c22"; // add dp83tc812 0x2000a270
+		compatible = "ethernet-phy-ieee802.3-c22";
+//"ethernet-phy-id2000.a271";//, "ethernet-phy-ieee802.3-c22"; // add dp83tc812 0x2000a270
 		reg = <0x0>;
 	        max-speed = <100>;
 
@@ -792,7 +794,6 @@
 		reset-gpios = <&gpio2 RK_PD0 GPIO_ACTIVE_LOW>;
 
 	};
-	//status="disabled";
 };
 
 &mdio1 {
