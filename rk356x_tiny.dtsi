@@ -127,6 +127,17 @@
 	display_subsystem: display-subsystem {
 		compatible = "rockchip,display-subsystem";
 		ports = <&vop_out>;
+		route {
+			route_lvds: route-lvds {
+			status = "disabled";
+			logo,uboot = "logo.bmp";
+			logo,kernel = "logo_kernel.bmp";
+			logo,mode = "center";
+			charge_logo,mode = "center";
+			connect = <&vp1_out_lvds>;
+   };
+
+		};
 	};
 
 	firmware {
@@ -183,7 +194,7 @@
 		simple-audio-card,name = "HDMI";
 		simple-audio-card,format = "i2s";
 		simple-audio-card,mclk-fs = <256>;
-		status = "disabled";
+		status = "okay";
 
 		simple-audio-card,codec {
 			sound-dai = <&hdmi>;
@@ -773,7 +784,7 @@
 		iommus = <&vop_mmu>;
 		power-domains = <&power RK3568_PD_VO>;
 		rockchip,grf = <&grf>;
-		status = "disabled";
+		status = "okay";
 
 		vop_out: ports {
 			#address-cells = <1>;
@@ -807,7 +818,7 @@
 		clocks = <&cru ACLK_VOP>, <&cru HCLK_VOP>;
 		clock-names = "aclk", "iface";
 		#iommu-cells = <0>;
-		status = "disabled";
+		status = "okay";
 	};
 
 	dsi0: dsi@fe060000 {
@@ -850,7 +861,7 @@
 		reset-names = "apb";
 		resets = <&cru SRST_P_DSITX_1>;
 		rockchip,grf = <&grf>;
-		status = "disabled";
+		status = "okay";
 
 		ports {
 			#address-cells = <1>;
@@ -1839,7 +1850,7 @@
 		power-domains = <&power RK3568_PD_VO>;
 		reset-names = "apb";
 		resets = <&cru SRST_P_MIPIDSIPHY0>;
-		status = "disabled";
+		status = "okay";
 	};
 
 	dsi_dphy1: mipi-dphy@fe860000 {
@@ -1851,7 +1862,7 @@
 		power-domains = <&power RK3568_PD_VO>;
 		reset-names = "apb";
 		resets = <&cru SRST_P_MIPIDSIPHY1>;
-		status = "disabled";
+		status = "okay";
 	};
 
 	usb2phy0: usb2phy@fe8a0000 {

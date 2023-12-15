@@ -14,7 +14,7 @@
 #include <dt-bindings/display/media-bus-format.h> //new
 
 / {
-	model = "Rockchip RK3568 CDM tiny EVB v1.40";
+	model = "Rockchip RK3568 CDM tiny EVB v1.50";
 	compatible = "rockchip,rk3568";
 
 	aliases {
@@ -62,11 +62,46 @@
 	backlight: backlight {
 		compatible = "pwm-backlight";
 		pwms = <&pwm5 0 25000 0>;
-		brightness-levels = <0 255>;
-		num-interpolated-steps = <256>;
-		default-brightness-level = <255>;
+//		brightness-levels = <0 255>;
+        brightness-levels = <
+             60 60 60 61 61 61 62 62
+             62 63 63 63 64 64 64 65
+             65 65 66 66 66 67 67 67
+             68 68 68 69 69 69 70 70
+             70 71 71 71 72 72 72 73
+             73 73 74 74 74 75 75 75
+             76 76 76 77 77 77 78 78
+             78 79 79 79 80 80 80 81
+             81 81 82 82 82 83 83 83
+             84 84 84 85 85 85 86 86
+             86 87 87 87 88 88 88 89
+             89 89 90 91 92 93 94 95
+             96 97 98 99 100 101 102 103
+            104 105 106 107 108 109 110 111
+            112 113 114 115 116 117 118 119
+            120 121 122 123 124 125 126 127
+            128 129 130 131 132 133 134 135
+            136 137 138 139 140 141 142 143
+            144 145 146 147 148 149 150 151
+            152 153 154 155 156 157 158 159
+            160 161 162 163 164 165 166 167
+            168 169 170 171 172 173 174 175
+            176 177 178 179 180 181 182 183
+            184 185 186 187 188 189 190 191
+            192 193 194 195 196 197 198 199
+            200 201 202 203 204 205 206 207
+            208 209 210 211 212 213 214 215
+            216 217 218 219 220 221 222 223
+            224 225 226 227 228 229 230 231
+            232 233 234 235 236 237 238 239
+            240 241 242 243 244 245 246 247
+            248 249 250 251 252 253 254 255
+        >;
 
-		status = "okay";
+		num-interpolated-steps = <256>;
+		default-brightness-level = <200>;
+
+		status = "disabled";
 	};
 
 	tas5720_sound: tas5720-sound {
@@ -288,14 +323,14 @@
 		regulator-always-on;
 	};
 
-	wwan_reset: wwan-reset-regulator {
+/*	wwan_reset: wwan-reset-regulator {
 		compatible = "regulator-fixed";
 		enable-active-high;
 		gpio = <&tca6408 2 GPIO_ACTIVE_HIGH>;
 		regulator-name = "wwan_reset_n";
 		regulator-always-on;
 	};
-
+*/
 	csi_i2c_lvtr: csi-i2c-leveltranslator-regulator {
 		compatible = "regulator-fixed";
 		enable-active-high;
@@ -410,20 +445,22 @@
 	};
 
 	lvds_panel: lvds-panel {
-		compatible = "simple-panel";
-		status = "disabled";
+//		compatible = "panel-dpi";
+		compatible = "leadtek,ltk070wshct15";
+		status = "okay";
 		pinctrl-names = "default";
 		pinctrl-0 = <&lvds_pins>;
 		enable-gpios = <&gpio0 RK_PC5 GPIO_ACTIVE_HIGH>;
-		backlight = <&backlight>;
+//		backlight = <&backlight>;
 		enable-delay-ms = <35>;
 		prepare-delay-ms = <6>;
 		unprepare-delay-ms = <0>;
 		disable-delay-ms = <20>;
-		//bus-format = <MEDIA_BUS_FMT_RGB888_1X7X4_SPWG>;
-		display-timings {
-			native-mode = <&timing0>;
-			timing0: timing0 {
+		bus-format = <MEDIA_BUS_FMT_RGB888_1X7X4_SPWG>;
+                bus_format = <MEDIA_BUS_FMT_RGB888_1X7X4_SPWG>;
+		panel-timing {
+//			native-mode = <&timing0>;
+//			timing0: timing0 {
 				clock-frequency = <72000000>;
 				hactive = <1024>;
 				vactive = <600>;
@@ -437,7 +474,7 @@
 				vsync-active = <0>;
 				de-active = <0>;
 				pixelclk-active = <0>;
-			};
+//			};
 		};
 
 		ports {
@@ -505,10 +542,10 @@
 		phy-names = "dphy";
 		power-domains = <&power RK3568_PD_VO>;
 		rockchip,grf = <&grf>;
-		rockchip,data-mapping = "jeida";
+		rockchip,data-mapping = "jeida-24";
 		rockchip,data-width = <24>;
 		rockchip,output = "lvds";
-		status = "disabled";
+		status = "okay";
 			ports {
 			#address-cells = <1>;
 			#size-cells = <0>;
@@ -518,19 +555,21 @@
 				#address-cells = <1>;
 				#size-cells = <0>;
 
-				lvds_in_vp1: endpoint@1 {
-					reg = <1>;
+				lvds_in_vp1: endpoint@0 {
+					reg = <0>;
 					remote-endpoint = <&vp1_out_lvds>;
-					status = "disabled";
+					status = "okay";
 				};
 			};
 
 			lvds_out: port@1 {
 				reg = <1>;
-
-				lvds_out_panel: endpoint {
+                                #address-cells = <1>;
+                                #size-cells = <0>;
+				lvds_out_panel: endpoint@ {
+					reg = <1>;
 					remote-endpoint = <&panel_in_lvds>;
-					status = "disabled";
+					status = "okay";
 				};
 			};
 		};
@@ -739,8 +778,8 @@
 
 	phy-handle = <&rgmii_phy0>;
 	phy-mode = "rgmii-id"; //was "rgmii-id"
-	//tx_delay = <0x28>;
-	//rx_delay = <0x20>;
+	tx_delay = <0x80>;
+	rx_delay = <0x00>;
 	phy-supply = <&vcc3v3_sys>;
 
 //	max-speed = <100>;
@@ -786,7 +825,7 @@
 //"ethernet-phy-id2000.a271";//, "ethernet-phy-ieee802.3-c22"; // add dp83tc812 0x2000a270
 		reg = <0x0>;
 	        max-speed = <100>;
-
+//		tx-internal-delay-ps = <1000>;
 		pinctrl-names = "default";
 		pinctrl-0 = <&gmac0_rst_pins>;
 		reset-assert-us = <10000>;
@@ -838,7 +877,7 @@
 };
 
 &hdmi_sound {
-	status = "okay";
+	status = "disabled";
 };
 
 
@@ -877,6 +916,11 @@
 		reg = <ROCKCHIP_VOP2_EP_LVDS0>;
 		remote-endpoint = <&lvds_in_vp1>;
 	};
+};
+
+&route_lvds {
+    status = "okay";
+    connect = <&vp1_out_lvds>;
 };
 
 &i2c0 { //PMIC
@@ -1396,6 +1440,10 @@
 	status = "disabled";
 };
 
+&dsi0 {
+	status= "okay";
+};
+
 &pinctrl {
 	//TEMP!!!
 	//pinctrl-0 = <&csi0_pins &lvds_pins>;
@@ -1445,7 +1493,7 @@
 	lvds {
 		lvds_pins: lvds_pins {
 			rockchip,pins =
-				<0 RK_PC5 RK_FUNC_GPIO &pcfg_pull_down>,	/* LVDS_PWREN */
+				<0 RK_PC5 RK_FUNC_GPIO &pcfg_pull_up>,	/* LVDS_PWREN */
 				<0 RK_PB6 RK_FUNC_GPIO &pcfg_pull_up>;		/* LVDS_RESET# */
 		};
 	};
