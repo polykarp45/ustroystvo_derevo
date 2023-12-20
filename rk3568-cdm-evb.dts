@@ -14,7 +14,7 @@
 #include <dt-bindings/display/media-bus-format.h> //new
 
 / {
-	model = "Rockchip RK3568 CDM tiny EVB v1.50";
+	model = "Rockchip RK3568 CDM tiny EVB v1.51";
 	compatible = "rockchip,rk3568";
 
 	aliases {
@@ -445,7 +445,7 @@
 	};
 
 	lvds_panel: lvds-panel {
-//		compatible = "panel-dpi";
+//		compatible = "panel-lvds";
 		compatible = "leadtek,ltk070wshct15";
 		status = "okay";
 		pinctrl-names = "default";
@@ -458,6 +458,9 @@
 		disable-delay-ms = <20>;
 		bus-format = <MEDIA_BUS_FMT_RGB888_1X7X4_SPWG>;
                 bus_format = <MEDIA_BUS_FMT_RGB888_1X7X4_SPWG>;
+		avdd-0v9-supply = <&vdda0v9_image>;
+		avdd-1v8-supply = <&vcca1v8_image>;
+
 		panel-timing {
 //			native-mode = <&timing0>;
 //			timing0: timing0 {
@@ -481,10 +484,12 @@
 			#address-cells = <1>;
 			#size-cells = <0>;
 
-			port@0 {
-				reg = <0>;
+			port@1 {
+				reg = <1>;
 				//dual-lvds-even-pixels;
-				panel_in_lvds: endpoint {
+				panel_in_lvds: endpoint 
+				{
+//					reg = <0>;
 					remote-endpoint = <&lvds_out_panel>;
 				};
 			};
@@ -539,7 +544,7 @@
 		clocks = <&cru PCLK_DSITX_0>;
 		clock-names = "pclk_lvds";
 		phys = <&dsi_dphy0>;
-		phy-names = "dphy";
+		phy-names = "dphy";                         //"phy"?
 		power-domains = <&power RK3568_PD_VO>;
 		rockchip,grf = <&grf>;
 		rockchip,data-mapping = "jeida-24";
@@ -560,14 +565,19 @@
 					remote-endpoint = <&vp1_out_lvds>;
 					status = "okay";
 				};
+                                lvds_in_vp2: endpoint@2 {
+                                        reg = <2>;
+                                        remote-endpoint = <&vp2_out_lvds>;
+                                        status = "disabled";
+                                };
 			};
 
 			lvds_out: port@1 {
 				reg = <1>;
                                 #address-cells = <1>;
                                 #size-cells = <0>;
-				lvds_out_panel: endpoint@ {
-					reg = <1>;
+				lvds_out_panel: endpoint@0 {
+					reg = <0>;
 					remote-endpoint = <&panel_in_lvds>;
 					status = "okay";
 				};
@@ -865,9 +875,15 @@
 };
 
 &hdmi_in {
-	hdmi_in_vp0: endpoint {
+	hdmi_in_vp0: endpoint
+	{
 		remote-endpoint = <&vp0_out_hdmi>;
 	};
+        hdmi_in_vp1: endpoint@1 
+	{
+		remote-endpoint = <&vp1_out_hdmi>;
+		status = "disabled";
+        };
 };
 
 &hdmi_out {
@@ -893,30 +909,6 @@
 	status = "okay";
 };
 
-&vp0 {
-	/*rockchip,plane-mask = <(1 << 0 | 1 << 2 | 1 << 4)>;
-	rockchip,primary-plane = <4>;*/
-
-	vp0_out_hdmi: endpoint@ROCKCHIP_VOP2_EP_HDMI0 { //VOP2
-		reg = <ROCKCHIP_VOP2_EP_HDMI0>;
-		remote-endpoint = <&hdmi_in_vp0>;
-	};
-
-	/*vp0_out_hdmi: endpoint@3 {	//VOP
-		reg = <3>;
-		remote-endpoint = <&hdmi_in_vp0>;
-	};*/
-};
-
-&vp1 {
-	/*rockchip,plane-mask = <(1 << 1 | 1 << 3 | 1 << 5)>;
-	rockchip,primary-plane = <5>;*/
-
-	vp1_out_lvds: endpoint@ROCKCHIP_VOP2_EP_LVDS0 {
-		reg = <ROCKCHIP_VOP2_EP_LVDS0>;
-		remote-endpoint = <&lvds_in_vp1>;
-	};
-};
 
 &route_lvds {
     status = "okay";
@@ -1013,7 +1005,8 @@
 				regulator-name = "vdda0v9_image";
 				regulator-min-microvolt = <900000>;
 				regulator-max-microvolt = <900000>;
-
+                                regulator-always-on;
+                                regulator-boot-on;
 				regulator-state-mem {
 					regulator-off-in-suspend;
 				};
@@ -1096,7 +1089,8 @@
 				regulator-name = "vcca1v8_image";
 				regulator-min-microvolt = <1800000>;
 				regulator-max-microvolt = <1800000>;
-
+                                regulator-always-on;
+                                regulator-boot-on;
 				regulator-state-mem {
 					regulator-off-in-suspend;
 				};
@@ -1591,3 +1585,40 @@
 		};
 	};
 };
+
+&vp0
+{
+	vp0_out_hdmi: endpoint@ROCKCHIP_VOP2_EP_HDMI0 
+	{
+		reg = <ROCKCHIP_VOP2_EP_HDMI0>;
+		remote-endpoint = <&hdmi_in_vp0>;
+	};
+
+};
+
+
+&vp1 
+{
+	vp1_out_lvds: endpoint@ROCKCHIP_VOP2_EP_LVDS0
+	{
+		reg = <ROCKCHIP_VOP2_EP_LVDS0>;
+		remote-endpoint = <&lvds_in_vp1>;
+        };
+
+        vp1_out_hdmi: endpoint@ROCKCHIP_VOP2_EP_HDMI0
+        {
+                reg = <ROCKCHIP_VOP2_EP_HDMI0>;
+                remote-endpoint = <&hdmi_in_vp1>;
+        };
+
+};
+
+&vp2
+{
+        vp2_out_lvds: endpoint@ROCKCHIP_VOP2_EP_LVDS0
+        {
+                reg = <ROCKCHIP_VOP2_EP_LVDS0>;
+                remote-endpoint = <&lvds_in_vp2>;
+        };
+};
+

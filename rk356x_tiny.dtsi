@@ -128,15 +128,24 @@
 		compatible = "rockchip,display-subsystem";
 		ports = <&vop_out>;
 		route {
-			route_lvds: route-lvds {
-			status = "disabled";
-			logo,uboot = "logo.bmp";
-			logo,kernel = "logo_kernel.bmp";
-			logo,mode = "center";
-			charge_logo,mode = "center";
-			connect = <&vp1_out_lvds>;
-   };
-
+			route_lvds: route-lvds
+			{
+				status = "disabled";
+				logo,uboot = "logo.bmp";
+				logo,kernel = "logo_kernel.bmp";
+				logo,mode = "center";
+				charge_logo,mode = "center";
+				connect = <&vp1_out_lvds>;
+			};
+                        route_hdmi: route-hdmi
+                        {
+                                status = "disabled";
+                                logo,uboot = "logo.bmp";
+                                logo,kernel = "logo_kernel.bmp";
+                                logo,mode = "center";
+                                charge_logo,mode = "center";
+                                connect = <&vp1_out_hdmi>;
+                        };
 		};
 	};
 
@@ -781,32 +790,108 @@
 		clocks = <&cru ACLK_VOP>, <&cru HCLK_VOP>, <&cru DCLK_VOP0>,
 			 <&cru DCLK_VOP1>, <&cru DCLK_VOP2>;
 		clock-names = "aclk", "hclk", "dclk_vp0", "dclk_vp1", "dclk_vp2";
+		compatible = "rockchip,rk3568-vop";
 		iommus = <&vop_mmu>;
 		power-domains = <&power RK3568_PD_VO>;
 		rockchip,grf = <&grf>;
 		status = "okay";
-
-		vop_out: ports {
+				vop_out: ports 
+		{
 			#address-cells = <1>;
 			#size-cells = <0>;
 
-			vp0: port@0 {
+			 vp0: port@0	
+			 {
+				#address-cells = <1>;
+				#size-cells = <0>;
 				reg = <0>;
+//commented parts it is copy-paste from firefly manuals, 
+//but endpoints value is not match dt-bindings/soc/rockchip,vop2
+
+/*				vp0_out_dsi0: endpoint@0
+				{
+					reg = <0>;
+					remote-endpoint = <&dsi0_in_vp0>;
+				};
+
+				vp0_out_dsi1: endpoint@1
+				{
+					reg = <1>;
+					remote-endpoint = <&dsi1_in_vp0>;
+				};
+
+				vp0_out_edp: endpoint@2 
+				{
+					reg = <2>;
+					remote-endpoint = <&edp_in_vp0>;
+				};
+
+				vp0_out_hdmi: endpoint@3 
+				{
+					reg = <3>;
+					remote-endpoint = <&hdmi_in_vp0>;
+				};
+*/
+			 };
+
+			 vp1: port@1	
+			 {
 				#address-cells = <1>;
 				#size-cells = <0>;
-			};
-
-			vp1: port@1 {
 				reg = <1>;
-				#address-cells = <1>;
-				#size-cells = <0>;
+/*
+				vp1_out_dsi0: endpoint@0
+				{
+					reg = <0>;
+					remote-endpoint = <&dsi0_in_vp1>;
+				};
+
+				vp1_out_dsi1: endpoint@1
+				{
+					reg = <1>;
+					remote-endpoint = <&dsi1_in_vp1>;
+				};
+
+				vp1_out_edp: endpoint@2
+				{
+					reg = <2>;
+					remote-endpoint = <&edp_in_vp1>;
+				};
+
+				vp1_out_hdmi: endpoint@3
+				{
+					reg = <3>;
+					remote-endpoint = <&hdmi_in_vp1>;
+				};
+				vp1_out_lvds: endpoint@4 
+				{
+					reg = <4>;
+					remote-endpoint = <&lvds_in_vp1>;
+				};
+*/
 			};
 
-			vp2: port@2 {
-				reg = <2>;
+			vp2: port@2 
+			{
 				#address-cells = <1>;
 				#size-cells = <0>;
+
+				reg = <2>;
+
+/*				vp2_out_lvds: endpoint@0 
+				{
+					reg = <0>;
+					remote-endpoint = <&lvds_in_vp2>;
+				};
+
+				vp2_out_rgb: endpoint@1 
+				{
+					reg = <1>;
+					remote-endpoint = <&rgb_in_vp2>;
+				};
+*/
 			};
+		
 		};
 	};
 
