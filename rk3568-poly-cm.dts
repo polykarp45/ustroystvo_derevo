@@ -11,6 +11,7 @@
 #include <dt-bindings/usb/pd.h>
 #include "rk3568_tiny.dtsi"
 //#include "rk3568-cdm-evb-options.dtsi"
+#include <dt-bindings/leds/leds-pca9532.h>
 #include <dt-bindings/display/media-bus-format.h> //new
 
 / {
@@ -685,7 +686,7 @@
 &gmac1 {
 	assigned-clocks = <&cru SCLK_GMAC1_RX_TX>, <&cru SCLK_GMAC1>;
 	assigned-clock-parents = <&cru SCLK_GMAC1_RMII_SPEED>, <&gmac1_clkin>;
-    assigned-clock-rates = <0>, <50000000>
+    assigned-clock-rates = <0>, <50000000>;
     
     clock_in_out = "input";
     
@@ -698,7 +699,7 @@
 	snps,reset-delays-us = <0 10000 50000>;
  
 	phy-mode = "rmii";
-    phy-handle = <&rmii_phy1>
+    phy-handle = <&rmii_phy1>;
 
 //  phy-supply = <&vcc3v3_sys>;
 	status = "okay";
