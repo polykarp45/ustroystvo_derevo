@@ -707,7 +707,7 @@
 };
 
 &mdio0 {
-	rgii_phy0: ethernet-phy@0 {
+	rmii_phy0: ethernet-phy@0 {
 		compatible = "ethernet-phy-ieee802.3-c22";
 //"ethernet-phy-id2000.a271";//, "ethernet-phy-ieee802.3-c22"; // add dp83tc812 0x2000a270
 		reg = <0x0>;
@@ -1212,7 +1212,7 @@
 };
 
 
-&pcie3x1 {
+/*&pcie3x1 {
 	//Deprecated
 	num-lanes = <1>;
 	/delete-property/ num-ib-windows;
@@ -1223,7 +1223,7 @@
 	reset-gpios = <&gpio0 RK_PC3 GPIO_ACTIVE_HIGH>;
 	vpcie3v3-supply = <&vcc3v3_sys>;
 	status = "disabled";
-};
+};*/
 
 &pcie3x2 {
 	// Deprecated
