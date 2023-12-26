@@ -657,7 +657,7 @@
    };
 };
 
-&gmac0 { 
+&gmac0 { // regular ethernet
 	status = "okay";
 	assigned-clocks = <&cru SCLK_GMAC0_RX_TX>, <&cru SCLK_GMAC0>;
 	assigned-clock-parents = <&cru SCLK_GMAC0_RMII_SPEED>, <&gmac0_clkin>;
@@ -666,72 +666,61 @@
 	pinctrl-names = "default";
 	pinctrl-0 = <&gmac0_miim &gmac0_clkinout &gmac0_tx_bus2 &gmac0_rx_bus2>;
 	clock_in_out = "input";
-
 	phy-handle = <&rmii_phy0>;
 	phy-mode = "rmii";
-
-//	phy-supply = <&vcc3v3_sys>;
-
-//	max-speed = <100>;
-
-        fixed-link 
-	{
-              speed = <100>;
-              full-duplex;
-        };
-
+	phy-supply = <&vcc3v3_sys>;
 
 };
 
-&gmac1 {
+&gmac1 { //SPE 
+	status = "okay";
 	assigned-clocks = <&cru SCLK_GMAC1_RX_TX>, <&cru SCLK_GMAC1>;
 	assigned-clock-parents = <&cru SCLK_GMAC1_RMII_SPEED>, <&gmac1_clkin>;
-    assigned-clock-rates = <0>, <50000000>;
-    
-    clock_in_out = "input";
-    
+	assigned-clock-rates = <0>, <50000000>;
+	clock_in_out = "input";
 	pinctrl-names = "default";
 	pinctrl-0 = <&gmac1m1_miim &gmac1m1_clkinout &gmac1m1_rx_bus2 &gmac1m1_tx_bus2>;
 
 	power-domains = <&power RK3568_PD_PIPE>;
-	snps,reset-gpio = <&gpio2 RK_PD1 GPIO_ACTIVE_LOW>;
-	snps,reset-active-low;
-	snps,reset-delays-us = <0 10000 50000>;
- 
+//	snps,reset-gpio = <&gpio2 RK_PD1 GPIO_ACTIVE_LOW>;
+//	snps,reset-active-low;
+//	snps,reset-delays-us = <0 10000 50000>;
 	phy-mode = "rmii";
-    phy-handle = <&rmii_phy1>;
+	phy-handle = <&rmii_phy1>;
+        phy-supply = <&vcc3v3_sys>;
+//      max-speed = <100>;
 
-//  phy-supply = <&vcc3v3_sys>;
-	status = "okay";
+	fixed-link
+	{
+		speed = <100>;
+		full-duplex;
+	};
 
 };
 
-&mdio0 {
+&mdio0 { //regular ETH
 	rmii_phy0: ethernet-phy@0 {
 		compatible = "ethernet-phy-ieee802.3-c22";
-//"ethernet-phy-id2000.a271";//, "ethernet-phy-ieee802.3-c22"; // add dp83tc812 0x2000a270
-		reg = <0x0>;
+		reg = <0x1>;
 	        max-speed = <100>;
 		pinctrl-names = "default";
 		pinctrl-0 = <&gmac0_rst_pins>;
 		reset-assert-us = <10000>;
 		reset-deassert-us = <50000>;
 		reset-gpios = <&gpio2 RK_PD3 GPIO_ACTIVE_LOW>;
-
 	};
 };
 
-&mdio1 {
+&mdio1 { //SPE
 	rmii_phy1: ethernet-phy@1 {
 		compatible = "ethernet-phy-ieee802.3-c22";
+//"ethernet-phy-id2000.a271";//, "ethernet-phy-ieee802.3-c22"; // add dp83tc812 0x2000a270
 		reg = <0x0>;
-
 		pinctrl-names = "default";
 		pinctrl-0 = <&gmac1_rst_pins>;
 		reset-assert-us = <10000>;
 		reset-deassert-us = <50000>;
 		reset-gpios = <&gpio2 RK_PD1 GPIO_ACTIVE_LOW>;
-
 	};
 };
 
