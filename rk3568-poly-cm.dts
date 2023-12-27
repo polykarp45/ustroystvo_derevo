@@ -15,7 +15,7 @@
 #include <dt-bindings/display/media-bus-format.h> //new
 
 / {
-	model = "Rockchip RK3568 CM v1.0";
+	model = "Rockchip RK3568 CM v1.1";
 	compatible = "rockchip,rk3568";
 
 	aliases {
@@ -23,7 +23,6 @@
 		ethernet1 = &gmac1;
 		mmc0 = &sdmmc0;
 		mmc1 = &sdhci;
-		//mdio-gpio0 = &mdio2;
 	};
 
 	fiq-debugger {
@@ -218,7 +217,7 @@
 //Best of the best crutches
 //GPIO output control
 
-/*	wwan_reset: wwan-reset-regulator {
+/*	wireless_disable: wwan-reset-regulator {
 		compatible = "regulator-fixed";
 		enable-active-high;
 		gpio = <&tca6408 2 GPIO_ACTIVE_HIGH>;
@@ -254,6 +253,16 @@
 		regulator-always-on;
 	};
 */
+	spe_wake: spe-wake-regulator {
+		pinctrl-0 = <&spe_wake_pin>;
+		pinctrl-names = "default";
+		compatible = "regulator-fixed";
+		enable-active-high;
+		gpio = <&gpio4 RK_PA0 GPIO_ACTIVE_HIGH>;
+		regulator-name = "spe_wake";
+		vin-supply = <&vcc3v3_sys>;
+	};
+    
 	pcie3_clock_gen: pcie3-clock-regulator {
 		pinctrl-0 = <&pcie30_clock_pins>;
 		pinctrl-names = "default";
@@ -657,7 +666,7 @@
    };
 };
 
-&gmac0 { // regular ethernet
+&gmac0 { // regular ethernet DP83826I
 	status = "okay";
 	assigned-clocks = <&cru SCLK_GMAC0_RX_TX>, <&cru SCLK_GMAC0>;
 	assigned-clock-parents = <&cru SCLK_GMAC0_RMII_SPEED>, <&gmac0_clkin>;
@@ -672,7 +681,7 @@
 
 };
 
-&gmac1 { //SPE 
+&gmac1 { //SPE DP83TC812S
 	status = "okay";
 	assigned-clocks = <&cru SCLK_GMAC1_RX_TX>, <&cru SCLK_GMAC1>;
 	assigned-clock-parents = <&cru SCLK_GMAC1_RMII_SPEED>, <&gmac1_clkin>;
@@ -687,7 +696,7 @@
 //	snps,reset-delays-us = <0 10000 50000>;
 	phy-mode = "rmii";
 	phy-handle = <&rmii_phy1>;
-        phy-supply = <&vcc3v3_sys>;
+        phy-supply = <&spe_wake>;
 //      max-speed = <100>;
 
 	fixed-link
@@ -704,10 +713,12 @@
 		reg = <0x1>;
 	        max-speed = <100>;
 		pinctrl-names = "default";
-		pinctrl-0 = <&gmac0_rst_pins>;
+		pinctrl-0 = <&gmac0_pins>;
 		reset-assert-us = <10000>;
 		reset-deassert-us = <50000>;
 		reset-gpios = <&gpio2 RK_PD3 GPIO_ACTIVE_LOW>;
+        interrupt-parent = <&gpio2>;
+        interrupts = <RK_PA6 IRQ_TYPE_EDGE_FALLING>;
 	};
 };
 
@@ -717,10 +728,12 @@
 //"ethernet-phy-id2000.a271";//, "ethernet-phy-ieee802.3-c22"; // add dp83tc812 0x2000a270
 		reg = <0x0>;
 		pinctrl-names = "default";
-		pinctrl-0 = <&gmac1_rst_pins>;
+		pinctrl-0 = <&gmac1_pins>;
 		reset-assert-us = <10000>;
 		reset-deassert-us = <50000>;
 		reset-gpios = <&gpio2 RK_PD1 GPIO_ACTIVE_LOW>;
+        interrupt-parent = <&gpio2>;
+        interrupts = <RK_PD0 IRQ_TYPE_EDGE_FALLING>;
 	};
 };
 
@@ -997,7 +1010,7 @@
 		interrupt-parent = <&gpio0>;
 		interrupts = <RK_PA0 IRQ_TYPE_EDGE_FALLING>;
 
-		reset-gpios = <&tca6408 4 GPIO_ACTIVE_HIGH>;
+		reset-gpios = <&gpio4 RK_PD1 GPIO_ACTIVE_LOW>;
 
 		touchscreen-size-x = <1024>;
 		touchscreen-size-y = <600>;
@@ -1126,7 +1139,7 @@
 	clock-frequency = <400000>;
 	#address-cells = <1>;
 	#size-cells = <0>;
-	status = "okay";
+	status = "disabled";
 
 	camera0: ov5647@36 {
 		compatible = "ovti,ov5647";
@@ -1134,10 +1147,10 @@
 		clocks = <&ext_cam_clk>;
 
 		power-domains = <&power RK3568_PD_VI>;
-		status = "okay";
+		status = "disabled";
 		pinctrl-names = "default";
 		pinctrl-0 = <&csi0_pins>;
-		enable-gpios = <&gpio0 RK_PC1 GPIO_OPEN_DRAIN>;
+		//enable-gpios = <&gpio0 RK_PC1 GPIO_OPEN_DRAIN>;
 		rockchip,camera-module-index = <0>;
 		rockchip,camera-module-facing = "back";
 		rockchip,camera-module-name = "RPi-Cam";
@@ -1163,17 +1176,37 @@
 
 
 	tas2110: tas2110@4c {
+        reg = <0x4c>;
+		compatible = "ti,tas2110";
 		#sound-dai-cells = <0>;
 		clocks = <&cru I2S1_MCLKOUT_TX>;
 		assigned-clocks = <&cru I2S1_MCLKOUT_TX>;
 		assigned-clock-rates = <12288000>;
 		assigned-clock-parents = <&cru CLK_I2S1_8CH_TX>;
-		reg = <0x4c>;
-		compatible = "ti,tas2110";
+        
+        //ti,left-channel = <0x4c>;
+        //ti,channels = <1>;
+        pinctrl-names = "default";
+		pinctrl-0 = <&i2s_amp>;
+        
+       interrupt-parent = <&gpio3>;
+       interrupts = <RK_PD3 IRQ_TYPE_EDGE_FALLING>;
+        
+        ti,gpio-sdz = <&gpio3 RK_PC6 GPIO_ACTIVE_LOW>;
+        ti,gpio-irq = <&gpio3 RK_PD3 GPIO_ACTIVE_LOW>;
+        
 		dvdd-supply = <&vcc3v3_sys>;
 		pvdd-supply = <&vcc5v0_sys>;
 		status = "okay";
 	};
+    
+    drv2605l: drv2605l@5a {
+        reg = <0x5a>;
+		compatible = "ti,drv2605l";    
+       	vbat-supply = <&vcc5v0_sys>;
+        mode = <DRV260X_ERM_MODE>;
+        library-sel = <DRV260X_ERM_LIB_A>;
+    };
 };
 
 &i2s0_8ch {
@@ -1200,20 +1233,6 @@
 	status = "okay";
 };
 
-
-/*&pcie3x1 {
-	//Deprecated
-	num-lanes = <1>;
-	/delete-property/ num-ib-windows;
-	/delete-property/ num-ob-windows;
-	rockchip,bifurcation;
-	pinctrl-names = "default";
-	pinctrl-0 = <&pcie30x1_pins>;
-	reset-gpios = <&gpio0 RK_PC3 GPIO_ACTIVE_HIGH>;
-	vpcie3v3-supply = <&vcc3v3_sys>;
-	status = "disabled";
-};*/
-
 &pcie3x2 {
 	// Deprecated
 	/delete-property/ num-ib-windows;
@@ -1236,7 +1255,7 @@
 
 
 &pcie30phy {
-	//phy-supply = <&pcie3_clock_gen>; //Enable clock out
+	phy-supply = <&pcie3_clock_gen>; //Enable clock out
 	status = "okay";
 };
 
@@ -1407,23 +1426,14 @@
 
 		};
 
-//		gmac1_mdio_gpio_pinctrl : mdio-gpio-pinctrl
-//		{
-//			rockchip,pins =
-//			/* gmac1_mdcm1 */
-//			<4 RK_PB6 0 &pcfg_pull_up>,
-//			/* gmac1_mdiom1 */
-//			<4 RK_PB7 0 &pcfg_pull_up>;
-//		};
 	 };
-
 
 	csi {
 		csi0_pins: csi0_pins {
 			rockchip,pins =
 				<0 RK_PC1 RK_FUNC_GPIO &pcfg_pull_up>,		/* CSI_PWREN0 */
 				<3 RK_PB6 RK_FUNC_GPIO &pcfg_pull_up>,		/* CSI_RESET0# */
-				<4 RK_PC0 1 &pcfg_pull_none>;				/* CIF_CLKOUT */
+                <4 RK_PC0 RK_FUNC_GPIO &pcfg_pull_up>,		/* CSI_INT# */
 		};
 
 	};
@@ -1432,19 +1442,9 @@
 		lvds_pins: lvds_pins {
 			rockchip,pins =
 				<0 RK_PC5 RK_FUNC_GPIO &pcfg_pull_up>,	/* LVDS_PWREN */
-				<0 RK_PB6 RK_FUNC_GPIO &pcfg_pull_up>;		/* LVDS_RESET# */
+				<4 RK_PD1 RK_FUNC_GPIO &pcfg_pull_up>;	/* LVDS_RESET# */
 		};
 	};
-//
-//	gpios {
-//		gpios_pins: gpios_pins {
-//			rockchip,pins =
-//				<4 RK_PA0 RK_FUNC_GPIO &pcfg_pull_none>,		/* GPIO_1 */
-//				<4 RK_PA6 RK_FUNC_GPIO &pcfg_pull_none>,		/* GPIO_2 */
-//				<4 RK_PA7 RK_FUNC_GPIO &pcfg_pull_none>,		/* GPIO_3 */
-//				<4 RK_PB0 RK_FUNC_GPIO &pcfg_pull_none>;		/* GPIO_4 */
-//		};
-//	};
 
 	leds {
 		leds_pins: leds_pins {
@@ -1455,25 +1455,26 @@
 	};
 
 	net {
-		gmac0_rst_pins: gmac0_rst_pins {
+		gmac0_pins: gmac0_pins {
 			rockchip,pins =
-				<2 RK_PD3 RK_FUNC_GPIO &pcfg_pull_none>;	/* GMAC0_RST */
+                <2 RK_PA6 RK_FUNC_GPIO &pcfg_pull_up>,	/* ETH_nPWDN/nINT */
+				<2 RK_PD3 RK_FUNC_GPIO &pcfg_pull_up>;	/* GMAC0_RST */
 		};
 
-		gmac1_rst_pins: gmac1_rst_pins {
+		gmac1_pins: gmac1_pins {
 			rockchip,pins =
-				<2 RK_PD1 RK_FUNC_GPIO &pcfg_pull_none>;	/* GMAC1_RST */
+                <2 RK_PD0 RK_FUNC_GPIO &pcfg_pull_up>,	/* SPE nINT */
+				<2 RK_PD1 RK_FUNC_GPIO &pcfg_pull_up>;	/* GMAC1_RST */
+		};
+        
+        spe_wake_pin: spe-wake-pin{
+			rockchip,pins =
+				<4 RK_PA3 RK_FUNC_GPIO &pcfg_pull_down>;	/* SPE Wake */
 		};
 	};
 
 
 	pcie30 {
-//		pcie30x1_pins: pcie30x1_pins {
-//			rockchip,pins =
-//				<2 RK_PD2 4 &pcfg_pull_none>,			/* PCIE30X1_CLKREQn_M1 */
-//				<2 RK_PD3 4 &pcfg_pull_none>,			/* PCIE30X1_WAKEn_M1 */
-//				<0 RK_PC3 RK_FUNC_GPIO &pcfg_pull_none>;	/* PCIE30X1_PERSTn_M1 */
-//		};
 
 		pcie30x2_pins: pcie30x2_pins {
 			rockchip,pins =
@@ -1496,39 +1497,82 @@
 		};
 	};
 
-//	stm32_interact {
-//		stm32_interaction: stm32_interaction {
-//			rockchip,pins =
-//				<1 RK_PA2 RK_FUNC_GPIO &pcfg_pull_down>,	/* STM_PD12 */
-//				<4 RK_PA3 RK_FUNC_GPIO &pcfg_pull_down>,	/* STM_PD13 */
-//				<4 RK_PA5 RK_FUNC_GPIO &pcfg_pull_down>,	/* STM_PD14 */
-//				<2 RK_PC1 RK_FUNC_GPIO &pcfg_pull_down>,	/* STM_RST */
-//				<4 RK_PD2 RK_FUNC_GPIO &pcfg_pull_up>,		/* STMCTRL_nEN */
-//				<2 RK_PC2 RK_FUNC_GPIO &pcfg_pull_down>;	/* STM_BOOT0 */
-//		};
-//	};
+	stm32_interact {
+		stm32_interaction: stm32_interaction {
+			rockchip,pins =
+                <0 RK_PD4 RK_FUNC_GPIO &pcfg_pull_none>,	/* STM_PE12_LATCH */
+				<1 RK_PA7 RK_FUNC_GPIO &pcfg_pull_down>,	/* STM_PD12 */
+				<1 RK_PA4 RK_FUNC_GPIO &pcfg_pull_down>,	/* STM_PD13 */
+				<2 RK_PA5 RK_FUNC_GPIO &pcfg_pull_down>,	/* STM_PD14 */
+				<3 RK_PD5 RK_FUNC_GPIO &pcfg_pull_down>,	/* STM_RST */
+				<2 RK_PD2 RK_FUNC_GPIO &pcfg_pull_up>,		/* STMCTRL_nEN */
+				<3 RK_PD4 RK_FUNC_GPIO &pcfg_pull_down>;	/* STM_BOOT0 */
+		};
+	};
+    
+    debug_mode
+    {
+		debug_gpio: debug-gpio {
+			rockchip,pins =
+				<4 RK_PA0 RK_FUNC_GPIO &pcfg_pull_down>;
+		};
+	};
 
 	touch {
 		touch_gpio: touch-gpio {
 			rockchip,pins =
-				<0 RK_PA0 RK_FUNC_GPIO &pcfg_pull_up>;
+				<0 RK_PA0 RK_FUNC_GPIO &pcfg_pull_up>; /* CTP INT# */
+                <4 RK_PD1 RK_FUNC_GPIO &pcfg_pull_up>; /* CTP RST# */
 		};
 	};
 
-/*	wlan {
-		wlan_disable: wlan-disable {
+	wireless {
+		wireless_disable: wireless-disable {
 			rockchip,pins =
-				<4 RK_PB0 RK_FUNC_GPIO &pcfg_pull_up>;
+				<2 RK_PC1 RK_FUNC_GPIO &pcfg_pull_up>;
 		};
 	};
+    
+    lcd {
+		lcd_orientation: lcd-orientation {
+			rockchip,pins =
+				<1 RK_PB1 RK_FUNC_GPIO &pcfg_pull_down>,  /* LCD U/D */
+                <1 RK_PB0 RK_FUNC_GPIO &pcfg_pull_up>;  /* LCD L/R */
+		};
+	};
+    
+    usd {
+		usd_switch: usd-switch {
+			rockchip,pins =
+				<1 RK_PA2 RK_FUNC_GPIO &pcfg_pull_up>,  /* SD SW EN */
+                <1 RK_PA3 RK_FUNC_GPIO &pcfg_pull_up>;  /* SDSW SEL OUT 1 - uSD A, 0 - uSD B*/
+		};
+	};
+    
+    mezz {
+		mezz_gpios: mezz-gpios {
+			rockchip,pins =
+				<2 RK_PA4 RK_FUNC_GPIO &pcfg_pull_none>,  /* GNSS TPULSE (MEZZ0_GNSS_GPIO) */
+                <2 RK_PC6 RK_FUNC_GPIO &pcfg_pull_none>;  /* SOM RF GPIO (Secondary GNSS TPULSE)*/
+		};
+	};
+    
+    sound_pins {
+		i2s_amp: i2s-amp {
+			rockchip,pins =
+				<3 RK_PD3 RK_FUNC_GPIO &pcfg_pull_up>,  /* I2S IRQZ */
+                <3 RK_PC6 RK_FUNC_GPIO &pcfg_pull_up>;  /* I2S SDZ*/
+		};
+	};
+    
+    
+	stusb {
+		stusb_int: stusb-int {
+			rockchip,pins =
+				<1 RK_PA5 RK_FUNC_GPIO &pcfg_pull_up>;
+		};
+	};    
 
-	wwan {
-		wwan_disable: wwan-disable {
-			rockchip,pins =
-				<4 RK_PA7 RK_FUNC_GPIO &pcfg_pull_up>;
-		};
-	};
-*/
 };
 
 &vp0
