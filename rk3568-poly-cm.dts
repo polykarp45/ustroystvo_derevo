@@ -13,6 +13,7 @@
 //#include "rk3568-cdm-evb-options.dtsi"
 #include <dt-bindings/leds/leds-pca9532.h>
 #include <dt-bindings/display/media-bus-format.h> //new
+#include <dt-bindings/input/ti-drv260x.h>
 
 / {
 	model = "Rockchip RK3568 CM v1.2";
@@ -1202,8 +1203,8 @@
     
     drv2605l: drv2605l@5a {
         reg = <0x5a>;
-		compatible = "ti,drv2605l";    
-       	vbat-supply = <&vcc5v0_sys>;
+	compatible = "ti,drv2605l";
+	vbat-supply = <&vcc5v0_sys>;
         mode = <DRV260X_ERM_MODE>;
         library-sel = <DRV260X_ERM_LIB_A>;
     };
@@ -1298,7 +1299,7 @@
 
 &sdmmc0 {
 	pinctrl-names = "default";
-	pinctrl-0 = <&sdmmc0_bus4 &sdmmc0_clk &sdmmc0_cmd &sdmmc0_det &sdmmc0_pwren>;
+	pinctrl-0 = <&sdmmc0_bus4 &sdmmc0_clk &sdmmc0_cmd &sdmmc0_det>; //&sdmmc0_pwren>;
 	bus-width = <4>;
 	cap-mmc-highspeed;
 	cap-sd-highspeed;
@@ -1433,7 +1434,7 @@
 			rockchip,pins =
 				<0 RK_PC1 RK_FUNC_GPIO &pcfg_pull_up>,		/* CSI_PWREN0 */
 				<3 RK_PB6 RK_FUNC_GPIO &pcfg_pull_up>,		/* CSI_RESET0# */
-                <4 RK_PC0 RK_FUNC_GPIO &pcfg_pull_up>,		/* CSI_INT# */
+                <4 RK_PC0 RK_FUNC_GPIO &pcfg_pull_up>;		/* CSI_INT# */
 		};
 
 	};
@@ -1521,7 +1522,7 @@
 	touch {
 		touch_gpio: touch-gpio {
 			rockchip,pins =
-				<0 RK_PA0 RK_FUNC_GPIO &pcfg_pull_up>; /* CTP INT# */
+				<0 RK_PA0 RK_FUNC_GPIO &pcfg_pull_up>, /* CTP INT# */
                 <4 RK_PD1 RK_FUNC_GPIO &pcfg_pull_up>; /* CTP RST# */
 		};
 	};
@@ -1548,12 +1549,13 @@
 		};
 	};
     
-    sdmmc0 {
-        sdmmc0_pwren: sdmmc0-pwren {
-			rockchip,pins =
-				/* sdmmc0_pwren */
-				<1 RK_PA2 RK_FUNC_GPIO 1 &pcfg_pull_up_drv_level_2>;  /* SD SW EN */
-    };
+//    sdmmc0 {
+//        sdmmc0_pwren: sdmmc0-pwren {
+//			rockchip,pins =
+//				/* sdmmc0_pwren */
+//				<1 RK_PA2 RK_FUNC_GPIO 1 &pcfg_pull_up_drv_level_2>;  /* SD SW EN */
+//	};
+//    };
     
     mezz {
 		mezz_gpios: mezz-gpios {
@@ -1580,6 +1582,8 @@
 	};    
 
 };
+
+
 
 &vp0
 {
