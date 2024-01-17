@@ -16,7 +16,7 @@
 #include <dt-bindings/input/ti-drv260x.h>
 
 / {
-	model = "Rockchip RK3568 CM v1.3";
+	model = "Rockchip RK3568 CM v1.4";
 	compatible = "rockchip,rk3568";
 
 	aliases {
@@ -1372,7 +1372,7 @@
 };
 
 &usb_host1_xhci {
-	status = "okay";
+	status = "disabled";
 };
 
 &usb2phy0 {
