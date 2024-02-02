@@ -16,7 +16,7 @@
 #include <dt-bindings/input/ti-drv260x.h>
 
 / {
-	model = "Rockchip RK3568 CM v1.5";
+	model = "Rockchip RK3568 CM v1.6";
 	compatible = "rockchip,rk3568";
 
 	aliases {
@@ -1178,7 +1178,7 @@
 
 	tas2110: tas2110@48 {
         reg = <0x48>;
-		compatible = "ti,tas2110";
+		compatible = "ti,tas2562";
 		#sound-dai-cells = <0>;
 		clocks = <&cru I2S1_MCLKOUT_TX>;
 		assigned-clocks = <&cru I2S1_MCLKOUT_TX>;
@@ -1187,17 +1187,20 @@
         
         //ti,left-channel = <0x4c>;
         //ti,channels = <1>;
-        pinctrl-names = "default";
-		pinctrl-0 = <&i2s_amp>;
+        //pinctrl-names = "default";
+		//pinctrl-0 = <&i2s_amp>;
         
-       interrupt-parent = <&gpio3>;
-       interrupts = <RK_PD3 IRQ_TYPE_EDGE_FALLING>;
+//       interrupt-parent = <&gpio3>;
+//      interrupts = <RK_PD3 IRQ_TYPE_EDGE_FALLING>;
         
-        ti,gpio-sdz = <&gpio3 RK_PC6 GPIO_ACTIVE_LOW>;
-        ti,gpio-irq = <&gpio3 RK_PD3 GPIO_ACTIVE_LOW>;
+//        ti,gpio-sdz = <&gpio3 RK_PC6 GPIO_ACTIVE_HIGH>;
+//        ti,gpio-irq = <&gpio3 RK_PD3 GPIO_ACTIVE_LOW>;
+          shutdown-gpios = <&gpio3 RK_PC6 GPIO_ACTIVE_HIGH>;
         
-		dvdd-supply = <&vcc3v3_sys>;
-		pvdd-supply = <&vcc5v0_sys>;
+//		dvdd-supply = <&vcc3v3_sys>;
+//		pvdd-supply = <&vcc5v0_sys>;
+        ti,imon-slot-no = <0>;
+        ti,vmon-slot-no = <1>;
 		status = "okay";
 	};
     
