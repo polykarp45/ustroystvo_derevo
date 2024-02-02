@@ -16,7 +16,7 @@
 #include <dt-bindings/input/ti-drv260x.h>
 
 / {
-	model = "Rockchip RK3568 CM v1.6";
+	model = "Rockchip RK3568 CM v1.7";
 	compatible = "rockchip,rk3568";
 
 	aliases {
@@ -105,18 +105,23 @@
 		status = "disabled";
 	};
 
-	tas2110_sound: tas2110-sound {
+	tas2562_sound: tas2562-sound {
 		status = "okay";
 		compatible = "simple-audio-card";
 		simple-audio-card,format = "i2s";
-		simple-audio-card,name = "tas2110-sound";
-		simple-audio-card,mclk-fs = <256>;
+		simple-audio-card,name = "tas2562-sound";
+		//simple-audio-card,mclk-fs = <256>;
+        simple-audio-card,bitclock-inversion;
+        simple-audio-card,frame-master = <&tas2562cpu>;
+        simple-audio-card,bitclock-master = <&tas2562cpu>
 
-		simple-audio-card,cpu {
+		tas2562cpu: simple-audio-card,cpu {
 			sound-dai = <&i2s1_8ch>;
+            dai-tdm-slot-num = <2>;
+            dai-tdm-slot-width = <16>;
 		};
 		simple-audio-card,codec {
-			sound-dai = <&tas2110>;
+			sound-dai = <&tas2562>;
 		};
 	};
 
@@ -1176,7 +1181,7 @@
 	clock-frequency = <400000>;
 
 
-	tas2110: tas2110@48 {
+	tas2562: tas2562@48 {
         reg = <0x48>;
 		compatible = "ti,tas2562";
 		#sound-dai-cells = <0>;
