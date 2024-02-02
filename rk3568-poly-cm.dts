@@ -746,11 +746,11 @@
 
 
 &hdmi {
-	avdd-0v9-supply = <&vdda0v9_image>;
-	avdd-1v8-supply = <&vcca1v8_image>;
+//	avdd-0v9-supply = <&vdda0v9_image>;
+//	avdd-1v8-supply = <&vcca1v8_image>;
 	status = "disabled";
 };
-
+/*
 &hdmi_in {
 	hdmi_in_vp0: endpoint
 	{
@@ -768,7 +768,7 @@
 		remote-endpoint = <&hdmi_con_in>;
 	};
 };
-
+*/
 &hdmi_sound {
 	status = "disabled";
 };
@@ -1176,8 +1176,8 @@
 	clock-frequency = <400000>;
 
 
-	tas2110: tas2110@4c {
-        reg = <0x4c>;
+	tas2110: tas2110@48 {
+        reg = <0x48>;
 		compatible = "ti,tas2110";
 		#sound-dai-cells = <0>;
 		clocks = <&cru I2S1_MCLKOUT_TX>;
