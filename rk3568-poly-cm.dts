@@ -750,7 +750,7 @@
 //	avdd-1v8-supply = <&vcca1v8_image>;
 	status = "disabled";
 };
-/*
+
 &hdmi_in {
 	hdmi_in_vp0: endpoint
 	{
@@ -768,7 +768,7 @@
 		remote-endpoint = <&hdmi_con_in>;
 	};
 };
-*/
+
 &hdmi_sound {
 	status = "disabled";
 };
