@@ -113,7 +113,7 @@
 		//simple-audio-card,mclk-fs = <256>;
         simple-audio-card,bitclock-inversion;
         simple-audio-card,frame-master = <&tas2562cpu>;
-        simple-audio-card,bitclock-master = <&tas2562cpu>
+        simple-audio-card,bitclock-master = <&tas2562cpu>;
 
 		tas2562cpu: simple-audio-card,cpu {
 			sound-dai = <&i2s1_8ch>;
