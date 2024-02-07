@@ -16,7 +16,7 @@
 #include <dt-bindings/input/ti-drv260x.h>
 
 / {
-	model = "Rockchip RK3568 CM v1.7";
+	model = "Rockchip RK3568 CM v1.8";
 	compatible = "rockchip,rk3568";
 
 	aliases {
@@ -117,8 +117,8 @@
 
 		tas2562cpu: simple-audio-card,cpu {
 			sound-dai = <&i2s1_8ch>;
-            dai-tdm-slot-num = <2>;
-            dai-tdm-slot-width = <16>;
+            //dai-tdm-slot-num = <2>;
+            //dai-tdm-slot-width = <16>;
 		};
 		simple-audio-card,codec {
 			sound-dai = <&tas2562>;
@@ -1239,6 +1239,19 @@
 	pinctrl-0 = <&pdmm0_clk
 		 &pdmm0_sdi1>;
 	pinctrl-names = "default";
+	status = "okay";
+};
+
+&pcie3x1 {
+	//Deprecated
+	num-lanes = <1>;
+	/delete-property/ num-ib-windows;
+	/delete-property/ num-ob-windows;
+	rockchip,bifurcation;
+	pinctrl-names = "default";
+	pinctrl-0 = <&pcie30x1_pins>;
+	reset-gpios = <&gpio0 RK_PC3 GPIO_ACTIVE_HIGH>;
+	vpcie3v3-supply = <&vcc3v3_sys>;
 	status = "okay";
 };
 
