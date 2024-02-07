@@ -16,7 +16,7 @@
 #include <dt-bindings/input/ti-drv260x.h>
 
 / {
-	model = "Rockchip RK3568 CM v1.12";
+	model = "Rockchip RK3568 CM v1.13";
 	compatible = "rockchip,rk3568";
 
 	aliases {
@@ -1180,8 +1180,8 @@
 	clock-frequency = <400000>;
 
 
-	tas2562: tas2562@4c {
-        reg = <0x4c>;
+	tas2562: tas2562@48 {
+        reg = <0x48>;
 		compatible = "ti,tas2562";
 		#sound-dai-cells = <0>;
         
@@ -1229,9 +1229,9 @@
 &pcie3x1 {
 	//Deprecated
 	num-lanes = <1>;
-	////delete-property/ num-ib-windows;
-	////delete-property/ num-ob-windows;
-	////rockchip,bifurcation;
+	//delete-property/ num-ib-windows;
+	//delete-property/ num-ob-windows;
+	rockchip,bifurcation;
 	//pinctrl-names = "default";
 	//pinctrl-0 = <&pcie30x1_pins>;
 	reset-gpios = <&gpio4 RK_PC4 GPIO_ACTIVE_HIGH>;//reset-gpios = <&gpio0 RK_PC3 GPIO_ACTIVE_HIGH>;
