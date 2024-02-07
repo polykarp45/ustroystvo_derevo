@@ -1245,8 +1245,8 @@
 	/delete-property/ num-ob-windows;
 	// reg & ranges should be fixed in 6.5
 	num-lanes = <1>;
-    /num-ib-windows = <8>;
-	/num-ob-windows = <8>;
+    num-ib-windows = <8>;
+	num-ob-windows = <8>;
 	reg = <0x3 0xc0800000 0x0 0x00400000>,
 		  <0x0 0xfe280000 0x0 0x00010000>,
 		  <0x0 0xf0000000 0x0 0x00100000>;
