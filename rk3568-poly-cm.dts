@@ -16,7 +16,7 @@
 #include <dt-bindings/input/ti-drv260x.h>
 
 / {
-	model = "Rockchip RK3568 CM v1.14";
+	model = "Rockchip RK3568 CM v1.15";
 	compatible = "rockchip,rk3568";
 
 	aliases {
@@ -105,22 +105,22 @@
 		status = "disabled";
 	};
 
-	tas2562_sound: tas2562-sound {
+	tas2110_sound: tas2110-sound {
 		status = "okay";
 		compatible = "simple-audio-card";
 		simple-audio-card,format = "dsp_b";
-		simple-audio-card,name = "tas2562-sound";
+		simple-audio-card,name = "tas2110-sound";
         simple-audio-card,bitclock-inversion;
-        simple-audio-card,frame-master = <&tas2562cpu>;
-        simple-audio-card,bitclock-master = <&tas2562cpu>;
+        simple-audio-card,frame-master = <&tas2110cpu>;
+        simple-audio-card,bitclock-master = <&tas2110cpu>;
 
-		tas2562cpu: simple-audio-card,cpu {
+		tas2110cpu: simple-audio-card,cpu {
 			sound-dai = <&i2s1_8ch>;
-            dai-tdm-slot-num = <2>;
+            dai-tdm-slot-num = <1>;
             dai-tdm-slot-width = <16>;
 		};
 		simple-audio-card,codec {
-			sound-dai = <&tas2562>;
+			sound-dai = <&tas2110>;
 		};
 	};
 
@@ -1180,15 +1180,21 @@
 	clock-frequency = <400000>;
 
 
-	tas2562: tas2562@4c {
+	tas2110: tas2110@4c {
         reg = <0x4c>;
-		compatible = "ti,tas2562";
+		compatible = "ti,tas2110";
 		#sound-dai-cells = <0>;
+        clocks = <&cru I2S1_MCLKOUT_TX>;
+		assigned-clocks = <&cru I2S1_MCLKOUT_TX>;
+		assigned-clock-rates = <11289600>;
+		assigned-clock-parents = <&cru CLK_I2S1_8CH_TX>;
         
+        //ti,left-channel = <0x4c>;
+        //ti,channels = <1>; /* channel number */
         shutdown-gpios = <&gpio3 RK_PC6 GPIO_ACTIVE_HIGH>;
 
         ti,imon-slot-no = <0>;
-        ti,vmon-slot-no = <1>;
+        ti,vmon-slot-no = <2>;
 		status = "okay";
 	};
     
@@ -1226,7 +1232,7 @@
 	status = "okay";
 };
 
-&pcie3x1 {
+/*&pcie3x1 {
 	//Deprecated
 	num-lanes = <1>;
 	/delete-property/ num-ib-windows;
@@ -1237,7 +1243,7 @@
 	reset-gpios = <&gpio4 RK_PC4 GPIO_ACTIVE_HIGH>;//reset-gpios = <&gpio0 RK_PC3 GPIO_ACTIVE_HIGH>;
 	vpcie3v3-supply = <&vcc3v3_sys>;
 	status = "okay";
-};
+};*/
 
 &pcie3x2 {
 	// Deprecated
@@ -1255,10 +1261,10 @@
 		 <0x03000000 0x0 0x40000000 0x3 0x80000000 0x0 0x40000000>;
 	pinctrl-names = "default";
 	rockchip,bifurcation;
-	pinctrl-0 = <&pcie30x2_pins>;
-	reset-gpios = <&gpio0 RK_PC3 GPIO_ACTIVE_HIGH>;//reset-gpios = <&gpio4 RK_PC4 GPIO_ACTIVE_HIGH>;
+	pinctrl-0 = <&pcie30x1_pins>;
+	reset-gpios = <&gpio4 RK_PC4 GPIO_ACTIVE_HIGH>;//reset-gpios = <&gpio0 RK_PC3 GPIO_ACTIVE_HIGH>;
 	vpcie3v3-supply = <&vcc3v3_sys>;
-	status = "disabled";
+	status = "okay";
 };
 
 
