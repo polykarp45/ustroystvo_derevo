@@ -1280,7 +1280,7 @@
 
 &pdm {
     pinctrl-names = "default";
-	pinctrl-0 = <&pdmm0_clk, &pdmm0_sdi1>;
+	pinctrl-0 = <&pdmm0_clk &pdmm0_sdi1>;
 	pinctrl-names = "default";
     rockchip,path-map = <1>, <2>, <0>, <3>;
 	status = "okay";
