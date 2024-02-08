@@ -16,7 +16,7 @@
 #include <dt-bindings/input/ti-drv260x.h>
 
 / {
-	model = "Rockchip RK3568 CM v1.23";
+	model = "Rockchip RK3568 CM v1.24";
 	compatible = "rockchip,rk3568";
 
 	aliases {
@@ -112,7 +112,7 @@
 		#sound-dai-cells = <0>;
 	};
 
-/*	sound {
+	sound {
 		compatible = "simple-audio-card";
 		simple-audio-card,name = "Cranberry-sound";
 		simple-audio-card,widgets = "Speaker", "Internal Speaker";
@@ -123,9 +123,9 @@
 		simple-audio-card,dai-link@0 {
 			reg = <0>;
 			bitclock-master = <&link0_cpu>;
-			format = "dsp_b";
+			format = "i2s";
 			frame-master = <&link0_cpu>;
-			//mclk-fs = <256>;
+			mclk-fs = <256>;
 			bitclock-inversion;
 
 			link0_cpu: cpu {
@@ -154,8 +154,8 @@
 			};
 		};
 	};
-*/
 
+/*
 	tas2110_sound: tas2110-sound {
 		status = "okay";
 		compatible = "simple-audio-card";
@@ -190,7 +190,7 @@
 			sound-dai = <&dmic_codec>;
 		};
 	};
-	
+*/	
 	
 /*
 	pdmics: dmic-codec {
@@ -1304,7 +1304,7 @@
 	status = "okay";
 };
 
-/*&pcie3x1 {
+&pcie3x1 {
 	//Deprecated
 	num-lanes = <1>;
 	/delete-property/ num-ib-windows;
@@ -1312,10 +1312,10 @@
 	rockchip,bifurcation;
 	pinctrl-names = "default";
 	pinctrl-0 = <&pcie30x2_pins>;
-	reset-gpios = <&gpio4 RK_PC4 GPIO_ACTIVE_HIGH>;//reset-gpios = <&gpio0 RK_PC3 GPIO_ACTIVE_HIGH>;
+	reset-gpios = <&gpio0 RK_PC3 GPIO_ACTIVE_HIGH>;//reset-gpios = <&gpio4 RK_PC4 GPIO_ACTIVE_HIGH>;
 	vpcie3v3-supply = <&vcc3v3_sys>;
 	status = "okay";
-};*/
+};
 
 &pcie3x2 {
 	// Deprecated
@@ -1339,7 +1339,7 @@
 
 
 &pcie30phy {
-	//data-lanes = <1 2>;
+	data-lanes = <1 2>;
 	phy-supply = <&pcie3_clock_gen>; //Enable clock out
 	status = "okay";
 };
@@ -1561,10 +1561,10 @@
 
 	pcie30 {
 		
-		/*pcie30x1_pins: pcie30x1_pins {
+		pcie30x1_pins: pcie30x1_pins {
 			rockchip,pins =
 				<0 RK_PC3 RK_FUNC_GPIO &pcfg_pull_none>;	// PCIE30X1_PERSTn_M1
-		};*/
+		};
 		/* pcie30x1 pins
 				<2 RK_PD2 4 &pcfg_pull_none>,			// PCIE30X1_CLKREQn_M1 
 				<2 RK_PD3 4 &pcfg_pull_none>,			// PCIE30X1_WAKEn_M1 
