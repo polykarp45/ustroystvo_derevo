@@ -16,7 +16,7 @@
 #include <dt-bindings/input/ti-drv260x.h>
 
 / {
-	model = "Rockchip RK3568 CM v1.25";
+	model = "Rockchip RK3568 CM v1.26";
 	compatible = "rockchip,rk3568";
 
 	aliases {
@@ -180,7 +180,7 @@
 		status = "okay";
 		compatible = "simple-audio-card";
 		simple-audio-card,name = "pdm-mic";
-        simple-audio-card,bitclock-master = <&pdm>;
+		simple-audio-card,bitclock-master = <&pdm>;
 		simple-audio-card,format = "pdm";
 		simple-audio-card,frame-master = <&pdm>;
 		simple-audio-card,cpu {
@@ -1304,19 +1304,25 @@
 	status = "okay";
 };
 
-/*&pcie3x1 {
+&pcie3x1 {
 	//Deprecated
 	num-lanes = <1>;
 	/delete-property/ num-ib-windows;
 	/delete-property/ num-ob-windows;
-	rockchip,bifurcation;
+	reg = <0x3 0xc0400000 0x0 0x00400000>,
+		  <0x0 0xfe270000 0x0 0x00010000>,
+		  <0x0 0xf2000000 0x0 0x00100000>;
+		ranges = <0x01000000 0x0 0xf2100000 0x0 0xf2100000 0x0 0x00100000>,
+			 <0x02000000 0x0 0xf2200000 0x0 0xf2200000 0x0 0x01e00000>,
+			 <0x03000000 0x0 0x40000000 0x3 0x40000000 0x0 0x40000000>;
+	//rockchip,bifurcation;
 	pinctrl-names = "default";
 	pinctrl-0 = <&pcie30x2_pins>;
 	reset-gpios = <&gpio0 RK_PC3 GPIO_ACTIVE_HIGH>;//reset-gpios = <&gpio4 RK_PC4 GPIO_ACTIVE_HIGH>;
 	vpcie3v3-supply = <&vcc3v3_sys>;
-	status = "okay";
+	status = "disabled";
 };
-*/
+
 
 &pcie3x2 {
 	// Deprecated
@@ -1326,10 +1332,10 @@
 	num-lanes = <1>;
 	reg = <0x3 0xc0800000 0x0 0x00400000>,
 		  <0x0 0xfe280000 0x0 0x00010000>,
-		  <0x0 0xf0000000 0x0 0x00100000>;
-	ranges = <0x01000000 0x0 0xf0100000 0x0 0xf0100000 0x0 0x00100000>,
-		 <0x02000000 0x0 0xf0200000 0x0 0xf0200000 0x0 0x01e00000>,
-		 <0x03000000 0x0 0x40000000 0x3 0x80000000 0x0 0x40000000>;
+		  <0x0 0xf2000000 0x0 0x01000000>;
+		ranges = <0x01000000 0x0 0xf0100000 0x0 0xf0100000 0x0 0x00100000>,
+			 <0x02000000 0x0 0xf0200000 0x0 0xf0200000 0x0 0x01e00000>,
+			 <0x03000000 0x0 0x40000000 0x3 0x80000000 0x0 0x40000000>;
 	pinctrl-names = "default";
 	//rockchip,bifurcation;
 	pinctrl-0 = <&pcie30x2_pins>;
