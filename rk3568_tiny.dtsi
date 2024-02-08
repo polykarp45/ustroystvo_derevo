@@ -61,10 +61,10 @@
 	};
 
 	pcie3x1: pcie@fe270000 {
-		compatible = "rockchip,rk3568-pcie";
+		compatible = "rockchip,rk3568-pcie", "snps,dw-pcie";
 		#address-cells = <3>;
 		#size-cells = <2>;
-		bus-range = <0x0 0xf>;
+		bus-range = <0x10 0x1f>;
 		clocks = <&cru ACLK_PCIE30X1_MST>, <&cru ACLK_PCIE30X1_SLV>,
 			 <&cru ACLK_PCIE30X1_DBI>, <&cru PCLK_PCIE30X1>,
 			 <&cru CLK_PCIE30X1_AUX_NDFT>;
@@ -86,8 +86,9 @@
 		linux,pci-domain = <1>;
 		num-ib-windows = <6>;
 		num-ob-windows = <2>;
+		num-viewport = <8>;
 		max-link-speed = <3>;
-		msi-map = <0x0 &gic 0x1000 0x1000>;
+		msi-map = <0x1000 &its 0x1000 0x1000>;
 		num-lanes = <1>;
 		phys = <&pcie30phy>;
 		phy-names = "pcie-phy";
@@ -95,13 +96,13 @@
 		reg = <0x3 0xc0400000 0x0 0x00400000>,
 		      <0x0 0xfe270000 0x0 0x00010000>,
 		      <0x0 0xf2000000 0x0 0x00100000>;
-		ranges = <0x01000000 0x0 0xf2100000 0x0 0xf2100000 0x0 0x00100000>,
-			 <0x02000000 0x0 0xf2200000 0x0 0xf2200000 0x0 0x01e00000>,
-			 <0x03000000 0x0 0x40000000 0x3 0x40000000 0x0 0x40000000>;
-		reg-names = "dbi", "apb", "config";
+		ranges = <0x81000000 0x0 0xf2100000 0x0 0xf2100000 0x0 0x100000
+			  0x82000000 0x0 0xf2200000 0x0 0xf2200000 0x0 0x1e00000
+			  0xc3000000 0x3 0x40000000 0x3 0x40000000 0x0 0x40000000>;
+		reg-names = "pcie-dbi", "pcie-apb", "config";
 		resets = <&cru SRST_PCIE30X1_POWERUP>;
 		reset-names = "pipe";
-		/* bifurcation; lane1 when using 1+1 */
+		/* rockchip,bifurcation; lane1 when using 1+1 */
 		status = "disabled";
 
 		pcie3x1_intc: legacy-interrupt-controller {
@@ -114,10 +115,10 @@
 	};
 
 	pcie3x2: pcie@fe280000 {
-		compatible = "rockchip,rk3568-pcie";
+		compatible = "rockchip,rk3568-pcie", "snps,dw-pcie";
 		#address-cells = <3>;
 		#size-cells = <2>;
-		bus-range = <0x0 0xf>;
+		bus-range = <0x20 0x2f>;
 		clocks = <&cru ACLK_PCIE30X2_MST>, <&cru ACLK_PCIE30X2_SLV>,
 			 <&cru ACLK_PCIE30X2_DBI>, <&cru PCLK_PCIE30X2>,
 			 <&cru CLK_PCIE30X2_AUX_NDFT>;
@@ -138,9 +139,10 @@
 				<0 0 0 4 &pcie3x2_intc 3>;
 		linux,pci-domain = <2>;
 		num-ib-windows = <6>;
+		num-viewport = <8>;
 		num-ob-windows = <2>;
 		max-link-speed = <3>;
-		msi-map = <0x0 &gic 0x2000 0x1000>;
+		msi-map = <0x2000 &its 0x2000 0x1000>;
 		num-lanes = <2>;
 		phys = <&pcie30phy>;
 		phy-names = "pcie-phy";
@@ -148,13 +150,13 @@
 		reg = <0x3 0xc0800000 0x0 0x00400000>,
 		      <0x0 0xfe280000 0x0 0x00010000>,
 		      <0x0 0xf0000000 0x0 0x00100000>;
-		ranges = <0x01000000 0x0 0xf0100000 0x0 0xf0100000 0x0 0x00100000>,
-			 <0x02000000 0x0 0xf0200000 0x0 0xf0200000 0x0 0x01e00000>,
-			 <0x03000000 0x0 0x40000000 0x3 0x80000000 0x0 0x40000000>;
-		reg-names = "dbi", "apb", "config";
+		ranges = <0x81000000 0x0 0xf0100000 0x0 0xf0100000 0x0 0x100000
+			  0x82000000 0x0 0xf0200000 0x0 0xf0200000 0x0 0x1e00000
+			  0xc3000000 0x3 0x80000000 0x3 0x80000000 0x0 0x40000000>;
+		reg-names = "pcie-dbi", "pcie-apb", "config";
 		resets = <&cru SRST_PCIE30X2_POWERUP>;
 		reset-names = "pipe";
-		/* bifurcation; lane0 when using 1+1 */
+		/* rockchip,bifurcation; lane0 when using 1+1 */
 		status = "disabled";
 
 		pcie3x2_intc: legacy-interrupt-controller {
