@@ -1274,7 +1274,7 @@
 	>;
 	//rockchip,clk-trcm = <1>;
 	//rockchip,i2s-tx-route = <0>;
-	//rockchip,trcm-sync-tx-only;
+	rockchip,trcm-sync-tx-only;
 	status = "okay";
 };
 
