@@ -16,7 +16,7 @@
 #include <dt-bindings/input/ti-drv260x.h>
 
 / {
-	model = "Rockchip RK3568 CM v1.17";
+	model = "Rockchip RK3568 CM v1.18";
 	compatible = "rockchip,rk3568";
 
 	aliases {
@@ -114,8 +114,8 @@
 	sound {
 		compatible = "simple-audio-card";
 		simple-audio-card,name = "Cranberry";
-		simple-audio-card,widgets = "Internal Speaker";
-		simple-audio-card,routing = "Internal Speaker", "Speaker Amp OUTL";
+		simple-audio-card,widgets = "Speaker", "Internal Speaker";
+		simple-audio-card,routing = "Internal Speaker", "Left";
 		simple-audio-card,pin-switches = "Internal Speaker";
 		#address-cells = <1>;
 		#size-cells = <0>;
@@ -1286,7 +1286,7 @@
 	status = "okay";
 };
 
-/*&pcie3x1 {
+&pcie3x1 {
 	//Deprecated
 	num-lanes = <1>;
 	/delete-property/ num-ib-windows;
@@ -1294,10 +1294,10 @@
 	rockchip,bifurcation;
 	pinctrl-names = "default";
 	pinctrl-0 = <&pcie30x1_pins>;
-	reset-gpios = <&gpio4 RK_PC4 GPIO_ACTIVE_HIGH>;//reset-gpios = <&gpio0 RK_PC3 GPIO_ACTIVE_HIGH>;
+	reset-gpios = <&gpio0 RK_PC3 GPIO_ACTIVE_HIGH>;//reset-gpios = <&gpio4 RK_PC4 GPIO_ACTIVE_HIGH>;
 	vpcie3v3-supply = <&vcc3v3_sys>;
 	status = "okay";
-};*/
+};
 
 &pcie3x2 {
 	// Deprecated
@@ -1313,7 +1313,7 @@
 		 <0x03000000 0x0 0x40000000 0x3 0x80000000 0x0 0x40000000>;
 	pinctrl-names = "default";
 	rockchip,bifurcation;
-	pinctrl-0 = <&pcie30x1_pins>;
+	pinctrl-0 = <&pcie30x2_pins>;
 	reset-gpios = <&gpio4 RK_PC4 GPIO_ACTIVE_HIGH>;//reset-gpios = <&gpio0 RK_PC3 GPIO_ACTIVE_HIGH>;
 	vpcie3v3-supply = <&vcc3v3_sys>;
 	status = "okay";
@@ -1543,14 +1543,14 @@
 
 	pcie30 {
 		
-		pcie30x2_pins: pcie30x2_pins {
+		pcie30x1_pins: pcie30x1_pins {
 			rockchip,pins =
 				<2 RK_PD2 4 &pcfg_pull_none>,			/* PCIE30X1_CLKREQn_M1 */
 				<2 RK_PD3 4 &pcfg_pull_none>,			/* PCIE30X1_WAKEn_M1 */
 				<0 RK_PC3 RK_FUNC_GPIO &pcfg_pull_none>;	/* PCIE30X1_PERSTn_M1 */
 		};
 
-		pcie30x1_pins: pcie30x1_pins {
+		pcie30x2_pins: pcie30x2_pins {
 			rockchip,pins =
 				<4 RK_PC2 4 &pcfg_pull_none>,			/* PCIE30X2_CLKREQn_M2 */
 				<4 RK_PC3 4 &pcfg_pull_none>,			/* PCIE30X2_WAKEn_M2 */
