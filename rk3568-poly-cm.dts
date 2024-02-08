@@ -16,7 +16,7 @@
 #include <dt-bindings/input/ti-drv260x.h>
 
 / {
-	model = "Rockchip RK3568 CM v1.22";
+	model = "Rockchip RK3568 CM v1.23";
 	compatible = "rockchip,rk3568";
 
 	aliases {
@@ -180,7 +180,9 @@
 		status = "okay";
 		compatible = "simple-audio-card";
 		simple-audio-card,name = "pdm-mic";
-		
+        simple-audio-card,bitclock-master = <&pdm>;
+		simple-audio-card,format = "pdm";
+		simple-audio-card,frame-master = <&pdm>;
 		simple-audio-card,cpu {
 			sound-dai = <&pdm>;
 		};
@@ -1298,7 +1300,7 @@
 &pdm {
 	pinctrl-names = "default";
 	pinctrl-0 = <&pdmm0_clk &pdmm0_sdi1>;
-	rockchip,path-map = <1>, <2>, <0>, <3>;
+	//rockchip,path-map = <1>, <2>, <0>, <3>;
 	status = "okay";
 };
 
