@@ -16,7 +16,7 @@
 #include <dt-bindings/input/ti-drv260x.h>
 
 / {
-	model = "Rockchip RK3568 CM v1.24";
+	model = "Rockchip RK3568 CM v1.25";
 	compatible = "rockchip,rk3568";
 
 	aliases {
@@ -122,34 +122,34 @@
 
 		simple-audio-card,dai-link@0 {
 			reg = <0>;
-			bitclock-master = <&link0_cpu>;
-			format = "i2s";
-			frame-master = <&link0_cpu>;
-			mclk-fs = <256>;
-			bitclock-inversion;
+			simple-audio-card,bitclock-master = <&link0_cpu>;
+			simple-audio-card,format = "i2s";
+			simple-audio-card,frame-master = <&link0_cpu>;
+			simple-audio-card,mclk-fs = <256>;
+			simple-audio-card,bitclock-inversion;
 
-			link0_cpu: cpu {
+			link0_cpu: simple-audio-card,cpu {
 				sound-dai = <&i2s1_8ch>;
 				dai-tdm-slot-num = <2>;
 				dai-tdm-slot-width = <16>;
 			};
 
-			link0_codec: codec {
+			link0_codec: simple-audio-card,codec {
 				sound-dai = <&tas2110>;
 			};
 		};
 
 		simple-audio-card,dai-link@1 {
 			reg = <1>;
-			bitclock-master = <&link1_cpu>;
-			format = "pdm";
-			frame-master = <&link1_cpu>;
+			simple-audio-card,bitclock-master = <&link1_cpu>;
+			simple-audio-card,format = "pdm";
+			simple-audio-card,frame-master = <&link1_cpu>;
 
-			link1_cpu: cpu {
+			link1_cpu: simple-audio-card,cpu {
 				sound-dai = <&pdm>;
 			};
 
-			link1_codec: codec {
+			link1_codec: simple-audio-card,codec {
 				sound-dai = <&dmic_codec>;
 			};
 		};
@@ -1304,7 +1304,7 @@
 	status = "okay";
 };
 
-&pcie3x1 {
+/*&pcie3x1 {
 	//Deprecated
 	num-lanes = <1>;
 	/delete-property/ num-ib-windows;
@@ -1316,6 +1316,7 @@
 	vpcie3v3-supply = <&vcc3v3_sys>;
 	status = "okay";
 };
+*/
 
 &pcie3x2 {
 	// Deprecated
@@ -1330,7 +1331,7 @@
 		 <0x02000000 0x0 0xf0200000 0x0 0xf0200000 0x0 0x01e00000>,
 		 <0x03000000 0x0 0x40000000 0x3 0x80000000 0x0 0x40000000>;
 	pinctrl-names = "default";
-	rockchip,bifurcation;
+	//rockchip,bifurcation;
 	pinctrl-0 = <&pcie30x2_pins>;
 	reset-gpios = <&gpio4 RK_PC4 GPIO_ACTIVE_HIGH>;
 	vpcie3v3-supply = <&vcc3v3_sys>;
@@ -1339,7 +1340,7 @@
 
 
 &pcie30phy {
-	data-lanes = <1 2>;
+	//data-lanes = <1 2>;
 	phy-supply = <&pcie3_clock_gen>; //Enable clock out
 	status = "okay";
 };
