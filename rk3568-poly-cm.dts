@@ -16,7 +16,7 @@
 #include <dt-bindings/input/ti-drv260x.h>
 
 / {
-	model = "Rockchip RK3568 CM v1.18";
+	model = "Rockchip RK3568 CM v1.19";
 	compatible = "rockchip,rk3568";
 
 	aliases {
@@ -113,10 +113,9 @@
 
 	sound {
 		compatible = "simple-audio-card";
-		simple-audio-card,name = "Cranberry";
+		simple-audio-card,name = "Cranberry-sound";
 		simple-audio-card,widgets = "Speaker", "Internal Speaker";
-		simple-audio-card,routing = "Internal Speaker", "Left";
-		simple-audio-card,pin-switches = "Internal Speaker";
+		simple-audio-card,routing = "Internal Speaker", "OUT";
 		#address-cells = <1>;
 		#size-cells = <0>;
 
@@ -126,6 +125,7 @@
 			format = "i2s";
 			frame-master = <&link0_cpu>;
 			mclk-fs = <256>;
+			bitclock-inversion;
 
 			link0_cpu: cpu {
 				sound-dai = <&i2s1_8ch>;
@@ -158,7 +158,7 @@
 		compatible = "simple-audio-card";
 		simple-audio-card,format = "i2s";//simple-audio-card,format = "dsp_b";
 		simple-audio-card,name = "tas2110-sound";
-        simple-audio-card,mclk-fs = <256>;
+		simple-audio-card,mclk-fs = <256>;
 		simple-audio-card,bitclock-inversion;
 		simple-audio-card,frame-master = <&tas2110cpu>;
 		simple-audio-card,bitclock-master = <&tas2110cpu>;
@@ -191,7 +191,7 @@
 			sound-dai = <&pdmics>;
 		};
 	};
-    
+	
 */
 
 	hdmi-con {
@@ -329,7 +329,7 @@
 		regulator-name = "pcie30_clock";
 		startup-delay-us = <10000>;
 		vin-supply = <&vcc3v3_sys>;
-        regulator-always-on;
+		regulator-always-on;
 	};
 
 	/* Should be added in 6.5 */
@@ -1279,10 +1279,10 @@
 };
 
 &pdm {
-    pinctrl-names = "default";
+	pinctrl-names = "default";
 	pinctrl-0 = <&pdmm0_clk &pdmm0_sdi1>;
 	pinctrl-names = "default";
-    rockchip,path-map = <1>, <2>, <0>, <3>;
+	rockchip,path-map = <1>, <2>, <0>, <3>;
 	status = "okay";
 };
 
@@ -1293,13 +1293,13 @@
 	/delete-property/ num-ob-windows;
 	rockchip,bifurcation;
 	pinctrl-names = "default";
-	pinctrl-0 = <&pcie30x1_pins>;
-	reset-gpios = <&gpio0 RK_PC3 GPIO_ACTIVE_HIGH>;//reset-gpios = <&gpio4 RK_PC4 GPIO_ACTIVE_HIGH>;
+	pinctrl-0 = <&pcie30x2_pins>;
+	reset-gpios = <&gpio4 RK_PC4 GPIO_ACTIVE_HIGH>;//reset-gpios = <&gpio0 RK_PC3 GPIO_ACTIVE_HIGH>;
 	vpcie3v3-supply = <&vcc3v3_sys>;
 	status = "okay";
 };
 
-&pcie3x2 {
+/*&pcie3x2 {
 	// Deprecated
 	/delete-property/ num-ib-windows;
 	/delete-property/ num-ob-windows;
@@ -1317,7 +1317,7 @@
 	reset-gpios = <&gpio4 RK_PC4 GPIO_ACTIVE_HIGH>;//reset-gpios = <&gpio0 RK_PC3 GPIO_ACTIVE_HIGH>;
 	vpcie3v3-supply = <&vcc3v3_sys>;
 	status = "okay";
-};
+};*/
 
 
 &pcie30phy {
