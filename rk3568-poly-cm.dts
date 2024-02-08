@@ -16,7 +16,7 @@
 #include <dt-bindings/input/ti-drv260x.h>
 
 / {
-	model = "Rockchip RK3568 CM v1.20";
+	model = "Rockchip RK3568 CM v1.21";
 	compatible = "rockchip,rk3568";
 
 	aliases {
@@ -106,12 +106,13 @@
 	};
 
 	dmic_codec: dmic-codec {
+        status = "okay";
 		compatible = "dmic-codec";
 		num-channels = <1>;
 		#sound-dai-cells = <0>;
 	};
 
-	sound {
+/*	sound {
 		compatible = "simple-audio-card";
 		simple-audio-card,name = "Cranberry-sound";
 		simple-audio-card,widgets = "Speaker", "Internal Speaker";
@@ -153,28 +154,43 @@
 			};
 		};
 	};
+*/
 
-/*
 	tas2110_sound: tas2110-sound {
 		status = "okay";
 		compatible = "simple-audio-card";
-		simple-audio-card,format = "i2s";//simple-audio-card,format = "dsp_b";
+		simple-audio-card,format = "dsp_a";//simple-audio-card,format = "dsp_b";
 		simple-audio-card,name = "tas2110-sound";
-		simple-audio-card,mclk-fs = <256>;
+		//simple-audio-card,mclk-fs = <256>;
 		simple-audio-card,bitclock-inversion;
 		simple-audio-card,frame-master = <&tas2110cpu>;
 		simple-audio-card,bitclock-master = <&tas2110cpu>;
 
 		tas2110cpu: simple-audio-card,cpu {
 			sound-dai = <&i2s1_8ch>;
-			//dai-tdm-slot-num = <2>;
-			//dai-tdm-slot-width = <16>;
+			dai-tdm-slot-num = <2>;
+			dai-tdm-slot-width = <16>;
 		};
 		simple-audio-card,codec {
 			sound-dai = <&tas2110>;
 		};
 	};
-
+    
+    pdm_mic: pdm-mic {
+		status = "okay";
+		compatible = "simple-audio-card";
+		simple-audio-card,name = "pdm-mic";
+        
+		simple-audio-card,cpu {
+			sound-dai = <&pdm>;
+		};
+		simple-audio-card,codec {
+			sound-dai = <&dmic_codec>;
+		};
+	};
+    
+    
+/*
 	pdmics: dmic-codec {
 		status = "okay";
 		compatible = "dmic-codec";
