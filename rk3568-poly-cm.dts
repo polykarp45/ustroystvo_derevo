@@ -16,7 +16,7 @@
 #include <dt-bindings/input/ti-drv260x.h>
 
 / {
-	model = "Rockchip RK3568 CM v1.27";
+	model = "Rockchip RK3568 CM v1.28";
 	compatible = "rockchip,rk3568";
 
 	aliases {
@@ -24,7 +24,6 @@
 		ethernet1 = &gmac1;
 		mmc0 = &sdmmc0;
 		mmc1 = &sdhci;
-        sound0 = &sound0;
 	};
 
 	fiq-debugger {
@@ -113,48 +112,52 @@
 		#sound-dai-cells = <0>;
 	};
 
-	sound0: combine-sound {
+	sound0: tas2110-sound {
+		status = "okay";
 		compatible = "simple-audio-card";
-		simple-audio-card,name = "Cranberry-sound";
+		simple-audio-card,name = "Cranberry-speaker";
+		simple-audio-card,format = "i2s";
+		simple-audio-card,bitclock-master = <&sound0_cpu>;
+		simple-audio-card,frame-master = <&sound0_cpu>;
+		simple-audio-card,mclk-fs = <256>;
+		simple-audio-card,bitclock-inversion;
+		//simple-audio-card,convert-rate = <48000>;
 		simple-audio-card,widgets = "Speaker", "Internal Speaker";
 		simple-audio-card,routing = "Internal Speaker", "OUT";
-		#address-cells = <1>;
-		#size-cells = <0>;
-
-		simple-audio-card,dai-link@0 {
-			reg = <0>;
-			bitclock-master = <&link0_cpu>;
-			format = "i2s";
-			frame-master = <&link0_cpu>;
-			mclk-fs = <256>;
-			bitclock-inversion;
-
-			link0_cpu: simple-audio-card,cpu {
+		
+		sound0_cpu: simple-audio-card,cpu {
 				sound-dai = <&i2s1_8ch>;
-				dai-tdm-slot-num = <2>;
-				dai-tdm-slot-width = <16>;
 			};
 
-			link0_codec: simple-audio-card,codec {
+		simple-audio-card,codec {
 				sound-dai = <&tas2110>;
 			};
 		};
+	};
 
-		/*simple-audio-card,dai-link@1 {
-			reg = <1>;
-			simple-audio-card,bitclock-master = <&link1_cpu>;
-			simple-audio-card,format = "pdm";
-			simple-audio-card,frame-master = <&link1_cpu>;
-
-			link1_cpu: simple-audio-card,cpu {
+	sound1: pdm-microphone {
+		status = "okay";
+		compatible = "simple-audio-card";
+		simple-audio-card,name = "Cranberry-mic";
+		simple-audio-card,format = "pdm";
+		simple-audio-card,bitclock-master = <&sound1_cpu>;
+		simple-audio-card,frame-master = <&sound1_cpu>;
+		simple-audio-card,widgets = "Microphone", "Internal Microphone";
+		simple-audio-card,routing = "DMic", "Internal Microphone";
+		
+		sound1_cpu: simple-audio-card,cpu {
 				sound-dai = <&pdm>;
 			};
 
-			link1_codec: simple-audio-card,codec {
+		simple-audio-card,codec {
 				sound-dai = <&dmic_codec>;
 			};
-		};*/
+		};
 	};
+
+
+
+
 
 /*
 	tas2110_sound: tas2110-sound {
@@ -1305,42 +1308,28 @@
 	status = "okay";
 };
 
-&pcie3x1 {
+/*&pcie3x1 {
 	//Deprecated
 	num-lanes = <1>;
 	/delete-property/ num-ib-windows;
 	/delete-property/ num-ob-windows;
-		reg = <0x3 0xc0400000 0x0 0x00400000>,
-		      <0x0 0xfe270000 0x0 0x00010000>,
-		      <0x0 0xf2000000 0x0 0x00100000>;
-		ranges = <0x01000000 0x0 0xf2100000 0x0 0xf2100000 0x0 0x00100000>,
-			 <0x02000000 0x0 0xf2200000 0x0 0xf2200000 0x0 0x01e00000>,
-			 <0x03000000 0x0 0x40000000 0x3 0x40000000 0x0 0x40000000>;
-
-	//rockchip,bifurcation;
+	rockchip,bifurcation;
 	pinctrl-names = "default";
-	pinctrl-0 = <&pcie30x2_pins>;
+	pinctrl-0 = <&pcie30x1_pins>;
 	reset-gpios = <&gpio0 RK_PC3 GPIO_ACTIVE_HIGH>;//reset-gpios = <&gpio4 RK_PC4 GPIO_ACTIVE_HIGH>;
 	vpcie3v3-supply = <&vcc3v3_sys>;
-	status = "disabled";
+	status = "okay";
 };
-
+*/
 
 &pcie3x2 {
 	// Deprecated
 	/delete-property/ num-ib-windows;
 	/delete-property/ num-ob-windows;
 	// reg & ranges should be fixed in 6.5
-	//num-lanes = <1>;
-		reg = <0x3 0xc0800000 0x0 0x00400000>,
-		      <0x0 0xfe280000 0x0 0x00010000>,
-		      <0x0 0xf0000000 0x0 0x00100000>;
-		ranges = <0x01000000 0x0 0xf0100000 0x0 0xf0100000 0x0 0x00100000>,
-			 <0x02000000 0x0 0xf0200000 0x0 0xf0200000 0x0 0x01e00000>,
-			 <0x03000000 0x0 0x40000000 0x3 0x80000000 0x0 0x40000000>;
-
+	num-lanes = <1>;
 	pinctrl-names = "default";
-	//rockchip,bifurcation;
+	rockchip,bifurcation;
 	pinctrl-0 = <&pcie30x2_pins>;
 	reset-gpios = <&gpio4 RK_PC4 GPIO_ACTIVE_HIGH>;
 	vpcie3v3-supply = <&vcc3v3_sys>;
