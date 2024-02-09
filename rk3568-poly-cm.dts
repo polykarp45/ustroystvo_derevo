@@ -510,7 +510,7 @@
 		phy-names = "dphy";							//"phy"?
 		power-domains = <&power RK3568_PD_VO>;
 		rockchip,grf = <&grf>;
-		rockchip,data-mapping = "jeida-24";
+		rockchip,data-mapping = "vesa-24";
 		rockchip,data-width = <24>;
 		rockchip,output = "lvds";
 		status = "okay";
