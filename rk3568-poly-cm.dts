@@ -131,7 +131,7 @@
 
 		simple-audio-card,codec {
 				sound-dai = <&tas2110>;
-			};
+		
 		};
 	};
 
@@ -151,7 +151,7 @@
 
 		simple-audio-card,codec {
 				sound-dai = <&dmic_codec>;
-			};
+		
 		};
 	};
 
