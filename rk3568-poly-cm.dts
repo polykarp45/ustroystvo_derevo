@@ -1083,7 +1083,7 @@
 	#size-cells = <0>;
 
 	ft5x06_ts@38 {
-		compatible = "edt,edt-ft5x06";
+		compatible = "edt,edt-ft5406", "edt,edt-ft5x06";
 		reg = <0x38>;
 		pinctrl-names = "default";
 		pinctrl-0 = <&touch_gpio>;
@@ -1091,7 +1091,7 @@
 		interrupt-parent = <&gpio0>;
 		interrupts = <RK_PA0 IRQ_TYPE_EDGE_FALLING>;
 
-		reset-gpios = <&gpio4 RK_PD1 GPIO_ACTIVE_LOW>;
+//		reset-gpios = <&gpio4 RK_PD1 GPIO_ACTIVE_LOW>;
 
 		touchscreen-size-x = <1024>;
 		touchscreen-size-y = <600>;
@@ -1614,8 +1614,9 @@
 	touch {
 		touch_gpio: touch-gpio {
 			rockchip,pins =
-				<0 RK_PA0 RK_FUNC_GPIO &pcfg_pull_up>, /* CTP INT# */
-				<4 RK_PD1 RK_FUNC_GPIO &pcfg_pull_up>; /* CTP RST# */
+				<0 RK_PA0 RK_FUNC_GPIO &pcfg_pull_up>; /* CTP INT# */
+//				<4 RK_PD1 RK_FUNC_GPIO &pcfg_pull_up>; /* CTP RST# */	//THIS IS LVDS RESET, NOT TACHSKRIN, 
+											//ALREADY CFGred in lvds_pins
 		};
 	};
 
