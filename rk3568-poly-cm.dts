@@ -16,7 +16,7 @@
 #include <dt-bindings/input/ti-drv260x.h>
 
 / {
-	model = "Rockchip RK3568 CM v1.28";
+	model = "Rockchip RK3568 CM v1.29";
 	compatible = "rockchip,rk3568";
 
 	aliases {
@@ -260,37 +260,42 @@
 
 		F1 {
 			label = "Key F1";
-			linux,code = <114>;	   /* Volume down */
-			interrupt-parent = <&gpio4>;
-			interrupts = <RK_PA2 IRQ_TYPE_EDGE_FALLING>;
+            gpios = <&gpio4 RK_PA1 GPIO_ACTIVE_LOW>;
+			linux,code = <114>;	   // Volume down
+			//interrupt-parent = <&gpio4>;
+			//interrupts = <RK_PA1 IRQ_TYPE_EDGE_FALLING>;
 		};
 
 		F2 {
 			label = "Key F2";
-			linux,code = <115>;	   /* Volume up */
-			interrupt-parent = <&gpio2>;
-			interrupts = <RK_PD6 IRQ_TYPE_EDGE_FALLING>;
+			linux,code = <115>;	   // Volume up
+            gpios = <&gpio2 RK_PD6 GPIO_ACTIVE_LOW>;
+			//interrupt-parent = <&gpio2>;
+			//interrupts = <RK_PD6 IRQ_TYPE_EDGE_FALLING>;
 		};
 
 		F3 {
 			label = "Key F3";
-			linux,code = <153>; /* Rotate display */
-			interrupt-parent = <&gpio2>;
-			interrupts = <RK_PD5 IRQ_TYPE_EDGE_FALLING>;
+			linux,code = <153>; // Rotate display
+            gpios = <&gpio2 RK_PD5 GPIO_ACTIVE_LOW>;            
+			//interrupt-parent = <&gpio2>;
+			//interrupts = <RK_PD5 IRQ_TYPE_EDGE_FALLING>;
 		};
 
 		F4 {
 			label = "Key F4";
-			linux,code = <224>;	 /* Brightness down */
-			interrupt-parent = <&gpio4>;
-			interrupts = <RK_PD2 IRQ_TYPE_EDGE_FALLING>;
+			linux,code = <224>;	 // Brightness down
+            gpios = <&gpio4 RK_PD2 GPIO_ACTIVE_LOW>;
+			//interrupt-parent = <&gpio4>;
+			//interrupts = <RK_PD2 IRQ_TYPE_EDGE_FALLING>;
 		};
 
 		F5 {
 			label = "Key F5";
-			linux,code = <225>;	 /* Brightness up */
-			interrupt-parent = <&gpio2>;
-			interrupts = <RK_PD4 IRQ_TYPE_EDGE_FALLING>;
+			linux,code = <225>;	 // Brightness up
+            gpios = <&gpio2 RK_PD4 GPIO_ACTIVE_LOW>;
+			//interrupt-parent = <&gpio2>;
+			//interrupts = <RK_PD4 IRQ_TYPE_EDGE_FALLING>;
 		};
 
 	};
