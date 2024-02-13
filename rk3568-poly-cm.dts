@@ -1095,8 +1095,8 @@
 
 		touchscreen-size-x = <1024>;
 		touchscreen-size-y = <600>;
-		touchscreen-inverted-x = <1>;
-		touchscreen-inverted-y = <1>;
+//		touchscreen-inverted-x = <1>;
+//		touchscreen-inverted-y = <1>;
 
 		status = "okay";
 	};
