@@ -16,7 +16,7 @@
 #include <dt-bindings/input/ti-drv260x.h>
 
 / {
-	model = "Rockchip RK3568 CM v1.32";
+	model = "Rockchip RK3568 CM v1.33";
 	compatible = "rockchip,rk3568";
 
 	aliases {
@@ -36,7 +36,7 @@
 		interrupts = <GIC_SPI 252 IRQ_TYPE_LEVEL_LOW>;
 		pinctrl-names = "default";
 		pinctrl-0 = <&uart2m0_xfer>;
-		status = "okay";
+		status = "disabled";
 	};
 
 	debug: debug@fd904000 {
@@ -264,42 +264,42 @@
 
 		F1 {
 			label = "Key F1";
-            gpios = <&gpio4 RK_PA1 GPIO_ACTIVE_LOW>;
+			//gpios = <&gpio4 RK_PA1 GPIO_ACTIVE_LOW>;
 			linux,code = <114>;	   // Volume down
-			//interrupt-parent = <&gpio4>;
-			//interrupts = <RK_PA1 IRQ_TYPE_EDGE_FALLING>;
+			interrupt-parent = <&gpio4>;
+			interrupts = <RK_PA1 IRQ_TYPE_EDGE_FALLING>;
 		};
 
 		F2 {
 			label = "Key F2";
 			linux,code = <115>;	   // Volume up
-            gpios = <&gpio2 RK_PD6 GPIO_ACTIVE_LOW>;
-			//interrupt-parent = <&gpio2>;
-			//interrupts = <RK_PD6 IRQ_TYPE_EDGE_FALLING>;
+			//gpios = <&gpio2 RK_PD6 GPIO_ACTIVE_LOW>;
+			interrupt-parent = <&gpio2>;
+			interrupts = <RK_PD6 IRQ_TYPE_EDGE_FALLING>;
 		};
 
 		F3 {
 			label = "Key F3";
 			linux,code = <153>; // Rotate display
-            gpios = <&gpio2 RK_PD5 GPIO_ACTIVE_LOW>;            
-			//interrupt-parent = <&gpio2>;
-			//interrupts = <RK_PD5 IRQ_TYPE_EDGE_FALLING>;
+			//gpios = <&gpio2 RK_PD5 GPIO_ACTIVE_LOW>;            
+			interrupt-parent = <&gpio2>;
+			interrupts = <RK_PD5 IRQ_TYPE_EDGE_FALLING>;
 		};
 
 		F4 {
 			label = "Key F4";
 			linux,code = <224>;	 // Brightness down
-            gpios = <&gpio4 RK_PD2 GPIO_ACTIVE_LOW>;
-			//interrupt-parent = <&gpio4>;
-			//interrupts = <RK_PD2 IRQ_TYPE_EDGE_FALLING>;
+			//gpios = <&gpio4 RK_PD2 GPIO_ACTIVE_LOW>;
+			interrupt-parent = <&gpio4>;
+			interrupts = <RK_PD2 IRQ_TYPE_EDGE_FALLING>;
 		};
 
 		F5 {
 			label = "Key F5";
 			linux,code = <225>;	 // Brightness up
-            gpios = <&gpio2 RK_PD4 GPIO_ACTIVE_LOW>;
-			//interrupt-parent = <&gpio2>;
-			//interrupts = <RK_PD4 IRQ_TYPE_EDGE_FALLING>;
+			//gpios = <&gpio2 RK_PD4 GPIO_ACTIVE_LOW>;
+			interrupt-parent = <&gpio2>;
+			interrupts = <RK_PD4 IRQ_TYPE_EDGE_FALLING>;
 		};
 
 	};
@@ -1141,6 +1141,13 @@
 
 	};
 
+	rtc: rtc@32 {
+		compatible = "epson,rx8900";
+		reg = <0x32>;
+#		epson,vdet-disable;
+		trickle-diode-disable;
+	};
+
 	kbd_leds: pca9532@60 {
 		status = "okay";
 		compatible = "nxp,pca9532";
@@ -1434,7 +1441,7 @@
 };
 
 &uart2 {
-	status = "disabled";
+	status = "okay";
 };
 
 &uart3 {
