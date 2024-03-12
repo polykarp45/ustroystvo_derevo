@@ -1144,7 +1144,7 @@
 	rtc: rtc@32 {
 		compatible = "epson,rx8900";
 		reg = <0x32>;
-#		epson,vdet-disable;
+//		epson,vdet-disable;
 		trickle-diode-disable;
 	};
 
