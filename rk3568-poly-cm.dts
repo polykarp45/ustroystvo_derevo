@@ -289,9 +289,9 @@
 		F4 {
 			label = "Key F4";
 			linux,code = <224>;	 // Brightness down
-			//gpios = <&gpio4 RK_PD2 GPIO_ACTIVE_LOW>;
+			//gpios = <&gpio4 RK_PA2 GPIO_ACTIVE_LOW>;
 			interrupt-parent = <&gpio4>;
-			interrupts = <RK_PD2 IRQ_TYPE_EDGE_FALLING>;
+			interrupts = <RK_PA2 IRQ_TYPE_EDGE_FALLING>;
 		};
 
 		F5 {
@@ -634,6 +634,26 @@
 		clock-output-names = "gmac1_clkin";
 		#clock-cells = <0>;
 	};
+
+	//pps from GNSS slot
+	pps0
+	{
+//		pinctrl-names = "default"; //TODO: may be set pinctrl?
+//		pinctrl-0 = <&pinctrl_pps>;
+
+		compatible = "pps-gpio";
+		gpios = <&gpio2 RK_PA4 GPIO_ACTIVE_HIGH>;
+//		assert-falling-edge;
+
+	};
+	//pps from RF slot
+        pps1
+        {
+                compatible = "pps-gpio";
+                gpios = <&gpio2 RK_PC6 GPIO_ACTIVE_HIGH>;
+//              assert-falling-edge;
+
+        };
 
 
 };
