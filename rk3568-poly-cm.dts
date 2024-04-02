@@ -16,7 +16,7 @@
 #include <dt-bindings/input/ti-drv260x.h>
 
 / {
-	model = "Rockchip RK3568 CM v1.35";
+	model = "Rockchip RK3568 CM v1.36";
 	compatible = "rockchip,rk3568";
 
 	aliases {
@@ -121,7 +121,7 @@
 		simple-audio-card,frame-master = <&sound0_cpu>;
 		simple-audio-card,mclk-fs = <256>;
 		simple-audio-card,bitclock-inversion;
-		simple-audio-card,convert-rate = <48000>;
+		//simple-audio-card,convert-rate = <48000>;
 		simple-audio-card,widgets = "Speaker", "Internal Speaker";
 		simple-audio-card,routing = "Internal Speaker", "OUT";
 		
