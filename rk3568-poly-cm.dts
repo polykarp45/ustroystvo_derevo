@@ -16,7 +16,7 @@
 #include <dt-bindings/input/ti-drv260x.h>
 
 / {
-	model = "Rockchip RK3568 CM v1.34";
+	model = "Rockchip RK3568 CM v1.35";
 	compatible = "rockchip,rk3568";
 
 	aliases {
@@ -121,7 +121,7 @@
 		simple-audio-card,frame-master = <&sound0_cpu>;
 		simple-audio-card,mclk-fs = <256>;
 		simple-audio-card,bitclock-inversion;
-		//simple-audio-card,convert-rate = <48000>;
+		simple-audio-card,convert-rate = <48000>;
 		simple-audio-card,widgets = "Speaker", "Internal Speaker";
 		simple-audio-card,routing = "Internal Speaker", "OUT";
 		
@@ -1364,6 +1364,12 @@
 	/delete-property/ num-ob-windows;
 	// reg & ranges should be fixed in 6.5
 	num-lanes = <1>;
+    	reg = <0x3 0xc0800000 0x0 0x00400000>,
+		  <0x0 0xfe280000 0x0 0x00010000>,
+		  <0x0 0xf0000000 0x0 0x00100000>;
+	ranges = <0x01000000 0x0 0xf0100000 0x0 0xf0100000 0x0 0x00100000>,
+		 <0x02000000 0x0 0xf0200000 0x0 0xf0200000 0x0 0x01e00000>,
+		 <0x03000000 0x0 0x40000000 0x3 0x80000000 0x0 0x40000000>;
 	pinctrl-names = "default";
 	rockchip,bifurcation;
 	pinctrl-0 = <&pcie30x2_pins>;
