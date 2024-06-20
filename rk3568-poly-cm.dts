@@ -16,7 +16,7 @@
 #include <dt-bindings/input/ti-drv260x.h>
 
 / {
-	model = "Rockchip RK3568 CM v1.40";
+	model = "Rockchip RK3568 CM v1.41";
 	compatible = "rockchip,rk3568";
 
 	aliases {
@@ -1345,7 +1345,7 @@
 };
 
 
-&pcie3x1 {
+/*&pcie3x1 {
 	//Deprecated
 	num-lanes = <1>;
 	/delete-property/ num-ib-windows;
@@ -1355,9 +1355,9 @@
 	pinctrl-0 = <&pcie30x1_pins>;
 	reset-gpios = <&gpio0 RK_PC3 GPIO_ACTIVE_HIGH>;//reset-gpios = <&gpio4 RK_PC4 GPIO_ACTIVE_HIGH>;
 	vpcie3v3-supply = <&vcc3v3_sys>;
-	status = "okay";
+	status = "disabled";
 };
-
+*/
 
 &pcie3x2 {
 	// Deprecated
@@ -1366,7 +1366,7 @@
 	// reg & ranges should be fixed in 6.5
 	num-lanes = <1>;
 	pinctrl-names = "default";
-	rockchip,bifurcation;
+	//rockchip,bifurcation;
 	pinctrl-0 = <&pcie30x2_pins>;
 	reset-gpios = <&gpio4 RK_PC4 GPIO_ACTIVE_HIGH>;
 	vpcie3v3-supply = <&vcc3v3_sys>;
