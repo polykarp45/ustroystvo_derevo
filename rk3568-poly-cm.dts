@@ -1361,8 +1361,8 @@
 
 &pcie3x2 {
 	// Deprecated
-	delete-property/ num-ib-windows;
-	delete-property/ num-ob-windows;
+	/delete-property/ num-ib-windows;
+	/delete-property/ num-ob-windows;
 	// reg & ranges should be fixed in 6.5
 	num-lanes = <1>;
 	pinctrl-names = "default";
