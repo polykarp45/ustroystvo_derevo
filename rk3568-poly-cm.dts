@@ -1375,7 +1375,7 @@
 
 
 &pcie30phy {
-	data-lanes = <1>;
+	data-lanes = <2>;
 	phy-supply = <&pcie3_clock_gen>; //Enable clock out
 	status = "okay";
 };
