@@ -16,7 +16,7 @@
 #include <dt-bindings/input/ti-drv260x.h>
 
 / {
-	model = "Rockchip RK3568 CM v1.38";
+	model = "Rockchip RK3568 CM v1.39";
 	compatible = "rockchip,rk3568";
 
 	aliases {
@@ -1368,7 +1368,7 @@
 	pinctrl-names = "default";
 	rockchip,bifurcation;
 	pinctrl-0 = <&pcie30x2_pins>;
-	reset-gpios = <&gpio4 RK_PC4 GPIO_ACTIVE_LOW>;
+	reset-gpios = <&gpio4 RK_PC4 GPIO_ACTIVE_HIGH>;
 	vpcie3v3-supply = <&vcc3v3_sys>;
 	status = "okay";
 };
