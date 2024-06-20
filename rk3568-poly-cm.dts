@@ -1344,7 +1344,7 @@
 	status = "okay";
 };
 
-/*&pcie3x1 {
+&pcie3x1 {
 	//Deprecated
 	num-lanes = <1>;
 	/delete-property/ num-ib-windows;
@@ -1356,7 +1356,7 @@
 	vpcie3v3-supply = <&vcc3v3_sys>;
 	status = "okay";
 };
-*/
+
 
 &pcie3x2 {
 	// Deprecated
