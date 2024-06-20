@@ -1368,14 +1368,14 @@
 	pinctrl-names = "default";
 	rockchip,bifurcation;
 	pinctrl-0 = <&pcie30x2_pins>;
-	//reset-gpios = <&gpio4 RK_PC4 GPIO_ACTIVE_HIGH>;
+	reset-gpios = <&gpio4 RK_PC4 GPIO_ACTIVE_LOW;
 	vpcie3v3-supply = <&vcc3v3_sys>;
 	status = "okay";
 };
 
 
 &pcie30phy {
-	data-lanes = <1 2>;
+	data-lanes = <1>;
 	phy-supply = <&pcie3_clock_gen>; //Enable clock out
 	status = "okay";
 };
