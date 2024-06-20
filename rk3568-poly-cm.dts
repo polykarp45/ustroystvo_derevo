@@ -1380,7 +1380,7 @@
 &pcie3x1 {
   rockchip,bifurcation;
   reset-gpios = <&gpio4 RK_PC4 GPIO_ACTIVE_HIGH>;
-  vpcie3v3-supply = <&vcc3v3_pcie>;
+  vpcie3v3-supply = <&vcc3v3_sys>;
   status = "okay";
 };
 
