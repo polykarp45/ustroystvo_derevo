@@ -256,9 +256,9 @@
 
 	kbd_keys {
 		compatible = "gpio-keys";
-        pinctrl-names = "default";
+		pinctrl-names = "default";
 		pinctrl-0 = <&keyboard_pins>;
-        #address-cells = <1>;
+		#address-cells = <1>;
 		#size-cells = <0>;
 		autorepeat;
 
@@ -281,7 +281,7 @@
 		F3 {
 			label = "Key F3";
 			linux,code = <153>; // Rotate display
-			//gpios = <&gpio2 RK_PD5 GPIO_ACTIVE_LOW>;            
+			//gpios = <&gpio2 RK_PD5 GPIO_ACTIVE_LOW>;			  
 			interrupt-parent = <&gpio2>;
 			interrupts = <RK_PD5 IRQ_TYPE_EDGE_FALLING>;
 		};
@@ -647,13 +647,13 @@
 
 	};
 	//pps from RF slot
-        pps1
-        {
-                compatible = "pps-gpio";
-                gpios = <&gpio2 RK_PC6 GPIO_ACTIVE_HIGH>;
-//              assert-falling-edge;
+		pps1
+		{
+				compatible = "pps-gpio";
+				gpios = <&gpio2 RK_PC6 GPIO_ACTIVE_HIGH>;
+//				assert-falling-edge;
 
-        };
+		};
 
 
 };
@@ -1577,18 +1577,18 @@
 				<0 RK_PC0 RK_FUNC_GPIO &pcfg_pull_none>;	/* LED2 */
 		};
 	};
-    
-    keyboard  {
-        keyboard_pins: keyboard-pins {
+	
+	keyboard  {
+		keyboard_pins: keyboard-pins {
 			rockchip,pins =
-                <4 RK_PA1 RK_FUNC_GPIO &pcfg_pull_none>,    //Key F1
-                <2 RK_PD6 RK_FUNC_GPIO &pcfg_pull_none>,    //Key F2
-                <2 RK_PD5 RK_FUNC_GPIO &pcfg_pull_none>,    //Key F3
-                <4 RK_PD2 RK_FUNC_GPIO &pcfg_pull_none>,    //Key F4
-                <2 RK_PD4 RK_FUNC_GPIO &pcfg_pull_none>;    //Key F5
+				<4 RK_PA1 RK_FUNC_GPIO &pcfg_pull_none>,	//Key F1
+				<2 RK_PD6 RK_FUNC_GPIO &pcfg_pull_none>,	//Key F2
+				<2 RK_PD5 RK_FUNC_GPIO &pcfg_pull_none>,	//Key F3
+				<4 RK_PD2 RK_FUNC_GPIO &pcfg_pull_none>,	//Key F4
+				<2 RK_PD4 RK_FUNC_GPIO &pcfg_pull_none>;	//Key F5
 		};
-        
-    };
+		
+	};
 
 	net {
 		gmac0_pins: gmac0_pins {
