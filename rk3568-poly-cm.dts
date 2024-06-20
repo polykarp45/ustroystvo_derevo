@@ -16,7 +16,7 @@
 #include <dt-bindings/input/ti-drv260x.h>
 
 / {
-	model = "Rockchip RK3568 CM v1.36";
+	model = "Rockchip RK3568 CM v1.38";
 	compatible = "rockchip,rk3568";
 
 	aliases {
@@ -1344,6 +1344,7 @@
 	status = "okay";
 };
 
+/*
 &pcie3x1 {
 	//Deprecated
 	num-lanes = <1>;
@@ -1356,31 +1357,25 @@
 	vpcie3v3-supply = <&vcc3v3_sys>;
 	status = "okay";
 };
-
+*/
 
 &pcie3x2 {
 	// Deprecated
-	/delete-property/ num-ib-windows;
-	/delete-property/ num-ob-windows;
+	//delete-property/ num-ib-windows;
+	//delete-property/ num-ob-windows;
 	// reg & ranges should be fixed in 6.5
 	num-lanes = <1>;
-    	reg = <0x3 0xc0800000 0x0 0x00400000>,
-		  <0x0 0xfe280000 0x0 0x00010000>,
-		  <0x0 0xf0000000 0x0 0x00100000>;
-	ranges = <0x01000000 0x0 0xf0100000 0x0 0xf0100000 0x0 0x00100000>,
-		 <0x02000000 0x0 0xf0200000 0x0 0xf0200000 0x0 0x01e00000>,
-		 <0x03000000 0x0 0x40000000 0x3 0x80000000 0x0 0x40000000>;
 	pinctrl-names = "default";
 	rockchip,bifurcation;
 	pinctrl-0 = <&pcie30x2_pins>;
-	reset-gpios = <&gpio4 RK_PC4 GPIO_ACTIVE_HIGH>;
+	//reset-gpios = <&gpio4 RK_PC4 GPIO_ACTIVE_HIGH>;
 	vpcie3v3-supply = <&vcc3v3_sys>;
 	status = "okay";
 };
 
 
 &pcie30phy {
-	//data-lanes = <1 2>;
+	data-lanes = <1 2>;
 	phy-supply = <&pcie3_clock_gen>; //Enable clock out
 	status = "okay";
 };
