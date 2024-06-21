@@ -1341,12 +1341,12 @@
 &pdm {
 	pinctrl-names = "default";
 	pinctrl-0 = <&pdmm0_clk &pdmm0_sdi1>;
-	//rockchip,path-map = <1>, <2>, <0>, <3>;
+	rockchip,path-map = <1>, <2>, <0>, <3>;
 	status = "okay";
 };
 
 
-&pcie3x1 {
+/*&pcie3x1 {
 	num-lanes = <1>;
 	/delete-property/ num-ib-windows;
 	/delete-property/ num-ob-windows;
@@ -1357,15 +1357,15 @@
 	vpcie3v3-supply = <&vcc3v3_sys>;
 	status = "okay";
 };
-
+*/
 
 &pcie3x2 {
-	//num-lanes = <1>;
+	num-lanes = <1>;
 	/delete-property/ num-ib-windows;
 	/delete-property/ num-ob-windows;
 	pinctrl-names = "default";
 	//data-lanes = <1 1>;
-	//rockchip,bifurcation;
+	rockchip,bifurcation;
 	pinctrl-0 = <&pcie30x2_pins>;
 	reset-gpios = <&gpio4 RK_PC4 GPIO_ACTIVE_HIGH>;
 	vpcie3v3-supply = <&vcc3v3_sys>;
@@ -1376,7 +1376,7 @@
 
 
 &pcie30phy {
-	//data-lanes = <1 1>;
+	data-lanes = <0>;
 	//phy-supply = <&pcie3_clock_gen>; //Enable clock out
     phy-supply = <&vcc3v3_sys>;
 	status = "okay";
