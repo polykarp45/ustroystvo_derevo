@@ -1349,7 +1349,7 @@
 	num-lanes = <1>;
 	/delete-property/ num-ib-windows;
 	/delete-property/ num-ob-windows;
-	bifurcation;
+	rockchip,bifurcation;
 //	pinctrl-names = "default";
 //	pinctrl-0 = <&pcie30x1_pins>;
 	reset-gpios = <&gpio0 RK_PC3 GPIO_ACTIVE_HIGH>;//reset-gpios = <&gpio4 RK_PC4 GPIO_ACTIVE_HIGH>;
@@ -1364,8 +1364,8 @@
 	/delete-property/ num-ob-windows;
 	pinctrl-names = "default";
 	//data-lanes = <1 1>;
-	bifurcation;
-	//pinctrl-0 = <&pcie30x2_pins>;
+	rockchip,bifurcation;
+	pinctrl-0 = <&pcie30x2_pins>;
 	reset-gpios = <&gpio4 RK_PC4 GPIO_ACTIVE_HIGH>;
 	vpcie3v3-supply = <&vcc3v3_sys>;
 	status = "okay";
@@ -1375,7 +1375,7 @@
 
 
 &pcie30phy {
-	data-lanes = <1 1>;
+	//data-lanes = <1 1>;
 	phy-supply = <&pcie3_clock_gen>; //Enable clock out
 	status = "okay";
 };
