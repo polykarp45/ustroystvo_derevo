@@ -1365,7 +1365,7 @@
 	/delete-property/ num-ob-windows;
 	pinctrl-names = "default";
 	//data-lanes = <1 1>;
-	rockchip,bifurcation;
+	//rockchip,bifurcation;
 	pinctrl-0 = <&pcie30x2_pins>;
 	reset-gpios = <&gpio4 RK_PC4 GPIO_ACTIVE_HIGH>;
 	vpcie3v3-supply = <&vcc3v3_sys>;
