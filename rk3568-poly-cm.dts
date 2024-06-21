@@ -362,6 +362,7 @@
 		regulator-name = "pcie30_clock";
 		startup-delay-us = <10000>;
 		vin-supply = <&vcc3v3_sys>;
+        regulator-always-on;
 	};
 
 	/* Should be added in 6.5 */
@@ -1359,7 +1360,7 @@
 
 
 &pcie3x2 {
-	//num-lanes = <1>;
+	num-lanes = <1>;
 	/delete-property/ num-ib-windows;
 	/delete-property/ num-ob-windows;
 	pinctrl-names = "default";
@@ -1375,8 +1376,9 @@
 
 
 &pcie30phy {
-	//data-lanes = <0>;
-	phy-supply = <&pcie3_clock_gen>; //Enable clock out
+	data-lanes = <1 1>;
+	//phy-supply = <&pcie3_clock_gen>; //Enable clock out
+    phy-supply = <&vcc3v3_sys>;
 	status = "okay";
 };
 
