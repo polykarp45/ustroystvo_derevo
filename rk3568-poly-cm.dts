@@ -16,7 +16,7 @@
 #include <dt-bindings/input/ti-drv260x.h>
 
 / {
-	model = "Rockchip RK3568 CM v1.357";
+	model = "Rockchip RK3568 CM v1.47";
 	compatible = "rockchip,rk3568";
 
 	aliases {
@@ -179,6 +179,7 @@
 			sound-dai = <&tas2110>;
 		};
 	};
+*/
 	
 	pdm_mic: pdm-mic {
 		status = "okay";
@@ -194,9 +195,7 @@
 			sound-dai = <&dmic_codec>;
 		};
 	};
-*/	
 	
-/*
 	pdmics: dmic-codec {
 		status = "okay";
 		compatible = "dmic-codec";
@@ -216,7 +215,7 @@
 		};
 	};
 	
-*/
+
 
 	hdmi-con {
 		compatible = "hdmi-connector";
@@ -1163,6 +1162,25 @@
 
 	};
 
+	tca9536: gpio@41 {
+		status = "okay";
+		compatible = "ti,pca9536";
+		//special register 0x50 must be added to driver and set to 1
+		//interrupt-parent = <&gpio0>;
+		//interrupts = <RK_PC1 IRQ_TYPE_EDGE_FALLING>;
+		reg = <0x41>;
+		vcc-supply = <&vcc3v3_sys>;
+		gpio-controller;
+		#gpio-cells = <2>;
+		//interrupt-controller;
+		//#interrupt-cells = <2>;
+		gpio-line-names =
+			"NFC_I2C_INT",
+			"NFC_GPIO",
+			"CSI_GPEXP_P2";
+        };
+
+
 	rtc: rtc@32 {
 		compatible = "epson,rx8900";
 		reg = <0x32>;
@@ -1269,7 +1287,7 @@
 		status = "disabled";
 		pinctrl-names = "default";
 		pinctrl-0 = <&csi0_pins>;
-		//enable-gpios = <&gpio0 RK_PC1 GPIO_OPEN_DRAIN>;
+		//enable-gpios = <&gpio0 RK_PC1 GPIO_OPEN_DRAIN>; - NEED Version  1.0-1.1 and 1.2
 		rockchip,camera-module-index = <0>;
 		rockchip,camera-module-facing = "back";
 		rockchip,camera-module-name = "RPi-Cam";
@@ -1555,7 +1573,7 @@
 	csi {
 		csi0_pins: csi0_pins {
 			rockchip,pins =
-				<0 RK_PC1 RK_FUNC_GPIO &pcfg_pull_up>,		/* CSI_PWREN0 */
+//				<0 RK_PC1 RK_FUNC_GPIO &pcfg_pull_up>,		/* CSI_PWREN0 */  need version, if ver 1.2+ this is interrupt for nfc, see tca9536 node 
 				<3 RK_PB6 RK_FUNC_GPIO &pcfg_pull_up>,		/* CSI_RESET0# */
 				<4 RK_PC0 RK_FUNC_GPIO &pcfg_pull_up>;		/* CSI_INT# */
 		};
