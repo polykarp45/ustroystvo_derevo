@@ -1180,6 +1180,11 @@
 			"CSI_GPEXP_P2";
         };
 
+	st25r391x: st25r391x {
+		compatible = "stm,st25r391x";
+		reg = <0x50>;
+	};
+
 
 	rtc: rtc@32 {
 		compatible = "epson,rx8900";
