@@ -16,7 +16,7 @@
 #include <dt-bindings/input/ti-drv260x.h>
 
 / {
-	model = "Rockchip RK3568 CM v1.47";
+	model = "Rockchip RK3568 CM v1.48";
 	compatible = "rockchip,rk3568";
 
 	aliases {
@@ -1747,7 +1747,14 @@
 			rockchip,pins =
 				<1 RK_PA5 RK_FUNC_GPIO &pcfg_pull_up>;
 		};
-	};	  
+	};
+
+    som_gpexp {
+		som_gpexp_int: som_gpexp-int {
+			rockchip,pins =
+				<1 RK_PB3 RK_FUNC_GPIO &pcfg_pull_up>;
+		};
+	};        
 
 };
 
