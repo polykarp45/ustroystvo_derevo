@@ -16,7 +16,7 @@
 #include <dt-bindings/input/ti-drv260x.h>
 
 / {
-	model = "Rockchip RK3568 CM v1.48";
+	model = "Rockchip RK3568 CM v1.49";
 	compatible = "rockchip,rk3568";
 
 	aliases {
@@ -1143,14 +1143,14 @@
 	tca6408: gpio@20 {
 		status = "okay";
 		compatible = "ti,tca6408";
-		interrupt-parent = <&gpio1>;
-		interrupts = <RK_PB3 IRQ_TYPE_EDGE_FALLING>;
+		//interrupt-parent = <&gpio1>;
+		//interrupts = <RK_PB3 IRQ_TYPE_EDGE_FALLING>;
 		reg = <0x20>;
 		vcc-supply = <&vcc3v3_sys>;
 		gpio-controller;
 		#gpio-cells = <2>;
-		interrupt-controller;
-		#interrupt-cells = <2>;
+		//interrupt-controller;
+		//#interrupt-cells = <2>;
 		gpio-line-names =
 				"CAN2_FLT_LV",
 				"CAN2_SILENT_EN_LV",
@@ -1180,7 +1180,7 @@
 			"CSI_GPEXP_P2";
         };
 
-	st25r391x: st25r391x {
+	st25r391x: st25r391x@50 {
 		compatible = "stm,st25r391x";
 		reg = <0x50>;
 	};
@@ -1748,14 +1748,14 @@
 				<1 RK_PA5 RK_FUNC_GPIO &pcfg_pull_up>;
 		};
 	};
-
+/*
     som_gpexp {
 		som_gpexp_int: som_gpexp-int {
 			rockchip,pins =
 				<1 RK_PB3 RK_FUNC_GPIO &pcfg_pull_up>;
 		};
 	};        
-
+*/
 };
 
 
